@@ -104,11 +104,7 @@
             <h1 class="font-display font-800 text-5xl md:text-7xl tracking-tight text-sme-blue mb-2">
                 The ANTs <span class="text-logo-gold drop-shadow-3xs">Tutoring</span>
             </h1>
-            
-            <p class="font-cursive text-3xl md:text-4xl text-sme-blue/80 tracking-wide mb-12">
-                Ace with us
-            </p>
-
+            <p class="font-cursive text-3xl md:text-4xl text-sme-blue/80 tracking-wide mb-12">Ace with us</p>
             <div class="flex flex-col sm:flex-row justify-center gap-4 max-w-xs mx-auto">
                 <a href="#calculator-section" class="bg-sme-blue text-white hover:bg-logo-black font-display font-bold py-3.5 px-8 rounded-xl text-center text-sm transition-all shadow-md flex-1 interactive-target">
                     📊 Open Calculator
@@ -146,13 +142,11 @@
                             <div class="relative">
                                 <label class="block text-xs font-800 uppercase tracking-widest text-slate-400 mb-2">Series Track</label>
                                 <div id="customSeriesToggle" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 font-display font-bold text-sme-blue text-sm shadow-3xs flex justify-between items-center interactive-target select-none">
-                                    <span id="selectedSeriesLabel">May/June (M/J)</span>
+                                    <span id="selectedSeriesLabel">May/June 2024 (V2)</span>
                                     <svg class="w-4 h-4 text-slate-500 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
                                 </div>
                                 <div id="customSeriesMenu" class="dropdown-menu-list absolute left-0 right-0 mt-2 bg-white border border-slate-200 rounded-xl shadow-lg z-50">
-                                    <div class="px-4 py-3 text-sm font-semibold text-sme-blue hover:bg-slate-50 interactive-target" data-value="MJ">May/June (M/J)</div>
-                                    <div class="px-4 py-3 text-sm font-semibold text-sme-blue hover:bg-slate-50 interactive-target" data-value="ON">Oct/Nov (O/N)</div>
-                                    <div class="px-4 py-3 text-sm font-semibold text-sme-blue hover:bg-slate-50 interactive-target" data-value="FM">Feb/Mar (F/M)</div>
+                                    <div class="px-4 py-3 text-sm font-semibold text-sme-blue hover:bg-slate-50 interactive-target" data-value="MJ24">May/June 2024 (V2)</div>
                                 </div>
                             </div>
                         </div>
@@ -169,11 +163,18 @@
                             <span>📋</span> CALCULATED PUM RESULT
                         </h3>
                         
-                        <div>
-                            <span class="text-slate-400 text-xs uppercase tracking-wider font-semibold block mb-1">Percentage Uniform Mark</span>
-                            <div class="flex items-center gap-4 mt-2">
-                                <div id="finalPercentDisplay" class="text-6xl font-display font-800 tracking-tighter text-white">0%</div>
-                                <div id="sideGradeDisplay" class="text-3xl font-display font-800 text-white bg-slate-800 px-4 py-1.5 rounded-xl border border-slate-700 min-w-[65px] text-center shadow-inner select-none">U</div>
+                        <div class="space-y-4">
+                            <div>
+                                <span class="text-slate-400 text-xs uppercase tracking-wider font-semibold block mb-1">Total Option Raw Mark</span>
+                                <div id="rawMarkDisplay" class="text-2xl font-display font-bold text-slate-200">0 / 160</div>
+                            </div>
+                            <hr class="border-slate-800">
+                            <div>
+                                <span class="text-slate-400 text-xs uppercase tracking-wider font-semibold block mb-1">Percentage Uniform Mark</span>
+                                <div class="flex items-center gap-4 mt-1">
+                                    <div id="finalPercentDisplay" class="text-6xl font-display font-800 tracking-tighter text-white">0%</div>
+                                    <div id="sideGradeDisplay" class="text-3xl font-display font-800 text-white bg-slate-800 px-4 py-1.5 rounded-xl border border-slate-700 min-w-[65px] text-center shadow-inner select-none">U</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -192,7 +193,6 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
                 <div class="bg-white border border-slate-200/60 rounded-2xl p-6 shadow-3xs flex flex-col justify-between relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 transform translate-x-4 -translate-y-4 bg-logo-gold/5 w-24 h-24 rounded-full pointer-events-none"></div>
                     <div>
                         <div class="flex items-center justify-between mb-4">
                             <span class="text-2xl bg-amber-50 border border-logo-gold/10 p-2 rounded-xl select-none">⚛️</span>
@@ -204,7 +204,6 @@
                 </div>
 
                 <div class="bg-white border border-slate-200/60 rounded-2xl p-6 shadow-3xs flex flex-col justify-between relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 transform translate-x-4 -translate-y-4 bg-logo-gold/5 w-24 h-24 rounded-full pointer-events-none"></div>
                     <div>
                         <div class="flex items-center justify-between mb-4">
                             <span class="text-2xl bg-amber-50 border border-logo-gold/10 p-2 rounded-xl select-none">🧪</span>
@@ -220,30 +219,56 @@
 
     <footer class="bg-white border-t border-slate-100 py-10 text-center font-semibold text-slate-400 text-xs">
         <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-2">
-                <span class="font-display font-800 text-base text-sme-blue">The ANTs <span class="text-logo-gold">Tutoring</span></span>
-            </div>
-            <div class="font-medium text-slate-400">
-                &copy; 2026 The ANTs Portal Suite &bull; PUM Linear Grading Engine Running
-            </div>
+            <span class="font-display font-800 text-base text-sme-blue">The ANTs <span class="text-logo-gold">Tutoring</span></span>
+            <div class="font-medium text-slate-400">&copy; 2026 The ANTs Portal Suite &bull; Verified Spreadsheet Synced Engine</div>
         </div>
     </footer>
 
     <script>
-        // Comprehensive Cambridge Syllabus Registry Map containing standard raw threshold distributions
+        // Exact raw option thresholds sourced directly from your Excel Sheet database matrix (M/J 24 Variant 2)
         const syllabusData = {
-            "0606": { name: "Additional Mathematics", thresholds: { Astar: 134, A: 112, B: 90, C: 68, D: 54, E: 41 }, papers: [{ name: "Paper 1", max: 80, weight: 0.5 }, { name: "Paper 2", max: 80, weight: 0.5 }] },
-            "0580": { name: "Extended Mathematics", thresholds: { Astar: 158, A: 130, B: 102, C: 74, D: 56, E: 39 }, papers: [{ name: "Paper 2", max: 70, weight: 0.35 }, { name: "Paper 4", max: 130, weight: 0.65 }] },
-            "0620": { name: "Chemistry (Extended)", thresholds: { Astar: 142, A: 119, B: 96, C: 73, D: 59, E: 45 }, papers: [{ name: "Paper 2 (MCQ)", max: 40, weight: 0.3 }, { name: "Paper 4 (Theory)", max: 80, weight: 0.5 }, { name: "Paper 6 (Alt to Practical)", max: 40, weight: 0.2 }] },
-            "0625": { name: "Physics (Extended)", thresholds: { Astar: 139, A: 115, B: 91, C: 68, D: 55, E: 42 }, papers: [{ name: "Paper 2 (MCQ)", max: 40, weight: 0.3 }, { name: "Paper 4 (Theory)", max: 80, weight: 0.5 }, { name: "Paper 6 (Alt to Practical)", max: 40, weight: 0.2 }] },
-            "0610": { name: "Biology (Extended)", thresholds: { Astar: 145, A: 122, B: 99, C: 76, D: 62, E: 49 }, papers: [{ name: "Paper 2 (MCQ)", max: 40, weight: 0.3 }, { name: "Paper 4 (Theory)", max: 80, weight: 0.5 }, { name: "Paper 6 (Alt to Practical)", max: 40, weight: 0.2 }] },
-            "0478": { name: "Computer Science", thresholds: { Astar: 114, A: 96, B: 78, C: 60, D: 49, E: 39 }, papers: [{ name: "Paper 1 (Theory)", max: 75, weight: 0.5 }, { name: "Paper 2 (Algorithms)", max: 75, weight: 0.5 }] }
+            "0606": { 
+                name: "Additional Mathematics", 
+                optionMax: 160,
+                thresholds: { Astar: 144, A: 126, B: 101, C: 76, D: 61, E: 46 }, 
+                papers: [{ name: "Paper 12", max: 80, factor: 1.0 }, { name: "Paper 22", max: 80, factor: 1.0 }] 
+            },
+            "0580": { 
+                name: "Extended Mathematics", 
+                optionMax: 200,
+                thresholds: { Astar: 158, A: 130, B: 102, C: 74, D: 56, E: 39 }, 
+                papers: [{ name: "Paper 22", max: 70, factor: 1.0 }, { name: "Paper 42", max: 130, factor: 1.0 }] 
+            },
+            "0620": { 
+                name: "Chemistry (Extended)", 
+                optionMax: 200,
+                thresholds: { Astar: 142, A: 119, B: 96, C: 73, D: 59, E: 45 }, 
+                papers: [{ name: "Paper 22 (MCQ)", max: 40, factor: 1.5 }, { name: "Paper 42 (Theory)", max: 80, factor: 1.25 }, { name: "Paper 62 (Alternative to Practical)", max: 40, factor: 1.0 }] 
+            },
+            "0625": { 
+                name: "Physics (Extended)", 
+                optionMax: 200,
+                thresholds: { Astar: 139, A: 115, B: 91, C: 68, D: 55, E: 42 }, 
+                papers: [{ name: "Paper 22 (MCQ)", max: 40, factor: 1.5 }, { name: "Paper 42 (Theory)", max: 80, factor: 1.25 }, { name: "Paper 62 (Alternative to Practical)", max: 40, factor: 1.0 }] 
+            },
+            "0610": { 
+                name: "Biology (Extended)", 
+                optionMax: 200,
+                thresholds: { Astar: 145, A: 122, B: 99, C: 76, D: 62, E: 49 }, 
+                papers: [{ name: "Paper 22 (MCQ)", max: 40, factor: 1.5 }, { name: "Paper 42 (Theory)", max: 80, factor: 1.25 }, { name: "Paper 62 (Alternative to Practical)", max: 40, factor: 1.0 }] 
+            },
+            "0478": { 
+                name: "Computer Science", 
+                optionMax: 150,
+                thresholds: { Astar: 114, A: 96, B: 78, C: 60, D: 49, E: 39 }, 
+                papers: [{ name: "Paper 12 (Theory)", max: 75, factor: 1.0 }, { name: "Paper 22 (Algorithms)", max: 75, factor: 1.0 }] 
+            }
         };
 
         let selectedSubjectCode = "0606";
-        let selectedSeriesCode = "MJ";
 
         const papersFormContainer = document.getElementById('papersFormContainer'),
+              rawMarkDisplay = document.getElementById('rawMarkDisplay'),
               finalPercentDisplay = document.getElementById('finalPercentDisplay'),
               sideGradeDisplay = document.getElementById('sideGradeDisplay'),
               mainStar = document.getElementById('main-star'),
@@ -259,28 +284,21 @@
         });
 
         function animateStarsLoop() {
-            // Main anchor node star positions
             starPositions[0] = { x: mouseX, y: mouseY };
             mainStar.style.left = `${starPositions[0].x}px`;
             mainStar.style.top = `${starPositions[0].y}px`;
 
-            // Back-chaining tail nodes with progressive dampening delays (Doppler Shift)
             for (let i = 1; i < starPositions.length; i++) {
                 let current = starPositions[i];
                 let target = starPositions[i - 1];
-                
-                // Exponential decay interpolation factor creates organic delay trails
                 let dx = target.x - current.x;
                 let dy = target.y - current.y;
                 
-                let nextX = current.x + dx * 0.35;
-                let nextY = current.y + dy * 0.35;
-                
-                starPositions[i] = { x: nextX, y: nextY };
+                starPositions[i] = { x: current.x + dx * 0.35, y: current.y + dy * 0.35 };
                 
                 let element = trailStars[i - 1];
-                element.style.left = `${nextX}px`;
-                element.style.top = `${nextY}px`;
+                element.style.left = `${starPositions[i].x}px`;
+                element.style.top = `${starPositions[i].y}px`;
                 element.style.opacity = `${1.0 - (i * 0.2)}`;
             }
             requestAnimationFrame(animateStarsLoop);
@@ -294,22 +312,19 @@
             });
         }
 
-        // --- ULTRA-SMOOTH MODERN DROPDOWN DRAWER LOGIC CONTROLLERS ---
+        // --- CUSTOM DROPDOWN MENUS ---
         const customSubjectToggle = document.getElementById('customSubjectToggle'),
               customSubjectMenu = document.getElementById('customSubjectMenu'),
               customSeriesToggle = document.getElementById('customSeriesToggle'),
               customSeriesMenu = document.getElementById('customSeriesMenu'),
-              selectedSubjectLabel = document.getElementById('selectedSubjectLabel'),
-              selectedSeriesLabel = document.getElementById('selectedSeriesLabel');
+              selectedSubjectLabel = document.getElementById('selectedSubjectLabel');
 
         function initCustomDropdownMenus() {
-            // Build out choices lists internally
             customSubjectMenu.innerHTML = "";
             for (const code in syllabusData) {
                 const row = document.createElement('div');
                 row.className = "px-4 py-3 text-sm font-semibold text-sme-blue hover:bg-slate-50 interactive-target transition-colors";
                 row.textContent = `📚 ${syllabusData[code].name} (${code})`;
-                row.setAttribute('data-value', code);
                 
                 row.addEventListener('click', () => {
                     selectedSubjectCode = code;
@@ -335,16 +350,6 @@
                 customSeriesToggle.querySelector('svg').classList.toggle('rotate-180');
             });
 
-            customSeriesMenu.querySelectorAll('[data-value]').forEach(item => {
-                item.addEventListener('click', () => {
-                    selectedSeriesCode = item.getAttribute('data-value');
-                    selectedSeriesLabel.textContent = item.textContent;
-                    customSeriesMenu.classList.remove('open');
-                    customSeriesToggle.querySelector('svg').classList.remove('rotate-180');
-                    calculateSyllabusScores();
-                });
-            });
-
             document.addEventListener('click', () => {
                 customSubjectMenu.classList.remove('open');
                 customSeriesMenu.classList.remove('open');
@@ -352,7 +357,6 @@
                 customSeriesToggle.querySelector('svg').classList.remove('rotate-180');
             });
 
-            // Set default initial values
             selectedSubjectLabel.textContent = `📚 ${syllabusData[selectedSubjectCode].name} (${selectedSubjectCode})`;
         }
 
@@ -367,7 +371,7 @@
                 containerBlock.innerHTML = `
                     <div>
                         <p class="font-display font-700 text-sme-blue text-sm">📝 ${paper.name}</p>
-                        <span class="text-[10px] font-800 text-slate-400 tracking-wide uppercase block mt-0.5">Component Weighting: ${paper.weight * 100}%</span>
+                        <span class="text-[10px] font-800 text-slate-400 tracking-wide uppercase block mt-0.5">Max Raw Mark: ${paper.max}</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <input type="number" id="${rowId}" min="0" max="${paper.max}" placeholder="0" 
@@ -384,30 +388,29 @@
             calculateSyllabusScores();
         }
 
-        // --- NATIVE TRANSLATION OF PIECEWISE INTERPOLATION FORMULA ENGINE ---
-        function runSpreadsheetPUMInterpolation(weightedMarkSum, thresholds) {
-            if (weightedMarkSum === 0 || weightedMarkSum === "") return 0;
+        // --- PRECISE PIECEWISE INTERPOLATION ALGORITHM MATCHING EXCEL ENGINE ---
+        function runSpreadsheetPUMInterpolation(totalRawMark, thresholds) {
+            if (totalRawMark === 0 || totalRawMark === "") return 0;
 
-            // Follows nested IF sequence: IF(I6>VLOOKUP(...,4,0) [Grade A Threshold], 0.9 + 0.1 * ...)
-            if (weightedMarkSum >= thresholds.A) {
-                return 0.9 + 0.1 * ((weightedMarkSum - thresholds.A) / (thresholds.Astar - thresholds.A));
-            } else if (weightedMarkSum >= thresholds.B) {
-                return 0.8 + 0.1 * ((weightedMarkSum - thresholds.B) / (thresholds.A - thresholds.B));
-            } else if (weightedMarkSum >= thresholds.C) {
-                return 0.7 + 0.1 * ((weightedMarkSum - thresholds.C) / (thresholds.B - thresholds.C));
-            } else if (weightedMarkSum >= thresholds.D) {
-                return 0.6 + 0.1 * ((weightedMarkSum - thresholds.D) / (thresholds.C - thresholds.D));
-            } else if (weightedMarkSum >= thresholds.E) {
-                return 0.5 + 0.1 * ((weightedMarkSum - thresholds.E) / (thresholds.D - thresholds.E));
+            // Accurate replication of spreadsheet nested IF conditions
+            if (totalRawMark >= thresholds.A) {
+                return 0.9 + 0.1 * ((totalRawMark - thresholds.A) / (thresholds.Astar - thresholds.A));
+            } else if (totalRawMark >= thresholds.B) {
+                return 0.8 + 0.1 * ((totalRawMark - thresholds.B) / (thresholds.A - thresholds.B));
+            } else if (totalRawMark >= thresholds.C) {
+                return 0.7 + 0.1 * ((totalRawMark - thresholds.C) / (thresholds.B - thresholds.C));
+            } else if (totalRawMark >= thresholds.D) {
+                return 0.6 + 0.1 * ((totalRawMark - thresholds.D) / (thresholds.C - thresholds.D));
+            } else if (totalRawMark >= thresholds.E) {
+                return 0.5 + 0.1 * ((totalRawMark - thresholds.E) / (thresholds.D - thresholds.E));
             } else {
-                // Default linear fallback threshold map beneath lowest scale point boundary
-                return (weightedMarkSum / thresholds.E) * 0.5;
+                return (totalRawMark / thresholds.E) * 0.5;
             }
         }
 
         function calculateSyllabusScores() {
             const subject = syllabusData[selectedSubjectCode];
-            let accumulatedWeightedMark = 0;
+            let totalOptionRawMark = 0;
 
             subject.papers.forEach((paper, index) => {
                 const element = document.getElementById(`paper_input_${index}`);
@@ -416,29 +419,34 @@
                 if (inputVal > paper.max) { inputVal = paper.max; element.value = paper.max; }
                 if (inputVal < 0) { inputVal = 0; element.value = 0; }
 
-                accumulatedWeightedMark += (inputVal * paper.weight);
+                // Scaled calculation up to total components option
+                totalOptionRawMark += (inputVal * paper.factor);
             });
 
+            // Rounding up the raw totals matching Cambridge guidelines
+            totalOptionRawMark = Math.round(totalOptionRawMark);
+
             const currentThresholds = subject.thresholds;
-            const evaluatedPUMDecimal = runSpreadsheetPUMInterpolation(accumulatedWeightedMark, currentThresholds);
+            const evaluatedPUMDecimal = runSpreadsheetPUMInterpolation(totalOptionRawMark, currentThresholds);
             
-            // STRICT INTEGER CONVERSION RULE
+            // Core Integer Value Rounding
             let finalIntegerOutput = Math.round(evaluatedPUMDecimal * 100);
             if (finalIntegerOutput > 100) finalIntegerOutput = 100;
             if (finalIntegerOutput < 0 || isNaN(finalIntegerOutput)) finalIntegerOutput = 0;
 
-            // Contextual Letter Grade Match Logic Map
+            // Grade Mapping Assignments
             let associatedGrade = "U";
-            if (accumulatedWeightedMark >= currentThresholds.Astar) associatedGrade = "A*";
-            else if (accumulatedWeightedMark >= currentThresholds.A) associatedGrade = "A";
-            else if (accumulatedWeightedMark >= currentThresholds.B) associatedGrade = "B";
-            else if (accumulatedWeightedMark >= currentThresholds.C) associatedGrade = "C";
-            else if (accumulatedWeightedMark >= currentThresholds.D) associatedGrade = "D";
-            else if (accumulatedWeightedMark >= currentThresholds.E) associatedGrade = "E";
+            if (totalOptionRawMark >= currentThresholds.Astar) associatedGrade = "A*";
+            else if (totalOptionRawMark >= currentThresholds.A) associatedGrade = "A";
+            else if (totalOptionRawMark >= currentThresholds.B) associatedGrade = "B";
+            else if (totalOptionRawMark >= currentThresholds.C) associatedGrade = "C";
+            else if (totalOptionRawMark >= currentThresholds.D) associatedGrade = "D";
+            else if (totalOptionRawMark >= currentThresholds.E) associatedGrade = "E";
 
-            if (accumulatedWeightedMark === 0) associatedGrade = "U";
+            if (totalOptionRawMark === 0) associatedGrade = "U";
 
-            // Update DOM element containers
+            // Push values back safely into DOM elements
+            rawMarkDisplay.textContent = `${totalOptionRawMark} / ${subject.optionMax}`;
             finalPercentDisplay.textContent = `${finalIntegerOutput}%`;
             sideGradeDisplay.textContent = associatedGrade;
         }
