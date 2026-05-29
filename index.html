@@ -25,99 +25,118 @@
             scroll-behavior: smooth;
         }
 
-        /* Restored Circle Cursor */
+        /* Paper Plane Cursor Stylization */
         #custom-cursor {
-            width: 24px;
-            height: 24px;
-            background: rgba(197, 160, 89, 0.15);
-            border: 2px solid var(--color-logo-gold);
-            border-radius: 50%;
             position: fixed;
             pointer-events: none;
             z-index: 9999;
-            transition: transform 0.1s ease-out, background 0.2s ease;
-            transform: translate(-50%, -50%);
-        }
-
-        .cursor-hover {
-            transform: translate(-50%, -50%) scale(2);
-            background: rgba(197, 160, 89, 0.25);
-            border-color: var(--color-sme-blue);
+            transform: translate(-2px, -2px);
+            font-size: 20px;
+            user-select: none;
+            transition: transform 0.05s ease-out;
         }
 
         @media (pointer: coarse) {
             #custom-cursor { display: none; }
-            body { cursor: auto; }
         }
 
         .font-display { font-family: var(--font-display); font-weight: 700; }
         .font-cursive { font-family: var(--font-cursive); font-style: italic; }
+
+        .hero-gradient {
+            background: radial-gradient(circle at top right, rgba(197, 160, 89, 0.08), transparent 45%),
+                        radial-gradient(circle at bottom left, rgba(15, 23, 42, 0.03), transparent 45%);
+        }
+
+        .glass-card {
+            @apply bg-white border border-slate-100 rounded-3xl p-6 transition-all duration-300 hover:shadow-xl hover:border-logo-gold/20;
+        }
     </style>
 </head>
-<body class="text-slate-900 min-h-screen antialiased selection:bg-logo-gold/20">
+<body class="text-slate-900 hero-gradient min-h-screen antialiased selection:bg-logo-gold/20">
 
-    <div id="custom-cursor"></div>
+    <div id="custom-cursor">✈️</div>
 
-    <nav class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-sm">
+    <nav class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-100">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <div class="flex items-center gap-2.5">
                 <div class="w-9 h-9 bg-sme-blue rounded-xl flex items-center justify-center text-logo-gold font-display font-800 text-base">A</div>
                 <span class="font-display font-800 text-xl tracking-tight text-sme-blue">The ANTs <span class="text-logo-gold">Tutoring</span></span>
             </div>
             <div class="hidden md:flex items-center gap-8 font-display font-semibold text-sm">
-                <a href="#calculator-section" class="hover:text-logo-gold transition-colors text-sme-blue clickable">Grading Tool</a>
-                <a href="#features-grid" class="hover:text-logo-gold transition-colors text-sme-blue clickable">Physics</a>
-                <a href="#features-grid" class="hover:text-logo-gold transition-colors text-sme-blue clickable">Chemistry</a>
+                <a href="#calculator-section" class="hover:text-logo-gold transition-colors text-sme-blue">Grading Tool</a>
+                <a href="#features-grid" class="hover:text-logo-gold transition-colors text-sme-blue">Physics</a>
+                <a href="#features-grid" class="hover:text-logo-gold transition-colors text-sme-blue">Chemistry</a>
+                <a href="#calculator-section" class="bg-sme-blue text-white hover:bg-logo-black px-5 py-2.5 rounded-xl transition-all font-bold text-xs">Launch Portal</a>
             </div>
         </div>
     </nav>
 
-    <header class="bg-gradient-to-b from-logo-gold via-[#e3c78d] to-[#f8fafc] flex flex-col justify-center items-center py-20 md:py-28 px-6 text-center border-b border-slate-100">
-        
-        <div class="max-w-3xl mx-auto">
-            <h1 class="font-display font-800 text-5xl md:text-7xl tracking-tight text-sme-blue mb-1">
-                The ANTs <span class="text-white drop-shadow-sm">Tutoring</span>
-            </h1>
-            
-            <p class="font-cursive text-3xl md:text-4.5xl text-sme-blue/80 tracking-wide mb-10">
-                Ace with us
-            </p>
-
-            <div class="flex flex-col sm:flex-row justify-center gap-4 max-w-sm mx-auto mb-16">
-                <a href="#calculator-section" class="bg-sme-blue text-white hover:bg-logo-black font-display font-bold py-3.5 px-8 rounded-xl text-center text-sm transition-all shadow-md flex-1 clickable">
-                    🚀 Launch Calculator
-                </a>
-                <a href="#features-grid" class="bg-white border-2 border-transparent text-slate-700 hover:border-logo-gold hover:text-logo-gold font-display font-bold py-3.5 px-8 rounded-xl text-center text-sm transition-all shadow-sm flex-1 clickable">
-                    📚 Browse Notes
-                </a>
+    <header class="grid grid-cols-1 lg:grid-cols-12 min-h-[80vh] border-b border-slate-100">
+        <div class="lg:col-span-5 bg-logo-gold text-sme-blue flex flex-col justify-center p-8 md:p-12 relative overflow-hidden text-center lg:text-left">
+            <div class="absolute top-0 left-0 w-full h-full opacity-10 bg-[radial-gradient(#ffffff_1.5px,transparent_1.5px)] [background-size:24px_24px]"></div>
+            <div class="relative z-10 max-w-md mx-auto lg:mx-0">
+                <span class="inline-block bg-white/20 text-sme-blue text-xs font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border border-white/30 mb-6 font-display">
+                    Premium Student Portal ⚡
+                </span>
+                <h2 class="font-display font-800 text-3xl md:text-4xl lg:text-4.5xl leading-tight mb-4 text-sme-blue">
+                    Simplifying Your <br class="hidden lg:block"><span class="text-white drop-shadow-xs">IGCSE Pathways</span>
+                </h2>
+                <p class="text-sme-blue/80 font-semibold text-sm md:text-base leading-relaxed">
+                    Access transparent, raw weight calculators and structured resource analytics designed entirely around modern Cambridge variants.
+                </p>
             </div>
+        </div>
 
-            <div class="w-full max-w-md mx-auto border-2 border-dashed border-sme-blue/30 bg-white/30 rounded-3xl p-10 flex flex-col items-center justify-center text-sme-blue/70">
-                <span class="text-4xl mb-3">✏️</span>
-                <p class="font-bold text-sm mb-1">Add Your Student Sketch Here</p>
-                <p class="text-xs">Replace this box in the code with your image tag.</p>
+        <div class="lg:col-span-7 bg-slate-50/40 flex flex-col justify-center items-center p-8 md:p-16 text-center">
+            <div class="max-w-xl">
+                <h1 class="font-display font-800 text-5xl md:text-7xl tracking-tight text-sme-blue mb-1">
+                    The ANTs <span class="text-logo-gold">Tutoring</span>
+                </h1>
+                
+                <p class="font-cursive text-3xl md:text-4.5xl text-slate-500 tracking-wide mb-10">
+                    Ace with us
+                </p>
+
+                <p class="text-slate-500 font-semibold text-base md:text-lg max-w-md mx-auto mb-10 leading-relaxed">
+                    Interactive grading modules built natively for iPad touch gestures and simple student validation layouts.
+                </p>
+
+                <div class="flex flex-col sm:flex-row justify-center gap-4 max-w-sm mx-auto">
+                    <a href="#calculator-section" class="bg-sme-blue text-white hover:bg-logo-black font-display font-bold py-3.5 px-8 rounded-xl text-center text-sm transition-all shadow-md flex-1">
+                        🚀 Launch Calculator
+                    </a>
+                    <a href="#features-grid" class="bg-white border-2 border-slate-200 text-slate-700 hover:border-logo-gold hover:text-logo-gold font-display font-bold py-3.5 px-8 rounded-xl text-center text-sm transition-all flex-1">
+                        📚 Browse Notes
+                    </a>
+                </div>
             </div>
-
         </div>
     </header>
 
-    <section id="features-grid" class="bg-gradient-to-b from-[#f8fafc] to-white max-w-7xl mx-auto px-6 py-16">
+    <section id="features-grid" class="max-w-7xl mx-auto px-6 py-16">
         <div class="text-center max-w-xl mx-auto mb-12">
             <h2 class="font-display font-800 text-2xl md:text-3xl text-sme-blue">Syllabus Resource Hub</h2>
             <p class="text-slate-500 font-semibold text-sm mt-1">Select an active tab resource below to manage target markers.</p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
-            <a href="#calculator-section" class="bg-white border-2 border-logo-gold rounded-2xl p-6 shadow-sm hover:shadow-lg transition-all flex flex-col justify-between group clickable">
+            <a href="#calculator-section" class="bg-white border-2 border-logo-gold rounded-2xl p-6 shadow-xs hover:shadow-lg transition-all flex flex-col justify-between group">
                 <div>
                     <div class="flex items-center justify-between mb-4">
                         <span class="text-2xl bg-amber-50 border border-logo-gold/20 p-2.5 rounded-xl">📊</span>
                         <span class="bg-logo-gold text-logo-black text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md font-display">Active</span>
                     </div>
                     <h3 class="font-display font-700 text-lg text-sme-blue mb-1">Grading Calculator</h3>
-                    <p class="text-slate-500 font-medium text-sm leading-relaxed">Input raw marks to evaluate exact PUM formulas instantly.</p>
+                    <p class="text-slate-500 font-medium text-sm leading-relaxed">
+                        Input raw marks to automatically evaluate exact formula weight combinations instantly.
+                    </p>
+                </div>
+                <div class="mt-6 font-display font-bold text-xs text-logo-gold flex items-center gap-1">
+                    Open Evaluator Panel &rarr;
                 </div>
             </a>
+
             <div class="bg-slate-50/60 border border-slate-200 rounded-2xl p-6 flex flex-col justify-between opacity-70">
                 <div>
                     <div class="flex items-center justify-between mb-4">
@@ -125,9 +144,13 @@
                         <span class="bg-slate-200 text-slate-500 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md font-display">Pending</span>
                     </div>
                     <h3 class="font-display font-700 text-lg text-slate-700 mb-1">Physics Notes</h3>
-                    <p class="text-slate-400 font-medium text-sm leading-relaxed">Core vector summaries and structural formulas.</p>
+                    <p class="text-slate-400 font-medium text-sm leading-relaxed">
+                        Core vector summaries, structural formulas, and concise practical tracking units.
+                    </p>
                 </div>
+                <div class="mt-6 text-slate-400 text-xs font-semibold italic">Compilation in progress...</div>
             </div>
+
             <div class="bg-slate-50/60 border border-slate-200 rounded-2xl p-6 flex flex-col justify-between opacity-70">
                 <div>
                     <div class="flex items-center justify-between mb-4">
@@ -135,13 +158,16 @@
                         <span class="bg-slate-200 text-slate-500 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md font-display">Pending</span>
                     </div>
                     <h3 class="font-display font-700 text-lg text-slate-700 mb-1">Chemistry Notes</h3>
-                    <p class="text-slate-400 font-medium text-sm leading-relaxed">Syllabus reaction profiles and analytical breakdowns.</p>
+                    <p class="text-slate-400 font-medium text-sm leading-relaxed">
+                        Syllabus reaction profiles, clear atomic weights, and analytical diagnostic breakdowns.
+                    </p>
                 </div>
+                <div class="mt-6 text-slate-400 text-xs font-semibold italic">Compilation in progress...</div>
             </div>
         </div>
     </section>
 
-    <section id="calculator-section" class="bg-slate-50 border-t border-slate-100 py-16 scroll-mt-6">
+    <section id="calculator-section" class="bg-slate-50/60 border-t border-slate-100 py-16 scroll-mt-6">
         <div class="max-w-7xl mx-auto px-6">
             
             <div class="mb-10 text-center lg:text-left flex flex-col lg:flex-row lg:items-end justify-between gap-4">
@@ -156,4 +182,270 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 
                 <div class="lg:col-span-8 space-y-6">
-                    <div class="bg-white rounded-3xl p-6 md:
+                    <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200/60 shadow-xs">
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                            <div class="md:col-span-2">
+                                <label class="block text-xs font-800 uppercase tracking-widest text-slate-400 mb-2">Subject Selected</label>
+                                <select id="subjectSelect" class="w-full bg-slate-50 border-2 border-slate-200 hover:border-logo-gold rounded-xl px-4 py-3.5 font-display font-bold text-sme-blue outline-none transition-all cursor-pointer shadow-3xs"></select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-800 uppercase tracking-widest text-slate-400 mb-2">Series Track</label>
+                                <select id="seasonSelect" class="w-full bg-slate-50 border-2 border-slate-200 hover:border-logo-gold rounded-xl px-4 py-3.5 font-display font-bold text-sme-blue outline-none transition-all cursor-pointer shadow-3xs">
+                                    <option value="MJ">May/June (M/J)</option>
+                                    <option value="ON">Oct/Nov (O/N)</option>
+                                    <option value="FM">Feb/Mar (F/M)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div id="papersFormContainer" class="space-y-4"></div>
+
+                    </div>
+
+                    <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200/60 shadow-xs">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4 mb-6">
+                            <div>
+                                <h3 class="font-display font-700 text-lg text-sme-blue flex items-center gap-2">
+                                    <span>⚙️</span> Dynamic Subject Boundaries
+                                </h3>
+                                <p class="text-xs text-slate-400 font-semibold mt-0.5">Customize variant percentages manually to adjust system logic scales.</p>
+                            </div>
+                            <button onclick="resetBoundaries()" class="text-xs font-bold text-logo-gold hover:text-sme-blue transition-colors self-start sm:self-center bg-slate-100 px-3 py-1.5 rounded-lg">
+                                🔄 Reset Defaults
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-3 sm:grid-cols-6 gap-3">
+                            <div class="bg-slate-50 border border-slate-200/60 p-3 rounded-xl text-center">
+                                <span class="text-xs font-extrabold text-emerald-600 block mb-1">A* Min %</span>
+                                <input type="number" id="threshold_Astar" class="boundary-modifier-input w-full bg-white border border-slate-200 font-display font-bold text-center py-1.5 rounded-lg text-sm text-sme-blue outline-none focus:border-logo-gold" min="0" max="100" value="80">
+                            </div>
+                            <div class="bg-slate-50 border border-slate-200/60 p-3 rounded-xl text-center">
+                                <span class="text-xs font-extrabold text-blue-600 block mb-1">A Min %</span>
+                                <input type="number" id="threshold_A" class="boundary-modifier-input w-full bg-white border border-slate-200 font-display font-bold text-center py-1.5 rounded-lg text-sm text-sme-blue outline-none focus:border-logo-gold" min="0" max="100" value="70">
+                            </div>
+                            <div class="bg-slate-50 border border-slate-200/60 p-3 rounded-xl text-center">
+                                <span class="text-xs font-extrabold text-indigo-600 block mb-1">B Min %</span>
+                                <input type="number" id="threshold_B" class="boundary-modifier-input w-full bg-white border border-slate-200 font-display font-bold text-center py-1.5 rounded-lg text-sm text-sme-blue outline-none focus:border-logo-gold" min="0" max="100" value="60">
+                            </div>
+                            <div class="bg-slate-50 border border-slate-200/60 p-3 rounded-xl text-center">
+                                <span class="text-xs font-extrabold text-amber-600 block mb-1">C Min %</span>
+                                <input type="number" id="threshold_C" class="boundary-modifier-input w-full bg-white border border-slate-200 font-display font-bold text-center py-1.5 rounded-lg text-sm text-sme-blue outline-none focus:border-logo-gold" min="0" max="100" value="50">
+                            </div>
+                            <div class="bg-slate-50 border border-slate-200/60 p-3 rounded-xl text-center">
+                                <span class="text-xs font-extrabold text-orange-600 block mb-1">D Min %</span>
+                                <input type="number" id="threshold_D" class="boundary-modifier-input w-full bg-white border border-slate-200 font-display font-bold text-center py-1.5 rounded-lg text-sm text-sme-blue outline-none focus:border-logo-gold" min="0" max="100" value="45">
+                            </div>
+                            <div class="bg-slate-50 border border-slate-200/60 p-3 rounded-xl text-center">
+                                <span class="text-xs font-extrabold text-red-600 block mb-1">E Min %</span>
+                                <input type="number" id="threshold_E" class="boundary-modifier-input w-full bg-white border border-slate-200 font-display font-bold text-center py-1.5 rounded-lg text-sm text-sme-blue outline-none focus:border-logo-gold" min="0" max="100" value="40">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-4 lg:sticky lg:top-24">
+                    <div class="bg-sme-blue rounded-3xl p-6 md:p-8 text-white shadow-xl shadow-sme-blue/20 relative overflow-hidden border-b-4 border-slate-900">
+                        <div class="absolute -top-10 -right-10 w-36 h-36 bg-logo-gold/10 rounded-full pointer-events-none"></div>
+                        
+                        <h3 class="font-display font-700 text-indigo-200/50 uppercase tracking-widest text-xs mb-6 flex items-center gap-2">
+                            <span>📋</span> LIVE SYSTEM MARKS YIELD
+                        </h3>
+                        
+                        <div class="space-y-6">
+                            <div>
+                                <span class="text-slate-400 text-xs uppercase tracking-wider font-bold block">Aggregated Raw Marks Total</span>
+                                <div id="rawMarksDisplay" class="text-2xl font-display font-700 tracking-tight mt-1 text-logo-gold">0.0 / 0.0</div>
+                            </div>
+
+                            <div>
+                                <span class="text-slate-400 text-xs uppercase tracking-wider font-bold block">Calculated Final Percentage</span>
+                                <div id="finalPercentDisplay" class="text-5xl md:text-6xl font-display font-800 tracking-tighter mt-1 text-white">0.0%</div>
+                            </div>
+
+                            <div>
+                                <span class="text-slate-400 text-xs uppercase tracking-wider font-bold block mb-2">Evaluated Threshold Grade</span>
+                                <div id="finalGradeBadge" class="inline-flex bg-logo-gold text-logo-black px-5 py-2 rounded-xl font-display font-800 text-base shadow-sm transition-all">
+                                    Ungraded (U)
+                                </div>
+                            </div>
+
+                            <div class="pt-4 border-t border-slate-800">
+                                <div class="w-full bg-slate-800 h-2.5 rounded-full overflow-hidden">
+                                    <div id="metricProgressBar" class="bg-gradient-to-r from-logo-gold to-amber-400 h-full w-0 transition-all duration-300 ease-out"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="bg-white border-t border-slate-100 py-10 text-center font-semibold text-slate-400 text-xs">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-2">
+                <span class="font-display font-800 text-base text-sme-blue">The ANTs <span class="text-logo-gold">Tutoring</span></span>
+            </div>
+            <div class="font-medium">
+                &copy; 2026 The ANTs Portal Suite &bull; All Technical Calculation Engines iPad Validated
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const syllabusData = {
+            "0500": { name: "First Language English", papers: [{ name: "Paper 1 (Reading)", max: 80, weight: 0.5 }, { name: "Paper 2 (Writing)", max: 80, weight: 0.5 }] },
+            "0606": { name: "Additional Mathematics", papers: [{ name: "Paper 1", max: 80, weight: 0.5 }, { name: "Paper 2", max: 80, weight: 0.5 }] },
+            "0580": { name: "Extended Mathematics", papers: [{ name: "Paper 2 (Short Answer)", max: 70, weight: 0.35 }, { name: "Paper 4 (Structured)", max: 130, weight: 0.65 }] },
+            "0478": { name: "Computer Science", papers: [{ name: "Paper 1 (Theory)", max: 75, weight: 0.5 }, { name: "Paper 2 (Algorithms)", max: 75, weight: 0.5 }] },
+            "0620": { name: "Chemistry", papers: [{ name: "Paper 2 (MCQ)", max: 40, weight: 0.3 }, { name: "Paper 4 (Theory)", max: 80, weight: 0.5 }, { name: "Paper 6 (Practical)", max: 40, weight: 0.2 }] },
+            "0625": { name: "Physics", papers: [{ name: "Paper 2 (MCQ)", max: 40, weight: 0.3 }, { name: "Paper 4 (Theory)", max: 80, weight: 0.5 }, { name: "Paper 6 (Practical)", max: 40, weight: 0.2 }] },
+            "0417": { name: "Information & Communication Technology", papers: [{ name: "Paper 1 (Theory)", max: 70, weight: 0.4 }, { name: "Paper 2 (Practical A)", max: 80, weight: 0.3 }, { name: "Paper 3 (Practical B)", max: 70, weight: 0.3 }] },
+            "0610": { name: "Biology", papers: [{ name: "Paper 2 (MCQ)", max: 40, weight: 0.3 }, { name: "Paper 4 (Theory)", max: 80, weight: 0.5 }, { name: "Paper 6 (Practical)", max: 40, weight: 0.2 }] }
+        };
+
+        const defaultThresholds = { Astar: 80, A: 70, B: 60, C: 50, D: 45, E: 40 };
+
+        const subjectSelect = document.getElementById('subjectSelect'),
+              seasonSelect = document.getElementById('seasonSelect'),
+              papersFormContainer = document.getElementById('papersFormContainer'),
+              finalPercentDisplay = document.getElementById('finalPercentDisplay'),
+              rawMarksDisplay = document.getElementById('rawMarksDisplay'),
+              finalGradeBadge = document.getElementById('finalGradeBadge'),
+              metricProgressBar = document.getElementById('metricProgressBar'),
+              cursor = document.getElementById('custom-cursor');
+
+        // Dynamic Vector Cursor Animation Hook
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        function initDropdowns() { 
+            for (const code in syllabusData) { 
+                const opt = document.createElement('option'); 
+                opt.value = code; 
+                opt.textContent = `📚 ${syllabusData[code].name} (${code})`; 
+                subjectSelect.appendChild(opt); 
+            } 
+        }
+
+        function resetBoundaries() {
+            document.getElementById('threshold_Astar').value = defaultThresholds.Astar;
+            document.getElementById('threshold_A').value = defaultThresholds.A;
+            document.getElementById('threshold_B').value = defaultThresholds.B;
+            document.getElementById('threshold_C').value = defaultThresholds.C;
+            document.getElementById('threshold_D').value = defaultThresholds.D;
+            document.getElementById('threshold_E').value = defaultThresholds.E;
+            calculateSyllabusScores();
+        }
+
+        function renderSyllabusForms() {
+            const code = subjectSelect.value, subject = syllabusData[code];
+            papersFormContainer.innerHTML = "";
+
+            subject.papers.forEach((paper, index) => {
+                const rowId = `paper_input_${index}`, cardRow = document.createElement('div');
+                cardRow.className = "p-4 border border-slate-100 rounded-2xl bg-slate-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4";
+                
+                cardRow.innerHTML = `
+                    <div>
+                        <p class="font-display font-700 text-sme-blue text-sm">📝 ${paper.name}</p>
+                        <span class="text-[10px] font-800 text-slate-400 uppercase tracking-widest block mt-0.5">Component Weighting Ratio: ${(paper.weight * 100)}%</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="flex items-center gap-2">
+                            <input type="number" id="${rowId}" min="0" max="${paper.max}" placeholder="0" 
+                                class="paper-score-input w-24 bg-white border-2 border-slate-200 focus:border-logo-gold rounded-xl py-2.5 font-display font-800 text-center text-sme-blue outline-none" 
+                                data-index="${index}">
+                            <span class="text-slate-300 font-bold">/</span>
+                            <div class="w-16 bg-slate-200/50 text-slate-400 font-bold text-center py-2.5 rounded-xl border border-slate-200/40 text-sm select-none">${paper.max}</div>
+                        </div>
+                        <div class="w-24 text-right hidden sm:block">
+                            <span class="text-[9px] font-800 uppercase tracking-wider text-slate-400 block">Weighted Yield</span>
+                            <span id="yield_${rowId}" class="text-xs font-bold text-slate-600 font-mono">0.0</span>
+                        </div>
+                    </div>`;
+                papersFormContainer.appendChild(cardRow);
+            });
+
+            document.querySelectorAll('.paper-score-input').forEach(input => input.addEventListener('input', calculateSyllabusScores));
+            calculateSyllabusScores();
+        }
+
+        function calculateSyllabusScores() {
+            const code = subjectSelect.value, subject = syllabusData[code];
+            let cumulativeRawAchieved = 0;
+            let cumulativeRawMax = 0;
+            let finalWeightedYield = 0;
+
+            subject.papers.forEach((paper, index) => {
+                const inputEl = document.getElementById(`paper_input_${index}`);
+                const componentYieldEl = document.getElementById(`yield_paper_input_${index}`);
+                
+                let rawAchieved = parseFloat(inputEl.value) || 0;
+                if (rawAchieved > paper.max) { rawAchieved = paper.max; inputEl.value = paper.max; }
+                if (rawAchieved < 0) { rawAchieved = 0; inputEl.value = 0; }
+
+                cumulativeRawAchieved += rawAchieved;
+                cumulativeRawMax += paper.max;
+
+                // Component Level Formula Metric Calculations
+                const weightedComponentYield = rawAchieved * paper.weight;
+                finalWeightedYield += weightedComponentYield;
+
+                if (componentYieldEl) {
+                    componentYieldEl.textContent = weightedComponentYield.toFixed(1);
+                }
+            });
+
+            // Final Combined Aggregated Profile Calculations
+            const maxWeightedLimit = subject.papers.reduce((acc, p) => acc + (p.max * p.weight), 0);
+            const calculatedPercentage = maxWeightedLimit > 0 ? (finalWeightedYield / maxWeightedLimit) * 100 : 0;
+
+            rawMarksDisplay.textContent = `${cumulativeRawAchieved.toFixed(1)} / ${cumulativeRawMax.toFixed(1)}`;
+            finalPercentDisplay.textContent = `${calculatedPercentage.toFixed(1)}%`;
+            metricProgressBar.style.width = `${calculatedPercentage}%`;
+
+            // Read Current User Modified Threshold Scales
+            const bounds = {
+                Astar: parseFloat(document.getElementById('threshold_Astar').value) || defaultThresholds.Astar,
+                A: parseFloat(document.getElementById('threshold_A').value) || defaultThresholds.A,
+                B: parseFloat(document.getElementById('threshold_B').value) || defaultThresholds.B,
+                C: parseFloat(document.getElementById('threshold_C').value) || defaultThresholds.C,
+                D: parseFloat(document.getElementById('threshold_D').value) || defaultThresholds.D,
+                E: parseFloat(document.getElementById('threshold_E').value) || defaultThresholds.E
+            };
+
+            // Evaluation Classification Matrix Logic
+            let grade = "Ungraded (U)";
+            let badgeStyle = "bg-slate-800 text-slate-400 border border-slate-700 font-bold";
+
+            if (calculatedPercentage >= bounds.Astar) { grade = "Grade: A* (Excellent)"; badgeStyle = "bg-logo-gold text-logo-black font-extrabold"; }
+            else if (calculatedPercentage >= bounds.A) { grade = "Grade: A (Very Good)"; badgeStyle = "bg-blue-500 text-white font-bold"; }
+            else if (calculatedPercentage >= bounds.B) { grade = "Grade: B (Good)"; badgeStyle = "bg-indigo-500 text-white font-bold"; }
+            else if (calculatedPercentage >= bounds.C) { grade = "Grade: C (Satisfactory)"; badgeStyle = "bg-amber-500 text-white font-bold"; }
+            else if (calculatedPercentage >= bounds.D) { grade = "Grade: D (Pass)"; badgeStyle = "bg-orange-500 text-white font-bold"; }
+            else if (calculatedPercentage >= bounds.E) { grade = "Grade: E (Core Pass)"; badgeStyle = "bg-red-500 text-white font-bold"; }
+
+            finalGradeBadge.textContent = grade;
+            finalGradeBadge.className = `inline-flex px-5 py-2 rounded-xl font-display text-sm shadow-xs transition-all ${badgeStyle}`;
+        }
+
+        // Event hooks for threshold inputs modifications
+        document.querySelectorAll('.boundary-modifier-input').forEach(input => {
+            input.addEventListener('input', calculateSyllabusScores);
+        });
+
+        subjectSelect.addEventListener('change', renderSyllabusForms);
+        seasonSelect.addEventListener('change', calculateSyllabusScores);
+
+        initDropdowns();
+        renderSyllabusForms();
+    </script>
+</body>
+</html>
