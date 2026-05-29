@@ -19,7 +19,6 @@
             --color-logo-black: #1A1A1A;
         }
         
-        /* Hide native mouse cursor globally */
         html, body, a, button, select, input, label, [role="button"] {
             cursor: none !important;
         }
@@ -32,7 +31,6 @@
             overflow-x: hidden;
         }
 
-        /* Doppler Effect Cursor System */
         .star-cursor {
             position: fixed;
             pointer-events: none;
@@ -64,7 +62,6 @@
         .font-display { font-family: var(--font-display); font-weight: 700; }
         .font-cursive { font-family: var(--font-cursive); font-style: italic; }
 
-        /* Smooth Custom Dropdown Animation States */
         .dropdown-menu-list {
             opacity: 0;
             transform: translateY(-8px) scale(0.95);
@@ -115,7 +112,6 @@
 
     <section id="calculator-section" class="bg-white py-16 scroll-mt-6">
         <div class="max-w-7xl mx-auto px-6">
-            
             <div class="mb-10 text-center lg:text-left">
                 <div class="inline-flex items-center gap-2 bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-xl mb-3 text-xs font-bold text-sme-blue font-display">
                     ⚙️ AUTOMATED CONVERSION ENGINE
@@ -124,12 +120,9 @@
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                
                 <div class="lg:col-span-8 space-y-6">
                     <div class="bg-slate-50/60 rounded-3xl p-6 md:p-8 border border-slate-200/50 shadow-3xs">
-                        
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                            
                             <div class="md:col-span-2 relative">
                                 <label class="block text-xs font-800 uppercase tracking-widest text-slate-400 mb-2">Subject Selected</label>
                                 <div id="customSubjectToggle" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 font-display font-bold text-sme-blue text-sm shadow-3xs flex justify-between items-center interactive-target select-none">
@@ -158,11 +151,9 @@
                 <div class="lg:col-span-4 lg:sticky lg:top-24">
                     <div class="bg-logo-black rounded-3xl p-6 md:p-8 text-white shadow-xl relative overflow-hidden border-b-4 border-logo-gold">
                         <div class="absolute -top-10 -right-10 w-36 h-36 bg-logo-gold/10 rounded-full pointer-events-none"></div>
-                        
                         <h3 class="font-display font-700 text-logo-gold uppercase tracking-widest text-[10px] mb-6 flex items-center gap-2">
                             <span>📋</span> CALCULATED PUM RESULT
                         </h3>
-                        
                         <div class="space-y-4">
                             <div>
                                 <span class="text-slate-400 text-xs uppercase tracking-wider font-semibold block mb-1">Total Option Raw Mark</span>
@@ -179,7 +170,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -190,7 +180,6 @@
                 <h2 class="font-display font-800 text-2xl md:text-3xl text-sme-blue tracking-tight">Syllabus Resource Hub</h2>
                 <p class="text-slate-500 font-medium text-sm mt-1">Access curated notes and interactive toolkits optimized for performance tracks.</p>
             </div>
-
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
                 <div class="bg-white border border-slate-200/60 rounded-2xl p-6 shadow-3xs flex flex-col justify-between relative overflow-hidden group">
                     <div>
@@ -202,7 +191,6 @@
                         <p class="text-slate-400 font-medium text-sm leading-relaxed">Comprehensive tracking formulas, visual vector mechanics matrices, and component practice breakdown files.</p>
                     </div>
                 </div>
-
                 <div class="bg-white border border-slate-200/60 rounded-2xl p-6 shadow-3xs flex flex-col justify-between relative overflow-hidden group">
                     <div>
                         <div class="flex items-center justify-between mb-4">
@@ -225,7 +213,6 @@
     </footer>
 
     <script>
-        // Exact raw option thresholds sourced directly from your Excel Sheet database matrix (M/J 24 Variant 2)
         const syllabusData = {
             "0606": { 
                 name: "Additional Mathematics", 
@@ -274,7 +261,6 @@
               mainStar = document.getElementById('main-star'),
               trailStars = Array.from(document.querySelectorAll('.trail-star'));
 
-        // --- DOPPLER EFFECT SMOOTH INTERPOLATED MOUSE TRAIL TRACKER ---
         let mouseX = 0, mouseY = 0;
         let starPositions = Array(5).fill({x: 0, y: 0});
 
@@ -312,7 +298,6 @@
             });
         }
 
-        // --- CUSTOM DROPDOWN MENUS ---
         const customSubjectToggle = document.getElementById('customSubjectToggle'),
               customSubjectMenu = document.getElementById('customSubjectMenu'),
               customSeriesToggle = document.getElementById('customSeriesToggle'),
@@ -388,12 +373,13 @@
             calculateSyllabusScores();
         }
 
-        // --- PRECISE PIECEWISE INTERPOLATION ALGORITHM MATCHING EXCEL ENGINE ---
         function runSpreadsheetPUMInterpolation(totalRawMark, thresholds) {
             if (totalRawMark === 0 || totalRawMark === "") return 0;
 
-            // Accurate replication of spreadsheet nested IF conditions
-            if (totalRawMark >= thresholds.A) {
+            // Direct mapping logic mirroring your Excel nested IF conditions completely
+            if (totalRawMark >= thresholds.Astar) {
+                return 1.0; // Clean cap matching your spreadsheet threshold maximum target
+            } else if (totalRawMark >= thresholds.A) {
                 return 0.9 + 0.1 * ((totalRawMark - thresholds.A) / (thresholds.Astar - thresholds.A));
             } else if (totalRawMark >= thresholds.B) {
                 return 0.8 + 0.1 * ((totalRawMark - thresholds.B) / (thresholds.A - thresholds.B));
@@ -419,22 +405,18 @@
                 if (inputVal > paper.max) { inputVal = paper.max; element.value = paper.max; }
                 if (inputVal < 0) { inputVal = 0; element.value = 0; }
 
-                // Scaled calculation up to total components option
                 totalOptionRawMark += (inputVal * paper.factor);
             });
 
-            // Rounding up the raw totals matching Cambridge guidelines
             totalOptionRawMark = Math.round(totalOptionRawMark);
 
             const currentThresholds = subject.thresholds;
             const evaluatedPUMDecimal = runSpreadsheetPUMInterpolation(totalOptionRawMark, currentThresholds);
             
-            // Core Integer Value Rounding
             let finalIntegerOutput = Math.round(evaluatedPUMDecimal * 100);
             if (finalIntegerOutput > 100) finalIntegerOutput = 100;
             if (finalIntegerOutput < 0 || isNaN(finalIntegerOutput)) finalIntegerOutput = 0;
 
-            // Grade Mapping Assignments
             let associatedGrade = "U";
             if (totalOptionRawMark >= currentThresholds.Astar) associatedGrade = "A*";
             else if (totalOptionRawMark >= currentThresholds.A) associatedGrade = "A";
@@ -445,7 +427,6 @@
 
             if (totalOptionRawMark === 0) associatedGrade = "U";
 
-            // Push values back safely into DOM elements
             rawMarkDisplay.textContent = `${totalOptionRawMark} / ${subject.optionMax}`;
             finalPercentDisplay.textContent = `${finalIntegerOutput}%`;
             sideGradeDisplay.textContent = associatedGrade;
