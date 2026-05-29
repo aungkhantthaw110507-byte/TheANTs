@@ -14,6 +14,7 @@
             --font-sans: 'Inter', sans-serif;
             --font-cursive: 'Playfair Display', serif;
             --color-logo-gold: #C5A059;
+            --color-light-beige: #EFE9DC;
             --color-sme-blue: #0F172A;
             --color-logo-black: #1A1A1A;
         }
@@ -25,20 +26,21 @@
             scroll-behavior: smooth;
         }
 
-        /* Black Star Cursor styling */
+        /* Custom North Star Cursor tracking styling */
         #custom-cursor {
             position: fixed;
             pointer-events: none;
             z-index: 9999;
             transform: translate(-50%, -50%);
-            font-size: 24px;
-            color: #000000;
+            font-size: 26px;
+            color: #1a1a1a;
             user-select: none;
-            transition: transform 0.05s ease-out;
+            line-height: 1;
+            transition: transform 0.06s ease-out, color 0.2s ease;
         }
 
         .cursor-hover {
-            transform: translate(-50%, -50%) scale(1.4);
+            transform: translate(-50%, -50%) scale(1.5) rotate(45deg);
             color: var(--color-logo-gold);
         }
 
@@ -49,74 +51,81 @@
         .font-display { font-family: var(--font-display); font-weight: 700; }
         .font-cursive { font-family: var(--font-cursive); font-style: italic; }
 
-        /* Premium Customized Dropdown Styling */
-        .custom-select-menu {
+        /* Smooth Custom Dropdown Styling */
+        .premium-dropdown {
             appearance: none;
             background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230F172A' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
             background-repeat: no-repeat;
             background-position: right 1.25rem center;
-            background-size: 1rem;
+            background-size: 0.9rem;
             padding-right: 3rem;
+            transition: all 0.2s ease;
+        }
+        
+        .premium-dropdown:focus {
+            border-color: var(--color-logo-gold);
+            box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.15);
         }
     </style>
 </head>
 <body class="text-slate-900 min-h-screen antialiased selection:bg-logo-gold/20">
 
-    <div id="custom-cursor">★</div>
+    <div id="custom-cursor">✦</div>
 
-    <nav class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-100">
+    <nav class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-100">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
             <div class="flex items-center gap-2.5">
                 <div class="w-9 h-9 bg-sme-blue rounded-xl flex items-center justify-center text-logo-gold font-display font-800 text-base">A</div>
                 <span class="font-display font-800 text-xl tracking-tight text-sme-blue">The ANTs <span class="text-logo-gold">Tutoring</span></span>
             </div>
-            <div class="flex items-center gap-4 font-display font-semibold text-sm">
-                <a href="#calculator-section" class="bg-sme-blue text-white hover:bg-logo-black px-5 py-2.5 rounded-xl transition-all font-bold text-xs tracking-wide shadow-xs btn-trigger">Launch Portal</a>
+            <div class="flex items-center gap-6 font-display font-semibold text-sm">
+                <a href="#calculator-section" class="text-sme-blue hover:text-logo-gold transition-colors interactive-item">Calculator</a>
+                <a href="#notes-section" class="text-sme-blue hover:text-logo-gold transition-colors interactive-item">Resource Hub</a>
             </div>
         </div>
     </nav>
 
-    <header class="bg-gradient-to-b from-logo-gold via-[#dfba77] to-white min-h-[55vh] flex flex-col justify-center items-center px-6 py-16 text-center border-b border-slate-100">
+    <header class="bg-gradient-to-b from-light-beige via-[#f9f8f5] to-white min-h-[480px] flex flex-col justify-center items-center px-6 py-20 text-center border-b border-slate-50">
         <div class="max-w-3xl mx-auto">
             <h1 class="font-display font-800 text-5xl md:text-7xl tracking-tight text-sme-blue mb-2">
-                The ANTs <span class="text-white drop-shadow-xs">Tutoring</span>
+                The ANTs <span class="text-logo-gold drop-shadow-3xs">Tutoring</span>
             </h1>
             
-            <p class="font-cursive text-3xl md:text-4.5xl text-sme-blue/90 tracking-wide mb-12">
+            <p class="font-cursive text-3xl md:text-4xl text-sme-blue/80 tracking-wide mb-12">
                 Ace with us
             </p>
 
-            <div class="flex flex-col sm:flex-row justify-center gap-4 max-w-sm mx-auto">
-                <a href="#calculator-section" class="bg-sme-blue text-white hover:bg-logo-black font-display font-bold py-3.5 px-8 rounded-xl text-center text-sm transition-all shadow-md flex-1 btn-trigger">
-                    🚀 Launch Calculator
+            <div class="flex flex-col sm:flex-row justify-center gap-4 max-w-xs mx-auto">
+                <a href="#calculator-section" class="bg-sme-blue text-white hover:bg-logo-black font-display font-bold py-3.5 px-8 rounded-xl text-center text-sm transition-all shadow-md flex-1 interactive-item">
+                    📊 Open Calculator
                 </a>
             </div>
         </div>
     </header>
 
-    <section id="calculator-section" class="bg-slate-50 py-16 scroll-mt-6">
+    <section id="calculator-section" class="bg-white py-16 scroll-mt-6">
         <div class="max-w-7xl mx-auto px-6">
             
             <div class="mb-10 text-center lg:text-left">
-                <div class="inline-flex items-center gap-2 bg-sme-blue/5 border border-sme-blue/10 px-3.5 py-1.5 rounded-xl mb-3 text-xs font-bold text-sme-blue font-display">
-                    <span>📊</span> CAMBRIDGE PUM ESTIMATOR
+                <div class="inline-flex items-center gap-2 bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-xl mb-3 text-xs font-bold text-sme-blue font-display">
+                    ⚙️ AUTOMATED CONVERSION ENGINE
                 </div>
-                <h2 class="font-display font-800 text-3xl text-sme-blue">Syllabus Evaluation System</h2>
+                <h2 class="font-display font-800 text-3xl text-sme-blue tracking-tight">Syllabus Evaluation System</h2>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 
                 <div class="lg:col-span-8 space-y-6">
-                    <div class="bg-white rounded-3xl p-6 md:p-8 border border-slate-200/60 shadow-xs">
+                    <div class="bg-slate-50/60 rounded-3xl p-6 md:p-8 border border-slate-200/50 shadow-3xs">
                         
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
                             <div class="md:col-span-2">
                                 <label class="block text-xs font-800 uppercase tracking-widest text-slate-400 mb-2">Subject Selected</label>
-                                <select id="subjectSelect" class="custom-select-menu w-full bg-slate-50 border-2 border-slate-200 focus:border-logo-gold rounded-xl px-5 py-4 font-display font-bold text-sme-blue outline-none transition-all cursor-pointer shadow-3xs text-sm btn-trigger"></select>
+                                <select id="subjectSelect" class="premium-dropdown w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 font-display font-bold text-sme-blue outline-none shadow-3xs text-sm cursor-pointer interactive-item"></select>
                             </div>
                             <div>
                                 <label class="block text-xs font-800 uppercase tracking-widest text-slate-400 mb-2">Series Track</label>
-                                <select id="seasonSelect" class="custom-select-menu w-full bg-slate-50 border-2 border-slate-200 focus:border-logo-gold rounded-xl px-5 py-4 font-display font-bold text-sme-blue outline-none transition-all cursor-pointer shadow-3xs text-sm btn-trigger">
+                                <select id="seasonSelect" class="premium-dropdown w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 font-display font-bold text-sme-blue outline-none shadow-3xs text-sm cursor-pointer interactive-item">
                                     <option value="MJ">May/June (M/J)</option>
                                     <option value="ON">Oct/Nov (O/N)</option>
                                     <option value="FM">Feb/Mar (F/M)</option>
@@ -126,67 +135,61 @@
 
                         <div id="papersFormContainer" class="space-y-4"></div>
                     </div>
-
-                    <div class="bg-sme-blue rounded-3xl p-6 md:p-8 shadow-xl border-b-4 border-slate-950">
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4 mb-6">
-                            <div>
-                                <h3 class="font-display font-700 text-lg text-white flex items-center gap-2">
-                                    <span>⚙️</span> Dynamic Subject Boundaries
-                                </h3>
-                                <p class="text-xs text-slate-400 font-semibold mt-0.5">Adjust raw target boundaries matching your specific variant component series thresholds.</p>
-                            </div>
-                            <button onclick="resetBoundaries()" class="text-xs font-bold text-sme-blue bg-logo-gold hover:bg-white px-3 py-1.5 rounded-lg transition-colors btn-trigger">
-                                🔄 Reset Defaults
-                            </button>
-                        </div>
-
-                        <div class="grid grid-cols-3 sm:grid-cols-6 gap-3">
-                            <div class="bg-slate-900/60 border border-slate-800 p-3 rounded-xl text-center">
-                                <span class="text-xs font-bold text-amber-400 block mb-1">A* Min Mark</span>
-                                <input type="number" id="threshold_Astar" class="boundary-input w-full bg-slate-950 border border-slate-700 text-white font-display font-bold text-center py-1.5 rounded-lg text-sm outline-none focus:border-logo-gold btn-trigger" value="80">
-                            </div>
-                            <div class="bg-slate-900/60 border border-slate-800 p-3 rounded-xl text-center">
-                                <span class="text-xs font-bold text-slate-300 block mb-1">A Min Mark</span>
-                                <input type="number" id="threshold_A" class="boundary-input w-full bg-slate-950 border border-slate-700 text-white font-display font-bold text-center py-1.5 rounded-lg text-sm outline-none focus:border-logo-gold btn-trigger" value="70">
-                            </div>
-                            <div class="bg-slate-900/60 border border-slate-800 p-3 rounded-xl text-center">
-                                <span class="text-xs font-bold text-slate-300 block mb-1">B Min Mark</span>
-                                <input type="number" id="threshold_B" class="boundary-input w-full bg-slate-950 border border-slate-700 text-white font-display font-bold text-center py-1.5 rounded-lg text-sm outline-none focus:border-logo-gold btn-trigger" value="60">
-                            </div>
-                            <div class="bg-slate-900/60 border border-slate-800 p-3 rounded-xl text-center">
-                                <span class="text-xs font-bold text-slate-300 block mb-1">C Min Mark</span>
-                                <input type="number" id="threshold_C" class="boundary-input w-full bg-slate-950 border border-slate-700 text-white font-display font-bold text-center py-1.5 rounded-lg text-sm outline-none focus:border-logo-gold btn-trigger" value="50">
-                            </div>
-                            <div class="bg-slate-900/60 border border-slate-800 p-3 rounded-xl text-center">
-                                <span class="text-xs font-bold text-slate-400 block mb-1">D Min Mark</span>
-                                <input type="number" id="threshold_D" class="boundary-input w-full bg-slate-950 border border-slate-700 text-white font-display font-bold text-center py-1.5 rounded-lg text-sm outline-none focus:border-logo-gold btn-trigger" value="42">
-                            </div>
-                            <div class="bg-slate-900/60 border border-slate-800 p-3 rounded-xl text-center">
-                                <span class="text-xs font-bold text-slate-400 block mb-1">E Min Mark</span>
-                                <input type="number" id="threshold_E" class="boundary-input w-full bg-slate-950 border border-slate-700 text-white font-display font-bold text-center py-1.5 rounded-lg text-sm outline-none focus:border-logo-gold btn-trigger" value="35">
-                            </div>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="lg:col-span-4 lg:sticky lg:top-24">
                     <div class="bg-logo-black rounded-3xl p-6 md:p-8 text-white shadow-xl relative overflow-hidden border-b-4 border-logo-gold">
                         <div class="absolute -top-10 -right-10 w-36 h-36 bg-logo-gold/10 rounded-full pointer-events-none"></div>
                         
-                        <h3 class="font-display font-700 text-logo-gold uppercase tracking-widest text-xs mb-6 flex items-center gap-2">
-                            <span>📋</span> EVALUATED ASSESSMENT METRIC
+                        <h3 class="font-display font-700 text-logo-gold uppercase tracking-widest text-[10px] mb-6 flex items-center gap-2">
+                            <span>📋</span> CALCULATED PUM RESULT
                         </h3>
                         
                         <div>
-                            <span class="text-slate-400 text-xs uppercase tracking-wider font-bold block mb-1">Percentage Uniform Mark (PUM)</span>
+                            <span class="text-slate-400 text-xs uppercase tracking-wider font-semibold block mb-1">Percentage Uniform Mark</span>
                             <div class="flex items-center gap-4 mt-2">
                                 <div id="finalPercentDisplay" class="text-6xl font-display font-800 tracking-tighter text-white">0%</div>
-                                <div id="sideGradeDisplay" class="text-4xl font-display font-800 text-logo-gold bg-white/10 px-4 py-1.5 rounded-2xl border border-white/10">U</div>
+                                <div id="sideGradeDisplay" class="text-3xl font-display font-800 text-white bg-slate-800 px-4 py-1.5 rounded-xl border border-slate-700 min-w-[60px] text-center shadow-inner select-none">U</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
+            </div>
+        </div>
+    </section>
+
+    <section id="notes-section" class="bg-slate-50 border-t border-slate-100 py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center max-w-xl mx-auto mb-12">
+                <h2 class="font-display font-800 text-2xl md:text-3xl text-sme-blue tracking-tight">Syllabus Resource Hub</h2>
+                <p class="text-slate-500 font-medium text-sm mt-1">Access curated notes and interactive toolkits optimized for performance tracks.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
+                <div class="bg-white border border-slate-200/60 rounded-2xl p-6 shadow-3xs flex flex-col justify-between relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 transform translate-x-4 -translate-y-4 bg-logo-gold/5 w-24 h-24 rounded-full pointer-events-none transition-transform group-hover:scale-120"></div>
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-2xl bg-amber-50 border border-logo-gold/10 p-2 rounded-xl select-none">⚛️</span>
+                            <span class="bg-logo-gold/15 text-logo-gold text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md tracking-wider font-display">Soon to come</span>
+                        </div>
+                        <h3 class="font-display font-700 text-lg text-sme-blue mb-1">Physics Core Summary Notes</h3>
+                        <p class="text-slate-400 font-medium text-sm leading-relaxed">Comprehensive tracking formulas, visual vector mechanics matrices, and component practice breakdown files.</p>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-slate-200/60 rounded-2xl p-6 shadow-3xs flex flex-col justify-between relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 transform translate-x-4 -translate-y-4 bg-logo-gold/5 w-24 h-24 rounded-full pointer-events-none transition-transform group-hover:scale-120"></div>
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-2xl bg-amber-50 border border-logo-gold/10 p-2 rounded-xl select-none">🧪</span>
+                            <span class="bg-logo-gold/15 text-logo-gold text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md tracking-wider font-display">Soon to come</span>
+                        </div>
+                        <h3 class="font-display font-700 text-lg text-sme-blue mb-1">Chemistry Analytic Profile Guides</h3>
+                        <p class="text-slate-400 font-medium text-sm leading-relaxed">Complete structural stoichiometry worksheets, interactive reaction chains, and experimental practical revision setups.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -197,20 +200,22 @@
                 <span class="font-display font-800 text-base text-sme-blue">The ANTs <span class="text-logo-gold">Tutoring</span></span>
             </div>
             <div class="font-medium text-slate-400">
-                &copy; 2026 The ANTs Portal Suite &bull; All Calculation Frameworks Validated
+                &copy; 2026 The ANTs Portal Suite &bull; PUM Grading Framework Running
             </div>
         </div>
     </footer>
 
     <script>
+        // High-fidelity standard Cambridge assessment component weight mappings
         const syllabusData = {
             "0606": { name: "Additional Mathematics", papers: [{ name: "Paper 1", max: 80, weight: 0.5 }, { name: "Paper 2", max: 80, weight: 0.5 }] },
             "0580": { name: "Extended Mathematics", papers: [{ name: "Paper 2", max: 70, weight: 0.35 }, { name: "Paper 4", max: 130, weight: 0.65 }] },
-            "0620": { name: "Chemistry", papers: [{ name: "Paper 2 (MCQ)", max: 40, weight: 0.3 }, { name: "Paper 4 (Theory)", max: 80, weight: 0.5 }, { name: "Paper 6 (Alternative to Practical)", max: 40, weight: 0.2 }] },
-            "0625": { name: "Physics", papers: [{ name: "Paper 2 (MCQ)", max: 40, weight: 0.3 }, { name: "Paper 4 (Theory)", max: 80, weight: 0.5 }, { name: "Paper 6 (Alternative to Practical)", max: 40, weight: 0.2 }] }
+            "0620": { name: "Chemistry", papers: [{ name: "Paper 2 (MCQ)", max: 40, weight: 0.3 }, { name: "Paper 4 (Theory)", max: 80, weight: 0.5 }, { name: "Paper 6 (Practical)", max: 40, weight: 0.2 }] },
+            "0625": { name: "Physics", papers: [{ name: "Paper 2 (MCQ)", max: 40, weight: 0.3 }, { name: "Paper 4 (Theory)", max: 80, weight: 0.5 }, { name: "Paper 6 (Practical)", max: 40, weight: 0.2 }] }
         };
 
-        const defaultThresholds = { Astar: 135, A: 115, B: 95, C: 75, D: 63, E: 52 };
+        // Uniform internal boundary percentages for standard threshold matrix mapping
+        const internalThresholdPercentages = { Astar: 82, A: 72, B: 62, C: 52, D: 46, E: 40 };
 
         const subjectSelect = document.getElementById('subjectSelect'),
               seasonSelect = document.getElementById('seasonSelect'),
@@ -219,20 +224,20 @@
               sideGradeDisplay = document.getElementById('sideGradeDisplay'),
               cursor = document.getElementById('custom-cursor');
 
-        // Black Star Cursor position tracking hook
+        // Mousemove Event Tracker for Star Cursor position
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
         });
 
-        function attachHoverListeners() {
-            document.querySelectorAll('.btn-trigger, select, input, a, button').forEach(element => {
-                element.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
-                element.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+        function setupCursorInteractions() {
+            document.querySelectorAll('.interactive-item, select, input, a, button').forEach(item => {
+                item.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+                item.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
             });
         }
 
-        function initDropdowns() { 
+        function buildSubjectSelections() { 
             for (const code in syllabusData) { 
                 const opt = document.createElement('option'); 
                 opt.value = code; 
@@ -241,129 +246,110 @@
             } 
         }
 
-        function resetBoundaries() {
-            document.getElementById('threshold_Astar').value = defaultThresholds.Astar;
-            document.getElementById('threshold_A').value = defaultThresholds.A;
-            document.getElementById('threshold_B').value = defaultThresholds.B;
-            document.getElementById('threshold_C').value = defaultThresholds.C;
-            document.getElementById('threshold_D').value = defaultThresholds.D;
-            document.getElementById('threshold_E').value = defaultThresholds.E;
-            calculateSyllabusScores();
-        }
-
-        function renderSyllabusForms() {
+        function renderDynamicInputs() {
             const code = subjectSelect.value, subject = syllabusData[code];
             papersFormContainer.innerHTML = "";
 
             subject.papers.forEach((paper, index) => {
-                const rowId = `paper_input_${index}`, cardRow = document.createElement('div');
-                cardRow.className = "p-4 border border-slate-100 rounded-2xl bg-slate-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4";
+                const rowId = `paper_input_${index}`, blockRow = document.createElement('div');
+                blockRow.className = "p-4 bg-white border border-slate-100 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-3xs";
                 
-                cardRow.innerHTML = `
+                blockRow.innerHTML = `
                     <div>
                         <p class="font-display font-700 text-sme-blue text-sm">📝 ${paper.name}</p>
-                        <span class="text-[10px] font-800 text-slate-400 uppercase tracking-widest block mt-0.5">Component Factor Weight: ${(paper.weight)}</span>
+                        <span class="text-[10px] font-800 text-slate-400 tracking-wide uppercase block mt-0.5">Component Weighting: ${paper.weight * 100}%</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <input type="number" id="${rowId}" min="0" max="${paper.max}" placeholder="0" 
-                            class="paper-score-input btn-trigger w-24 bg-white border-2 border-slate-200 focus:border-logo-gold rounded-xl py-2.5 font-display font-800 text-center text-sme-blue outline-none text-sm" 
+                            class="paper-score-input interactive-item w-24 bg-slate-50 border border-slate-200 focus:border-logo-gold rounded-xl py-2.5 font-display font-800 text-center text-sme-blue outline-none transition-all text-sm" 
                             data-index="${index}">
                         <span class="text-slate-300 font-bold">/</span>
-                        <div class="w-16 bg-slate-200/50 text-slate-400 font-bold text-center py-2.5 rounded-xl border border-slate-200/40 text-xs select-none">${paper.max}</div>
+                        <div class="w-16 bg-slate-100 text-slate-400 font-bold text-center py-2.5 rounded-xl border border-slate-200 text-xs select-none">${paper.max}</div>
                     </div>`;
-                papersFormContainer.appendChild(cardRow);
+                papersFormContainer.appendChild(blockRow);
             });
 
             document.querySelectorAll('.paper-score-input').forEach(input => input.addEventListener('input', calculateSyllabusScores));
-            attachHoverListeners();
+            setupCursorInteractions();
             calculateSyllabusScores();
         }
 
-        // --- NATIVE TRANSLATION OF SPREADSHEET VLOOKUP PUM INTERPOLATION ---
-        function runSpreadsheetPUM(totalWeightedMark, bounds, maxPossibleMark) {
-            if (totalWeightedMark === "" || totalWeightedMark === 0) return 0;
+        // --- DIRECT MATH INTERPOLATION MATCHING THE SPREADSHEET ALGORITHM ---
+        function runSpreadsheetPUMInterpolation(currentWeightedMark, bounds) {
+            if (currentWeightedMark === 0 || currentWeightedMark === "") return 0;
 
-            // Mapping nested IF chains from spreadsheet formula exactly
-            if (totalWeightedMark >= bounds.A) {
-                // Mapping top scale between Grade A and Max/A* boundaries
-                return 0.9 + 0.1 * ((totalWeightedMark - bounds.A) / (bounds.Astar - bounds.A));
-            } else if (totalWeightedMark >= bounds.B) {
-                // Mapping tier between Grade B and Grade A
-                return 0.8 + 0.1 * ((totalWeightedMark - bounds.B) / (bounds.A - bounds.B));
-            } else if (totalWeightedMark >= bounds.C) {
-                // Mapping tier between Grade C and Grade B
-                return 0.7 + 0.1 * ((totalWeightedMark - bounds.C) / (bounds.B - bounds.C));
-            } else if (totalWeightedMark >= bounds.D) {
-                // Linear step below C tier bounding scale
-                return 0.6 + 0.1 * ((totalWeightedMark - bounds.D) / (bounds.C - bounds.D));
-            } else if (totalWeightedMark >= bounds.E) {
-                return 0.5 + 0.1 * ((totalWeightedMark - bounds.E) / (bounds.D - bounds.E));
+            // Maps multi-tier evaluation conditional formulas directly
+            if (currentWeightedMark >= bounds.A) {
+                return 0.9 + 0.1 * ((currentWeightedMark - bounds.A) / (bounds.Astar - bounds.A));
+            } else if (currentWeightedMark >= bounds.B) {
+                return 0.8 + 0.1 * ((currentWeightedMark - bounds.B) / (bounds.A - bounds.B));
+            } else if (currentWeightedMark >= bounds.C) {
+                return 0.7 + 0.1 * ((currentWeightedMark - bounds.C) / (bounds.B - bounds.C));
+            } else if (currentWeightedMark >= bounds.D) {
+                return 0.6 + 0.1 * ((currentWeightedMark - bounds.D) / (bounds.C - bounds.D));
+            } else if (currentWeightedMark >= bounds.E) {
+                return 0.5 + 0.1 * ((currentWeightedMark - bounds.E) / (bounds.D - bounds.E));
             } else {
-                // Lower fallback scale
-                return (totalWeightedMark / bounds.E) * 0.5;
+                return (currentWeightedMark / bounds.E) * 0.5;
             }
         }
 
         function calculateSyllabusScores() {
             const code = subjectSelect.value, subject = syllabusData[code];
-            let aggregateWeightedAchieved = 0;
-            let aggregateWeightedMax = 0;
+            let rawWeightedSum = 0;
+            let maxTotalWeightedLimit = 0;
 
             subject.papers.forEach((paper, index) => {
-                const inputEl = document.getElementById(`paper_input_${index}`);
-                let rawAchieved = parseFloat(inputEl.value) || 0;
+                const scoreField = document.getElementById(`paper_input_${index}`);
+                let markVal = parseFloat(scoreField.value) || 0;
                 
-                if (rawAchieved > paper.max) { rawAchieved = paper.max; inputEl.value = paper.max; }
-                if (rawAchieved < 0) { rawAchieved = 0; inputEl.value = 0; }
+                if (markVal > paper.max) { markVal = paper.max; scoreField.value = paper.max; }
+                if (markVal < 0) { markVal = 0; scoreField.value = 0; }
 
-                aggregateWeightedAchieved += (rawAchieved * paper.weight);
-                aggregateWeightedMax += (paper.max * paper.weight);
+                rawWeightedSum += (markVal * paper.weight);
+                maxTotalWeightedLimit += (paper.max * paper.weight);
             });
 
-            // Read Custom UI Adjusted Threshold Box Parameters
-            const bounds = {
-                Astar: parseFloat(document.getElementById('threshold_Astar').value) || defaultThresholds.Astar,
-                A: parseFloat(document.getElementById('threshold_A').value) || defaultThresholds.A,
-                B: parseFloat(document.getElementById('threshold_B').value) || defaultThresholds.B,
-                C: parseFloat(document.getElementById('threshold_C').value) || defaultThresholds.C,
-                D: parseFloat(document.getElementById('threshold_D').value) || defaultThresholds.D,
-                E: parseFloat(document.getElementById('threshold_E').value) || defaultThresholds.E
+            // Convert raw weights internally relative to the threshold baseline map
+            const targetBounds = {
+                Astar: (internalThresholdPercentages.Astar / 100) * maxTotalWeightedLimit,
+                A: (internalThresholdPercentages.A / 100) * maxTotalWeightedLimit,
+                B: (internalThresholdPercentages.B / 100) * maxTotalWeightedLimit,
+                C: (internalThresholdPercentages.C / 100) * maxTotalWeightedLimit,
+                D: (internalThresholdPercentages.D / 100) * maxTotalWeightedLimit,
+                E: (internalThresholdPercentages.E / 100) * maxTotalWeightedLimit
             };
 
-            // Execute Custom Spreadsheet Formula Logic Mapping
-            const computedPUMDecimal = runSpreadsheetPUM(aggregateWeightedAchieved, bounds, aggregateWeightedMax);
+            // Process calculation model logic yield
+            const evaluatedDecimalPUM = runSpreadsheetPUMInterpolation(rawWeightedSum, targetBounds);
             
             // STRICT INTEGER CONVERSION RULE
-            let finalIntegerPercentage = Math.round(computedPUMDecimal * 100);
-            if (finalIntegerPercentage > 100) finalIntegerPercentage = 100;
-            if (finalIntegerPercentage < 0 || isNaN(finalIntegerPercentage)) finalIntegerPercentage = 0;
+            let finalIntegerResult = Math.round(evaluatedDecimalPUM * 100);
+            if (finalIntegerResult > 100) finalIntegerResult = 100;
+            if (finalIntegerResult < 0 || isNaN(finalIntegerResult)) finalIntegerResult = 0;
 
-            // Determine display letter grade code
-            let letterGrade = "U";
-            if (aggregateWeightedAchieved >= bounds.Astar) letterGrade = "A*";
-            else if (aggregateWeightedAchieved >= bounds.A) letterGrade = "A";
-            else if (aggregateWeightedAchieved >= bounds.B) letterGrade = "B";
-            else if (aggregateWeightedAchieved >= bounds.C) letterGrade = "C";
-            else if (aggregateWeightedAchieved >= bounds.D) letterGrade = "D";
-            else if (aggregateWeightedAchieved >= bounds.E) letterGrade = "E";
+            // Generate contextual letter grade assignment
+            let calculatedGrade = "U";
+            if (rawWeightedSum >= targetBounds.Astar) calculatedGrade = "A*";
+            else if (rawWeightedSum >= targetBounds.A) calculatedGrade = "A";
+            else if (rawWeightedSum >= targetBounds.B) calculatedGrade = "B";
+            else if (rawWeightedSum >= targetBounds.C) calculatedGrade = "C";
+            else if (rawWeightedSum >= targetBounds.D) calculatedGrade = "D";
+            else if (rawWeightedSum >= targetBounds.E) calculatedGrade = "E";
 
-            if (aggregateWeightedAchieved === 0) letterGrade = "U";
+            if (rawWeightedSum === 0) calculatedGrade = "U";
 
-            // Update Component Visual Metrics
-            finalPercentDisplay.textContent = `${finalIntegerPercentage}%`;
-            sideGradeDisplay.textContent = letterGrade;
+            // Push calculation updates directly onto UI view layers
+            finalPercentDisplay.textContent = `${finalIntegerResult}%`;
+            sideGradeDisplay.textContent = calculatedGrade;
         }
 
-        document.querySelectorAll('.boundary-input').forEach(input => {
-            input.addEventListener('input', calculateSyllabusScores);
-        });
-
-        subjectSelect.addEventListener('change', renderSyllabusForms);
+        subjectSelect.addEventListener('change', renderDynamicInputs);
         seasonSelect.addEventListener('change', calculateSyllabusScores);
 
-        initDropdowns();
-        renderSyllabusForms();
-        attachHoverListeners();
+        buildSubjectSelections();
+        renderDynamicInputs();
+        setupCursorInteractions();
     </script>
 </body>
 </html>
