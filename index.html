@@ -6,224 +6,288 @@
     <title>The ANTs Tutoring | Ace With Us</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Playfair+Display:ital,wght@1,600;1,700&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style type="text/tailwindcss">
         @theme {
             --font-display: 'Plus Jakarta Sans', sans-serif;
             --font-sans: 'Inter', sans-serif;
+            --font-cursive: 'Playfair Display', serif;
             --color-logo-gold: #C5A059;
-            --color-logo-black: #1A1A1A;
+            --color-logo-black: #1E293B;
             --color-sme-blue: #0F172A;
         }
         
         body {
             font-family: var(--font-sans);
+            font-weight: 500; /* Increased to medium-thick base weight */
             background-color: #ffffff;
             scroll-behavior: smooth;
-            cursor: none; /* Custom cursor enabled */
+            cursor: none;
         }
 
-        .font-display { font-family: var(--font-display); }
+        .font-display { font-family: var(--font-display); font-weight: 700; }
+        .font-cursive { font-family: var(--font-cursive); font-style: italic; }
 
-        /* Custom "Smart Cursor" - Pure CSS */
+        /* Contextual Ring Cursor */
         #custom-cursor {
-            width: 20px;
-            height: 20px;
-            background: rgba(197, 160, 89, 0.3);
-            border: 1px solid var(--color-logo-gold);
+            width: 24px;
+            height: 24px;
+            background: rgba(197, 160, 89, 0.15);
+            border: 2px solid var(--color-logo-gold);
             border-radius: 50%;
             position: fixed;
             pointer-events: none;
             z-index: 9999;
-            transition: transform 0.15s ease-out, background 0.2s ease;
+            transition: transform 0.1s ease-out, background 0.2s ease;
             transform: translate(-50%, -50%);
         }
 
         .cursor-hover {
-            transform: translate(-50%, -50%) scale(2.5);
-            background: rgba(197, 160, 89, 0.1);
+            transform: translate(-50%, -50%) scale(2);
+            background: rgba(197, 160, 89, 0.25);
+            border-color: var(--color-sme-blue);
         }
 
-        /* iPad/Touch Optimization: Hide custom cursor on touch devices */
+        /* Hide custom cursor on iPad/Touch screens */
         @media (pointer: coarse) {
             #custom-cursor { display: none; }
             body { cursor: auto; }
         }
 
-        /* Subtle Gradient Backgrounds */
-        .grad-bg {
-            background: linear-gradient(135deg, #ffffff 0%, #f9f7f2 100%);
+        /* Duolingo-Inspired Satisfying 3D Push Buttons */
+        .btn-3d-primary {
+            position: relative;
+            background: var(--color-sme-blue);
+            color: white;
+            border-bottom: 4px solid #020617;
+            transition: all 0.1s ease;
+        }
+        .btn-3d-primary:active {
+            transform: translateY(4px);
+            border-bottom-width: 0px;
+            margin-bottom: 4px;
         }
 
-        .hero-gradient {
-            background: radial-gradient(circle at top right, rgba(197, 160, 89, 0.08), transparent 40%),
-                        radial-gradient(circle at bottom left, rgba(15, 23, 42, 0.03), transparent 40%);
+        .btn-3d-secondary {
+            position: relative;
+            background: #ffffff;
+            color: var(--color-sme-blue);
+            border: 2px solid #e2e8f0;
+            border-bottom: 5px solid #cbd5e1;
+            transition: all 0.1s ease;
+        }
+        .btn-3d-secondary:active {
+            transform: translateY(4px);
+            border-bottom-width: 2px;
+            margin-bottom: 3px;
         }
 
-        /* Save My Exams style Button */
-        .btn-primary {
-            @apply bg-sme-blue text-white font-display font-bold py-3 px-8 rounded-full transition-all duration-300 hover:bg-logo-black hover:scale-105 active:scale-95 shadow-lg shadow-sme-blue/20;
+        /* Satisfying Numeric Input Boxes */
+        .input-3d {
+            border: 2px solid #e2e8f0;
+            border-bottom: 4px solid #cbd5e1;
+            transition: all 0.1s ease;
         }
-
-        .glass-card {
-            @apply bg-white border border-slate-100 rounded-3xl p-6 transition-all duration-300 hover:shadow-2xl hover:shadow-logo-gold/10 hover:-translate-y-1;
+        .input-3d:focus {
+            border-color: var(--color-logo-gold);
+            border-bottom-color: #b4893b;
         }
     </style>
 </head>
-<body class="text-slate-900 hero-gradient min-h-screen">
+<body class="text-slate-900 min-h-screen antialiased">
 
     <div id="custom-cursor"></div>
 
-    <nav class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-100">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <div class="flex items-center gap-2">
-                <div class="w-10 h-10 bg-logo-black rounded-lg flex items-center justify-center text-logo-gold font-bold text-xl">A</div>
-                <span class="font-display font-800 text-xl tracking-tight">The ANTs <span class="text-logo-gold">Tutoring</span></span>
-            </div>
-            <div class="hidden md:flex items-center gap-8 font-display font-semibold text-sm">
-                <a href="#calculator-section" class="hover:text-logo-gold transition-colors">Calculator</a>
-                <a href="#" class="hover:text-logo-gold transition-colors">Physics</a>
-                <a href="#" class="hover:text-logo-gold transition-colors">Chemistry</a>
-                <a href="#calculator-section" class="btn-primary !py-2 !px-5 text-xs">Get Started</a>
-            </div>
-        </div>
-    </nav>
-
-    <header class="max-w-7xl mx-auto px-6 py-16 md:py-24 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        <div>
-            <div class="inline-flex items-center gap-2 bg-logo-gold/10 border border-logo-gold/20 text-logo-gold px-4 py-1.5 rounded-full text-xs font-bold mb-6">
-                <span class="relative flex h-2 w-2">
-                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-logo-gold opacity-75"></span>
-                    <span class="relative inline-flex rounded-full h-2 w-2 bg-logo-gold"></span>
+    <header class="grid grid-cols-1 lg:grid-cols-12 min-h-[85vh] border-b-4 border-slate-100 shadow-xs">
+        <div class="lg:col-span-5 bg-sme-blue text-white flex flex-col justify-center p-8 md:p-12 relative overflow-hidden text-center lg:text-left">
+            <div class="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#C5A059_1px,transparent_1px)] [background-size:16px_16px]"></div>
+            <div class="relative z-10 max-w-md mx-auto lg:mx-0">
+                <span class="inline-block bg-logo-gold/20 text-logo-gold text-xs md:text-sm font-bold uppercase tracking-widest px-4 py-1.5 rounded-full border border-logo-gold/30 mb-6 font-display">
+                    Premium Education Portal
                 </span>
-                ACE WITH US
-            </div>
-            <h1 class="font-display font-800 text-5xl md:text-7xl leading-[1.1] mb-6 text-sme-blue">
-                Exam-specific <br><span class="text-logo-gold">clarity</span>, made simple.
-            </h1>
-            <p class="text-slate-500 text-lg md:text-xl max-w-lg mb-10 leading-relaxed font-medium">
-                Professional tools and notes designed for the modern IGCSE student. Sharpen your performance with "The ANTs" Tutoring.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4">
-                <a href="#calculator-section" class="btn-primary text-center">Launch Grading Calculator</a>
-                <a href="#features-grid" class="bg-white border-2 border-slate-200 text-slate-700 font-display font-bold py-3 px-8 rounded-full transition-all hover:border-logo-gold hover:text-logo-gold text-center">View Subject Notes</a>
+                <h2 class="font-display font-800 text-3xl md:text-4xl leading-tight mb-4">
+                    Committed to <br class="hidden lg:block"><span class="text-logo-gold">Academic Excellence</span>
+                </h2>
+                <p class="text-slate-300 font-medium text-sm md:text-base leading-relaxed">
+                    We break down complicated syllabus branches into straightforward pathways built purposefully for modern candidates.
+                </p>
             </div>
         </div>
-        
-        <div id="features-grid" class="grid grid-cols-1 gap-4">
-            <div class="glass-card flex items-center gap-6 group clickable">
-                <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-3xl group-hover:bg-logo-gold/10 transition-colors">📊</div>
-                <div class="flex-1">
-                    <h3 class="font-display font-700 text-lg">IGCSE Grading Calculator</h3>
-                    <p class="text-slate-400 text-sm">Instant weight-adjusted grade predictions.</p>
-                </div>
-                <div class="text-slate-300 group-hover:text-logo-gold transition-colors">→</div>
-            </div>
-            <div class="glass-card flex items-center gap-6 group opacity-60">
-                <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-3xl">⚛️</div>
-                <div class="flex-1">
-                    <div class="flex items-center gap-2">
-                        <h3 class="font-display font-700 text-lg">Physics Revision Notes</h3>
-                        <span class="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded font-bold uppercase">Soon</span>
-                    </div>
-                    <p class="text-slate-400 text-sm">Master every formula with MRT-sharp clarity.</p>
-                </div>
-            </div>
-            <div class="glass-card flex items-center gap-6 group opacity-60">
-                <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center text-3xl">🧪</div>
-                <div class="flex-1">
-                    <div class="flex items-center gap-2">
-                        <h3 class="font-display font-700 text-lg">Chemistry Analytical Guide</h3>
-                        <span class="text-[10px] bg-slate-100 text-slate-500 px-2 py-0.5 rounded font-bold uppercase">Soon</span>
-                    </div>
-                    <p class="text-slate-400 text-sm">Equations and periodic breakdowns simplified.</p>
+
+        <div class="lg:col-span-7 bg-slate-50/50 flex flex-col justify-center items-center p-8 md:p-16 text-center relative">
+            <div class="max-w-xl">
+                <h1 class="font-display font-800 text-5xl md:text-7xl tracking-tight text-sme-blue mb-2">
+                    The ANTs <span class="text-logo-gold">Tutoring</span>
+                </h1>
+                
+                <p class="font-cursive text-2xl md:text-3.5xl text-slate-500 tracking-wide mb-10">
+                    Ace with us
+                </p>
+
+                <p class="text-slate-600 font-semibold text-base md:text-lg max-w-md mx-auto mb-10 leading-relaxed">
+                    Clear interactive grading modules optimized directly for desktop study layouts and iPad portable tablet devices.
+                </p>
+
+                <div class="flex flex-col sm:flex-row justify-center gap-4 max-w-sm mx-auto">
+                    <a href="#calculator-section" class="btn-3d-primary font-display font-bold py-4 px-8 rounded-2xl text-center text-sm md:text-base block flex-1">
+                        📊 Launch Calculator
+                    </a>
+                    <a href="#features-grid" class="btn-3d-secondary font-display font-bold py-4 px-8 rounded-2xl text-center text-sm md:text-base block flex-1">
+                        📚 Browse Notes
+                    </a>
                 </div>
             </div>
         </div>
     </header>
 
-    <section id="calculator-section" class="grad-bg border-t border-slate-100 py-20">
+    <section id="features-grid" class="max-w-7xl mx-auto px-6 py-16">
+        <div class="text-center max-w-xl mx-auto mb-12">
+            <h2 class="font-display font-800 text-2xl md:text-3xl text-sme-blue">Syllabus Resource Hub</h2>
+            <p class="text-slate-500 font-semibold text-sm mt-1">Select an active option below to manage structural metrics.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            
+            <a href="#calculator-section" class="bg-white border-2 border-logo-gold rounded-3xl p-6 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all flex flex-col justify-between group clickable">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-2xl bg-amber-50 border border-logo-gold/30 p-2.5 rounded-xl">📊</span>
+                        <span class="bg-logo-gold text-logo-black text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md font-display">Active Tool</span>
+                    </div>
+                    <h3 class="font-display font-700 text-xl text-sme-blue mb-2">Grading Calculator</h3>
+                    <p class="text-slate-500 font-medium text-sm leading-relaxed">
+                        Input component scores to evaluate exact threshold weights and overall performance targets instantly.
+                    </p>
+                </div>
+                <div class="mt-6 font-display font-bold text-sm text-logo-gold flex items-center gap-1.5">
+                    Open Dashboard <span>&rarr;</span>
+                </div>
+            </a>
+
+            <div class="bg-slate-50/60 border-2 border-slate-100 rounded-3xl p-6 flex flex-col justify-between opacity-75">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-2xl bg-white border border-slate-200 p-2.5 rounded-xl">⚛️</span>
+                        <span class="bg-slate-200 text-slate-600 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md font-display">Coming Soon</span>
+                    </div>
+                    <h3 class="font-display font-700 text-xl text-slate-700 mb-2">Physics Notes</h3>
+                    <p class="text-slate-400 font-medium text-sm leading-relaxed">
+                        Formulas, summarized practical setups, and clear definition cards optimized for rapid review.
+                    </p>
+                </div>
+                <div class="mt-6 text-slate-400 text-xs font-semibold italic">Module compilation active...</div>
+            </div>
+
+            <div class="bg-slate-50/60 border-2 border-slate-100 rounded-3xl p-6 flex flex-col justify-between opacity-75">
+                <div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-2xl bg-white border border-slate-200 p-2.5 rounded-xl">🧪</span>
+                        <span class="bg-slate-200 text-slate-600 text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md font-display">Coming Soon</span>
+                    </div>
+                    <h3 class="font-display font-700 text-xl text-slate-700 mb-2">Chemistry Notes</h3>
+                    <p class="text-slate-400 font-medium text-sm leading-relaxed">
+                        Syllabus equation sheets, structural chemical tracking, and core experiment maps simplified.
+                    </p>
+                </div>
+                <div class="mt-6 text-slate-400 text-xs font-semibold italic">Module compilation active...</div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="calculator-section" class="bg-slate-50/70 border-t-2 border-slate-100 py-16 scroll-mt-6">
         <div class="max-w-7xl mx-auto px-6">
-            <div class="mb-12 text-center md:text-left">
-                <h2 class="font-display font-800 text-4xl text-sme-blue mb-4">Grading <span class="text-logo-gold">Calculator</span></h2>
-                <p class="text-slate-500 font-medium">Select your track and input your marks below.</p>
+            
+            <div class="mb-10 text-center lg:text-left">
+                <div class="inline-flex items-center gap-2 bg-sme-blue/5 border border-sme-blue/10 px-3.5 py-1.5 rounded-xl mb-3 text-xs font-bold text-sme-blue font-display">
+                    <span>📊</span> CAMBRIDGE EVALUATOR ENGINE
+                </div>
+                <h2 class="font-display font-800 text-3xl md:text-4xl text-sme-blue">Performance Assessment Tracker</h2>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                
                 <div class="lg:col-span-8 space-y-6">
-                    <div class="bg-white rounded-[2rem] p-8 border border-slate-100 shadow-sm">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                            <div class="col-span-1 md:col-span-2">
-                                <label class="block text-xs font-800 uppercase tracking-widest text-slate-400 mb-2">Select Subject</label>
-                                <select id="subjectSelect" class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-5 py-4 font-display font-bold text-sme-blue outline-none focus:border-logo-gold transition-all appearance-none"></select>
+                    <div class="bg-white rounded-[2rem] p-6 md:p-8 border-2 border-slate-100 shadow-xs">
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                            <div class="md:col-span-2">
+                                <label class="block text-xs font-800 uppercase tracking-widest text-slate-400 mb-2">Subject Selection</label>
+                                <select id="subjectSelect" class="w-full bg-slate-50 border-2 border-slate-200 hover:border-logo-gold rounded-xl px-4 py-3.5 font-display font-bold text-sme-blue outline-none transition-all cursor-pointer appearance-none shadow-3xs"></select>
                             </div>
                             <div>
-                                <label class="block text-xs font-800 uppercase tracking-widest text-slate-400 mb-2">Series</label>
-                                <select id="seasonSelect" class="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-5 py-4 font-display font-bold text-sme-blue outline-none focus:border-logo-gold transition-all">
-                                    <option value="MJ">May/June</option>
-                                    <option value="ON">Oct/Nov</option>
-                                    <option value="FM">Feb/Mar</option>
+                                <label class="block text-xs font-800 uppercase tracking-widest text-slate-400 mb-2">Session Series</label>
+                                <select id="seasonSelect" class="w-full bg-slate-50 border-2 border-slate-200 hover:border-logo-gold rounded-xl px-4 py-3.5 font-display font-bold text-sme-blue outline-none transition-all cursor-pointer shadow-3xs">
+                                    <option value="MJ">May / June (M/J)</option>
+                                    <option value="ON">Oct / Nov (O/N)</option>
+                                    <option value="FM">Feb / March (F/M)</option>
                                 </select>
                             </div>
                         </div>
 
-                        <div id="papersFormContainer" class="space-y-4">
-                            </div>
+                        <div id="papersFormContainer" class="space-y-4"></div>
+
                     </div>
                 </div>
 
-                <div class="lg:col-span-4 sticky top-28">
-                    <div class="bg-sme-blue rounded-[2.5rem] p-8 text-white shadow-2xl shadow-sme-blue/30 relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-logo-gold/10 rounded-full -mr-16 -mt-16"></div>
+                <div class="lg:col-span-4 lg:sticky lg:top-8">
+                    <div class="bg-sme-blue rounded-[2rem] p-6 md:p-8 text-white shadow-xl shadow-sme-blue/20 relative overflow-hidden border-b-8 border-slate-950">
+                        <div class="absolute -top-10 -right-10 w-36 h-36 bg-logo-gold/10 rounded-full pointer-events-none"></div>
                         
-                        <h3 class="font-display font-700 text-indigo-200/60 uppercase tracking-widest text-xs mb-6">Performance Report</h3>
+                        <h3 class="font-display font-700 text-indigo-200/50 uppercase tracking-widest text-xs mb-6 flex items-center gap-2">
+                            <span>📋</span> LIVE ASSESSMENT REPORT
+                        </h3>
                         
-                        <div class="mb-8">
-                            <span class="text-slate-400 text-sm font-medium">Total Percentage</span>
-                            <div id="finalPercentDisplay" class="text-6xl font-display font-800 tracking-tighter mt-1">0.0%</div>
-                        </div>
+                        <div class="space-y-6">
+                            <div>
+                                <span class="text-slate-400 text-xs uppercase tracking-wider font-bold block">Aggregated Percentage</span>
+                                <div id="finalPercentDisplay" class="text-5xl md:text-6xl font-display font-800 tracking-tighter mt-1 text-white">0.0%</div>
+                            </div>
 
-                        <div class="mb-8">
-                            <span class="text-slate-400 text-sm font-medium block mb-2">Current Grade Projection</span>
-                            <div id="finalGradeBadge" class="inline-flex bg-logo-gold text-logo-black px-6 py-2.5 rounded-2xl font-display font-800 text-lg shadow-lg shadow-logo-gold/20 transition-all">
-                                Ungraded (U)
+                            <div>
+                                <span class="text-slate-400 text-xs uppercase tracking-wider font-bold block mb-2">Boundary Grade Metric</span>
+                                <div id="finalGradeBadge" class="inline-flex bg-logo-gold text-logo-black px-5 py-2 rounded-xl font-display font-800 text-base shadow-md transition-all">
+                                    Ungraded (U)
+                                </div>
+                            </div>
+
+                            <div class="pt-4 border-t border-slate-800">
+                                <div class="flex justify-between text-xs font-bold text-slate-400 mb-1.5">
+                                    <span>Syllabus Scale Progress</span>
+                                    <span id="progressText">0%</span>
+                                </div>
+                                <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden p-[2px]">
+                                    <div id="metricProgressBar" class="bg-gradient-to-r from-logo-gold to-amber-400 h-full w-0 rounded-full transition-all duration-500 ease-out"></div>
+                                </div>
                             </div>
                         </div>
-
-                        <div class="w-full bg-slate-800 h-3 rounded-full overflow-hidden border border-white/5">
-                            <div id="metricProgressBar" class="bg-logo-gold h-full w-0 transition-all duration-1000 ease-out"></div>
-                        </div>
-                        
-                        <p class="text-indigo-200/40 text-[10px] font-mono mt-6 text-center uppercase tracking-tighter">Weighted Syllabus Metrics Applied 2025</p>
                     </div>
                 </div>
+
             </div>
+
         </div>
     </section>
 
-    <footer class="bg-white border-t border-slate-100 py-12">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
+    <footer class="bg-white border-t border-slate-100 py-10 text-center font-semibold text-slate-400 text-xs">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="flex items-center gap-2">
-                <div class="w-8 h-8 bg-logo-black rounded flex items-center justify-center text-logo-gold font-bold text-sm">A</div>
-                <span class="font-display font-800 text-lg">The ANTs</span>
+                <span class="font-display font-800 text-base text-sme-blue">The ANTs <span class="text-logo-gold">Tutoring</span></span>
             </div>
-            <div class="text-slate-400 text-sm font-medium">
-                &copy; 2026 The ANTs Tutoring Hub. All technical tools optimized for iPad & Desktop.
-            </div>
+            <div>&copy; 2026 The ANTs Dashboard Portal &bull; Optimized for iPad and Desktop Multi-touch</div>
         </div>
     </footer>
 
     <script>
-        // SYLLABUS DATA
         const syllabusData = {
             "0500": { name: "First Language English", papers: [{ name: "Paper 1 (Reading)", max: 80, weight: 0.5 }, { name: "Paper 2 (Writing)", max: 80, weight: 0.5 }] },
             "0606": { name: "Additional Mathematics", papers: [{ name: "Paper 1", max: 80, weight: 0.5 }, { name: "Paper 2", max: 80, weight: 0.5 }] },
-            "0580": { name: "Extended Mathematics", papers: [{ name: "Paper 2 (Short Answer)", max: 70, weight: 0.35 }, { name: "Paper 4 (Structured)", max: 130, weight: 0.65 }] },
+            "0580": { name: "Core & Extended Mathematics", papers: [{ name: "Paper 2 (Short Answer)", max: 70, weight: 0.35 }, { name: "Paper 4 (Structured)", max: 130, weight: 0.65 }] },
             "0478": { name: "Computer Science", papers: [{ name: "Paper 1 (Theory)", max: 75, weight: 0.5 }, { name: "Paper 2 (Algorithms)", max: 75, weight: 0.5 }] },
             "0620": { name: "Chemistry", papers: [{ name: "Paper 2 (MCQ)", max: 40, weight: 0.3 }, { name: "Paper 4 (Theory)", max: 80, weight: 0.5 }, { name: "Paper 6 (Practical)", max: 40, weight: 0.2 }] },
             "0625": { name: "Physics", papers: [{ name: "Paper 2 (MCQ)", max: 40, weight: 0.3 }, { name: "Paper 4 (Theory)", max: 80, weight: 0.5 }, { name: "Paper 6 (Practical)", max: 40, weight: 0.2 }] },
-            "0417": { name: "ICT", papers: [{ name: "Paper 1 (Theory)", max: 70, weight: 0.4 }, { name: "Paper 2 (Practical A)", max: 80, weight: 0.3 }, { name: "Paper 3 (Practical B)", max: 70, weight: 0.3 }] },
+            "0417": { name: "Information & Communication Technology", papers: [{ name: "Paper 1 (Theory)", max: 70, weight: 0.4 }, { name: "Paper 2 (Practical A)", max: 80, weight: 0.3 }, { name: "Paper 3 (Practical B)", max: 70, weight: 0.3 }] },
             "0610": { name: "Biology", papers: [{ name: "Paper 2 (MCQ)", max: 40, weight: 0.3 }, { name: "Paper 4 (Theory)", max: 80, weight: 0.5 }, { name: "Paper 6 (Practical)", max: 40, weight: 0.2 }] }
         };
 
@@ -233,25 +297,27 @@
               finalPercentDisplay = document.getElementById('finalPercentDisplay'),
               finalGradeBadge = document.getElementById('finalGradeBadge'),
               metricProgressBar = document.getElementById('metricProgressBar'),
+              progressText = document.getElementById('progressText'),
               cursor = document.getElementById('custom-cursor');
 
-        // CUSTOM CURSOR LOGIC
+        // Context Cursor Track Logic
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
         });
 
-        document.querySelectorAll('a, button, select, input, .clickable').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
-        });
+        function applyHoverEffects() {
+            document.querySelectorAll('a, button, select, input, .clickable').forEach(el => {
+                el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+                el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+            });
+        }
 
-        // CALCULATOR LOGIC
         function initDropdowns() { 
             for (const code in syllabusData) { 
                 const opt = document.createElement('option'); 
                 opt.value = code; 
-                opt.textContent = `${syllabusData[code].name} (${code})`; 
+                opt.textContent = `📝 ${syllabusData[code].name} (${code})`; 
                 subjectSelect.appendChild(opt); 
             } 
         }
@@ -262,25 +328,27 @@
 
             subject.papers.forEach((paper, index) => {
                 const rowId = `paper_input_${index}`, cardRow = document.createElement('div');
-                cardRow.className = "flex flex-col sm:flex-row sm:items-center justify-between p-6 rounded-2xl bg-slate-50/50 border border-slate-100 hover:border-logo-gold/30 transition-all group";
+                cardRow.className = "p-5 rounded-2xl bg-slate-50/70 border-2 border-slate-100/50 hover:border-logo-gold/40 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-3xs";
+                
                 cardRow.innerHTML = `
-                    <div class="mb-4 sm:mb-0">
-                        <p class="font-display font-700 text-sme-blue">${paper.name}</p>
-                        <span class="text-[10px] font-800 text-slate-400 uppercase tracking-widest">Weighting: ${(paper.weight * 100)}%</span>
+                    <div>
+                        <p class="font-display font-700 text-sme-blue text-base">✏️ ${paper.name}</p>
+                        <span class="text-[10px] font-800 text-slate-400 uppercase tracking-widest block mt-0.5">Component Weighting: ${(paper.weight * 100)}%</span>
                     </div>
                     <div class="flex items-center gap-3">
                         <div class="relative">
                             <input type="number" id="${rowId}" min="0" max="${paper.max}" placeholder="0" 
-                                class="paper-score-input w-24 bg-white border-2 border-slate-200 rounded-xl px-3 py-3 font-display font-800 text-center text-sme-blue outline-none focus:border-logo-gold transition-all" 
+                                class="paper-score-input input-3d w-24 bg-white rounded-xl px-3 py-3 font-display font-800 text-center text-sme-blue outline-none text-base" 
                                 data-index="${index}">
                         </div>
-                        <span class="text-slate-300 font-bold">/</span>
-                        <div class="w-16 bg-white border border-slate-200 rounded-xl py-3 text-center text-slate-400 font-bold text-sm">${paper.max}</div>
+                        <span class="text-slate-300 font-bold text-lg">/</span>
+                        <div class="w-20 bg-slate-100 border-2 border-slate-200 rounded-xl py-3 text-center text-slate-500 font-bold text-sm select-none shadow-3xs">${paper.max}</div>
                     </div>`;
                 papersFormContainer.appendChild(cardRow);
             });
 
             document.querySelectorAll('.paper-score-input').forEach(input => input.addEventListener('input', calculateSyllabusScores));
+            applyHoverEffects();
             calculateSyllabusScores();
         }
 
@@ -300,15 +368,16 @@
             const finalPercentage = totalWeightedMax > 0 ? (totalWeightedAchieved / totalWeightedMax) * 100 : 0;
             finalPercentDisplay.textContent = `${finalPercentage.toFixed(1)}%`;
             metricProgressBar.style.width = `${finalPercentage}%`;
+            progressText.textContent = `${Math.round(finalPercentage)}%`;
 
-            let grade = "U", badgeColor = "bg-slate-200 text-slate-600";
-            if (finalPercentage >= 80) { grade = "A*"; badgeColor = "bg-logo-gold text-logo-black"; }
-            else if (finalPercentage >= 70) { grade = "A"; badgeColor = "bg-indigo-500 text-white"; }
-            else if (finalPercentage >= 60) { grade = "B"; badgeColor = "bg-indigo-400 text-white"; }
-            else if (finalPercentage >= 50) { grade = "C"; badgeColor = "bg-amber-500 text-white"; }
+            let grade = "U", badgeColor = "bg-slate-800 border border-slate-700 text-slate-400 font-bold";
+            if (finalPercentage >= 80) { grade = "A*"; badgeColor = "bg-logo-gold text-logo-black font-extrabold"; }
+            else if (finalPercentage >= 70) { grade = "A"; badgeColor = "bg-blue-500 text-white font-bold"; }
+            else if (finalPercentage >= 60) { grade = "B"; badgeColor = "bg-indigo-500 text-white font-bold"; }
+            else if (finalPercentage >= 50) { grade = "C"; badgeColor = "bg-amber-500 text-white font-bold"; }
             
             finalGradeBadge.textContent = grade === "U" ? "Ungraded (U)" : `Grade: ${grade}`;
-            finalGradeBadge.className = `inline-flex px-6 py-2.5 rounded-2xl font-display font-800 text-lg shadow-lg transition-all ${badgeColor}`;
+            finalGradeBadge.className = `inline-flex px-5 py-2 rounded-xl font-display text-base shadow-sm transition-all ${badgeColor}`;
         }
 
         subjectSelect.addEventListener('change', renderSyllabusForms);
