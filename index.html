@@ -6,7 +6,7 @@
     <title>The ANTs Tutoring | Ace With Us</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Playfair+Display:ital,wght=1,600;1,700&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=500;600;700;800&family=Playfair+Display:ital,wght=1,600;1,700&family=Inter:wght=500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style type="text/tailwindcss">
         @theme {
@@ -163,7 +163,7 @@
                             <div>
                                 <span class="text-slate-400 text-xs uppercase tracking-wider font-semibold block mb-1">Percentage Uniform Mark</span>
                                 <div class="flex items-center gap-4 mt-1">
-                                    <div id="finalPercentDisplay" class="text-6xl font-display font-800 tracking-tighter text-white">0%</div>
+                                    <div id="finalPercentDisplay" class="text-4xl lg:text-5xl font-display font-800 tracking-tight text-white transition-all duration-150">0%</div>
                                     <div id="sideGradeDisplay" class="text-3xl font-display font-800 text-white bg-slate-800 px-4 py-1.5 rounded-xl border border-slate-700 min-w-[65px] text-center shadow-inner select-none">U</div>
                                 </div>
                             </div>
@@ -213,6 +213,7 @@
     </footer>
 
     <script>
+        // Synchronized database matrix matching your exact Boundaries lookup columns
         const syllabusData = {
             "0606": { 
                 name: "Additional Mathematics", 
@@ -373,24 +374,31 @@
             calculateSyllabusScores();
         }
 
-        function runSpreadsheetPUMInterpolation(totalRawMark, thresholds) {
-            if (totalRawMark === 0 || totalRawMark === "") return 0;
+        // --- CHARACTER-FOR-CHARACTER REPLICATION OF YOUR PROVIDED EXCEL FORMULA ---
+        function runSpreadsheetPUMInterpolation(totalRawMark, thresholds, optionMax) {
+            if (totalRawMark === "" || totalRawMark === null || totalRawMark === undefined) return "";
 
-            // Direct mapping logic mirroring your Excel nested IF conditions completely
-            if (totalRawMark >= thresholds.Astar) {
-                return 1.0; // Clean cap matching your spreadsheet threshold maximum target
-            } else if (totalRawMark >= thresholds.A) {
-                return 0.9 + 0.1 * ((totalRawMark - thresholds.A) / (thresholds.Astar - thresholds.A));
-            } else if (totalRawMark >= thresholds.B) {
-                return 0.8 + 0.1 * ((totalRawMark - thresholds.B) / (thresholds.A - thresholds.B));
-            } else if (totalRawMark >= thresholds.C) {
-                return 0.7 + 0.1 * ((totalRawMark - thresholds.C) / (thresholds.B - thresholds.C));
-            } else if (totalRawMark >= thresholds.D) {
-                return 0.6 + 0.1 * ((totalRawMark - thresholds.D) / (thresholds.C - thresholds.D));
-            } else if (totalRawMark >= thresholds.E) {
-                return 0.5 + 0.1 * ((totalRawMark - thresholds.E) / (thresholds.D - thresholds.E));
-            } else {
-                return (totalRawMark / thresholds.E) * 0.5;
+            // Mapping columns exactly as used in your VLOOKUP logic:
+            const col3 = optionMax;            // Max Option Mark
+            const col4 = thresholds.Astar;     // A* Threshold
+            const col5 = thresholds.A;         // A Threshold
+            const col6 = thresholds.B;         // B Threshold
+
+            // Tier 1: IF(I97>=VLOOKUP(B97,Boundaries,4,0), 0.9+0.1*((I97-Col4)/(Col3-Col4)), ...)
+            if (totalRawMark >= col4) {
+                return 0.9 + 0.1 * ((totalRawMark - col4) / (col3 - col4));
+            } 
+            // Tier 2: IF(I97>=VLOOKUP(B97,Boundaries,5,0), 0.8+0.1*((I97-Col5)/(Col4-Col5)), ...)
+            else if (totalRawMark >= col5) {
+                return 0.8 + 0.1 * ((totalRawMark - col5) / (col4 - col5));
+            } 
+            // Tier 3: IF(I97>=VLOOKUP(B97,Boundaries,6,0), 0.7+0.1*((I97-Col6)/(Col4-Col6)), "60% or less")
+            else if (totalRawMark >= col6) {
+                return 0.7 + 0.1 * ((totalRawMark - col6) / (col4 - col6));
+            } 
+            // Default text returned if below Grade B threshold
+            else {
+                return "60% or less";
             }
         }
 
@@ -411,12 +419,19 @@
             totalOptionRawMark = Math.round(totalOptionRawMark);
 
             const currentThresholds = subject.thresholds;
-            const evaluatedPUMDecimal = runSpreadsheetPUMInterpolation(totalOptionRawMark, currentThresholds);
+            const evaluatedPUM = runSpreadsheetPUMInterpolation(totalOptionRawMark, currentThresholds, subject.optionMax);
             
-            let finalIntegerOutput = Math.round(evaluatedPUMDecimal * 100);
-            if (finalIntegerOutput > 100) finalIntegerOutput = 100;
-            if (finalIntegerOutput < 0 || isNaN(finalIntegerOutput)) finalIntegerOutput = 0;
+            // Render either the percentage value or the exact "60% or less" string text 
+            if (typeof evaluatedPUM === "string") {
+                finalPercentDisplay.textContent = evaluatedPUM;
+            } else {
+                let finalIntegerOutput = Math.round(evaluatedPUM * 100);
+                if (finalIntegerOutput > 100) finalIntegerOutput = 100;
+                if (finalIntegerOutput < 0 || isNaN(finalIntegerOutput)) finalIntegerOutput = 0;
+                finalPercentDisplay.textContent = `${finalIntegerOutput}%`;
+            }
 
+            // Standard letter grade logic mapping for UI reference
             let associatedGrade = "U";
             if (totalOptionRawMark >= currentThresholds.Astar) associatedGrade = "A*";
             else if (totalOptionRawMark >= currentThresholds.A) associatedGrade = "A";
@@ -428,7 +443,6 @@
             if (totalOptionRawMark === 0) associatedGrade = "U";
 
             rawMarkDisplay.textContent = `${totalOptionRawMark} / ${subject.optionMax}`;
-            finalPercentDisplay.textContent = `${finalIntegerOutput}%`;
             sideGradeDisplay.textContent = associatedGrade;
         }
 
