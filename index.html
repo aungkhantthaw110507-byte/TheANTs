@@ -6,7 +6,7 @@
     <title>The ANTs Tutoring | Ace With Us</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Playfair+Display:ital,wght@1,600;1,700&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Playfair+Display:ital,wght=1,600;1,700&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style type="text/tailwindcss">
         @theme {
@@ -19,58 +19,72 @@
             --color-logo-black: #1A1A1A;
         }
         
+        /* Hide native mouse cursor globally */
+        html, body, a, button, select, input, label, [role="button"] {
+            cursor: none !important;
+        }
+
         body {
             font-family: var(--font-sans);
             font-weight: 500;
             background-color: #ffffff;
             scroll-behavior: smooth;
+            overflow-x: hidden;
         }
 
-        /* Custom North Star Cursor tracking styling */
-        #custom-cursor {
+        /* Doppler Effect Cursor System */
+        .star-cursor {
             position: fixed;
             pointer-events: none;
             z-index: 9999;
             transform: translate(-50%, -50%);
-            font-size: 26px;
-            color: #1a1a1a;
-            user-select: none;
             line-height: 1;
-            transition: transform 0.06s ease-out, color 0.2s ease;
+            user-select: none;
+            will-change: transform;
         }
-
-        .cursor-hover {
-            transform: translate(-50%, -50%) scale(1.5) rotate(45deg);
-            color: var(--color-logo-gold);
+        #main-star {
+            font-size: 28px;
+            color: #1a1a1a;
+            transition: transform 0.1s ease, color 0.2s ease;
+        }
+        .trail-star {
+            font-size: 14px;
+            color: rgba(197, 160, 89, 0.6);
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
         }
 
         @media (pointer: coarse) {
-            #custom-cursor { display: none; }
+            .star-cursor, .trail-star { display: none !important; }
+            html, body, a, button, select, input { cursor: auto !important; }
         }
 
         .font-display { font-family: var(--font-display); font-weight: 700; }
         .font-cursive { font-family: var(--font-cursive); font-style: italic; }
 
-        /* Smooth Custom Dropdown Styling */
-        .premium-dropdown {
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230F172A' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 1.25rem center;
-            background-size: 0.9rem;
-            padding-right: 3rem;
-            transition: all 0.2s ease;
+        /* Smooth Custom Dropdown Animation States */
+        .dropdown-menu-list {
+            opacity: 0;
+            transform: translateY(-8px) scale(0.95);
+            pointer-events: none;
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        
-        .premium-dropdown:focus {
-            border-color: var(--color-logo-gold);
-            box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.15);
+        .dropdown-menu-list.open {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
         }
     </style>
 </head>
 <body class="text-slate-900 min-h-screen antialiased selection:bg-logo-gold/20">
 
-    <div id="custom-cursor">✦</div>
+    <div id="main-star" class="star-cursor">✦</div>
+    <div class="trail-star">✦</div>
+    <div class="trail-star">✦</div>
+    <div class="trail-star">✦</div>
+    <div class="trail-star">✦</div>
 
     <nav class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-100">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
@@ -79,13 +93,13 @@
                 <span class="font-display font-800 text-xl tracking-tight text-sme-blue">The ANTs <span class="text-logo-gold">Tutoring</span></span>
             </div>
             <div class="flex items-center gap-6 font-display font-semibold text-sm">
-                <a href="#calculator-section" class="text-sme-blue hover:text-logo-gold transition-colors interactive-item">Calculator</a>
-                <a href="#notes-section" class="text-sme-blue hover:text-logo-gold transition-colors interactive-item">Resource Hub</a>
+                <a href="#calculator-section" class="text-sme-blue hover:text-logo-gold transition-colors interactive-target">Calculator</a>
+                <a href="#notes-section" class="text-sme-blue hover:text-logo-gold transition-colors interactive-target">Resource Hub</a>
             </div>
         </div>
     </nav>
 
-    <header class="bg-gradient-to-b from-light-beige via-[#f9f8f5] to-white min-h-[480px] flex flex-col justify-center items-center px-6 py-20 text-center border-b border-slate-50">
+    <header class="bg-gradient-to-b from-light-beige via-[#fbfaf8] to-white min-h-[440px] flex flex-col justify-center items-center px-6 py-20 text-center border-b border-slate-50">
         <div class="max-w-3xl mx-auto">
             <h1 class="font-display font-800 text-5xl md:text-7xl tracking-tight text-sme-blue mb-2">
                 The ANTs <span class="text-logo-gold drop-shadow-3xs">Tutoring</span>
@@ -96,7 +110,7 @@
             </p>
 
             <div class="flex flex-col sm:flex-row justify-center gap-4 max-w-xs mx-auto">
-                <a href="#calculator-section" class="bg-sme-blue text-white hover:bg-logo-black font-display font-bold py-3.5 px-8 rounded-xl text-center text-sm transition-all shadow-md flex-1 interactive-item">
+                <a href="#calculator-section" class="bg-sme-blue text-white hover:bg-logo-black font-display font-bold py-3.5 px-8 rounded-xl text-center text-sm transition-all shadow-md flex-1 interactive-target">
                     📊 Open Calculator
                 </a>
             </div>
@@ -118,18 +132,28 @@
                 <div class="lg:col-span-8 space-y-6">
                     <div class="bg-slate-50/60 rounded-3xl p-6 md:p-8 border border-slate-200/50 shadow-3xs">
                         
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                            <div class="md:col-span-2">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                            
+                            <div class="md:col-span-2 relative">
                                 <label class="block text-xs font-800 uppercase tracking-widest text-slate-400 mb-2">Subject Selected</label>
-                                <select id="subjectSelect" class="premium-dropdown w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 font-display font-bold text-sme-blue outline-none shadow-3xs text-sm cursor-pointer interactive-item"></select>
+                                <div id="customSubjectToggle" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 font-display font-bold text-sme-blue text-sm shadow-3xs flex justify-between items-center interactive-target select-none">
+                                    <span id="selectedSubjectLabel">Select Subject</span>
+                                    <svg class="w-4 h-4 text-slate-500 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </div>
+                                <div id="customSubjectMenu" class="dropdown-menu-list absolute left-0 right-0 mt-2 bg-white border border-slate-200 rounded-xl shadow-lg z-50 max-h-64 overflow-y-auto"></div>
                             </div>
-                            <div>
+
+                            <div class="relative">
                                 <label class="block text-xs font-800 uppercase tracking-widest text-slate-400 mb-2">Series Track</label>
-                                <select id="seasonSelect" class="premium-dropdown w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 font-display font-bold text-sme-blue outline-none shadow-3xs text-sm cursor-pointer interactive-item">
-                                    <option value="MJ">May/June (M/J)</option>
-                                    <option value="ON">Oct/Nov (O/N)</option>
-                                    <option value="FM">Feb/Mar (F/M)</option>
-                                </select>
+                                <div id="customSeriesToggle" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 font-display font-bold text-sme-blue text-sm shadow-3xs flex justify-between items-center interactive-target select-none">
+                                    <span id="selectedSeriesLabel">May/June (M/J)</span>
+                                    <svg class="w-4 h-4 text-slate-500 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                </div>
+                                <div id="customSeriesMenu" class="dropdown-menu-list absolute left-0 right-0 mt-2 bg-white border border-slate-200 rounded-xl shadow-lg z-50">
+                                    <div class="px-4 py-3 text-sm font-semibold text-sme-blue hover:bg-slate-50 interactive-target" data-value="MJ">May/June (M/J)</div>
+                                    <div class="px-4 py-3 text-sm font-semibold text-sme-blue hover:bg-slate-50 interactive-target" data-value="ON">Oct/Nov (O/N)</div>
+                                    <div class="px-4 py-3 text-sm font-semibold text-sme-blue hover:bg-slate-50 interactive-target" data-value="FM">Feb/Mar (F/M)</div>
+                                </div>
                             </div>
                         </div>
 
@@ -149,7 +173,7 @@
                             <span class="text-slate-400 text-xs uppercase tracking-wider font-semibold block mb-1">Percentage Uniform Mark</span>
                             <div class="flex items-center gap-4 mt-2">
                                 <div id="finalPercentDisplay" class="text-6xl font-display font-800 tracking-tighter text-white">0%</div>
-                                <div id="sideGradeDisplay" class="text-3xl font-display font-800 text-white bg-slate-800 px-4 py-1.5 rounded-xl border border-slate-700 min-w-[60px] text-center shadow-inner select-none">U</div>
+                                <div id="sideGradeDisplay" class="text-3xl font-display font-800 text-white bg-slate-800 px-4 py-1.5 rounded-xl border border-slate-700 min-w-[65px] text-center shadow-inner select-none">U</div>
                             </div>
                         </div>
                     </div>
@@ -168,7 +192,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto">
                 <div class="bg-white border border-slate-200/60 rounded-2xl p-6 shadow-3xs flex flex-col justify-between relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 transform translate-x-4 -translate-y-4 bg-logo-gold/5 w-24 h-24 rounded-full pointer-events-none transition-transform group-hover:scale-120"></div>
+                    <div class="absolute top-0 right-0 transform translate-x-4 -translate-y-4 bg-logo-gold/5 w-24 h-24 rounded-full pointer-events-none"></div>
                     <div>
                         <div class="flex items-center justify-between mb-4">
                             <span class="text-2xl bg-amber-50 border border-logo-gold/10 p-2 rounded-xl select-none">⚛️</span>
@@ -180,14 +204,14 @@
                 </div>
 
                 <div class="bg-white border border-slate-200/60 rounded-2xl p-6 shadow-3xs flex flex-col justify-between relative overflow-hidden group">
-                    <div class="absolute top-0 right-0 transform translate-x-4 -translate-y-4 bg-logo-gold/5 w-24 h-24 rounded-full pointer-events-none transition-transform group-hover:scale-120"></div>
+                    <div class="absolute top-0 right-0 transform translate-x-4 -translate-y-4 bg-logo-gold/5 w-24 h-24 rounded-full pointer-events-none"></div>
                     <div>
                         <div class="flex items-center justify-between mb-4">
                             <span class="text-2xl bg-amber-50 border border-logo-gold/10 p-2 rounded-xl select-none">🧪</span>
                             <span class="bg-logo-gold/15 text-logo-gold text-[10px] font-extrabold uppercase px-2.5 py-1 rounded-md tracking-wider font-display">Soon to come</span>
                         </div>
                         <h3 class="font-display font-700 text-lg text-sme-blue mb-1">Chemistry Analytic Profile Guides</h3>
-                        <p class="text-slate-400 font-medium text-sm leading-relaxed">Complete structural stoichiometry worksheets, interactive reaction chains, and experimental practical revision setups.</p>
+                        <p class="text-slate-400 font-medium text-sm leading-relaxed">Complete structural stoichiometry worksheets, interactive reaction chains, and experimental practical setups.</p>
                     </div>
                 </div>
             </div>
@@ -200,156 +224,228 @@
                 <span class="font-display font-800 text-base text-sme-blue">The ANTs <span class="text-logo-gold">Tutoring</span></span>
             </div>
             <div class="font-medium text-slate-400">
-                &copy; 2026 The ANTs Portal Suite &bull; PUM Grading Framework Running
+                &copy; 2026 The ANTs Portal Suite &bull; PUM Linear Grading Engine Running
             </div>
         </div>
     </footer>
 
     <script>
-        // High-fidelity standard Cambridge assessment component weight mappings
+        // Comprehensive Cambridge Syllabus Registry Map containing standard raw threshold distributions
         const syllabusData = {
-            "0606": { name: "Additional Mathematics", papers: [{ name: "Paper 1", max: 80, weight: 0.5 }, { name: "Paper 2", max: 80, weight: 0.5 }] },
-            "0580": { name: "Extended Mathematics", papers: [{ name: "Paper 2", max: 70, weight: 0.35 }, { name: "Paper 4", max: 130, weight: 0.65 }] },
-            "0620": { name: "Chemistry", papers: [{ name: "Paper 2 (MCQ)", max: 40, weight: 0.3 }, { name: "Paper 4 (Theory)", max: 80, weight: 0.5 }, { name: "Paper 6 (Practical)", max: 40, weight: 0.2 }] },
-            "0625": { name: "Physics", papers: [{ name: "Paper 2 (MCQ)", max: 40, weight: 0.3 }, { name: "Paper 4 (Theory)", max: 80, weight: 0.5 }, { name: "Paper 6 (Practical)", max: 40, weight: 0.2 }] }
+            "0606": { name: "Additional Mathematics", thresholds: { Astar: 134, A: 112, B: 90, C: 68, D: 54, E: 41 }, papers: [{ name: "Paper 1", max: 80, weight: 0.5 }, { name: "Paper 2", max: 80, weight: 0.5 }] },
+            "0580": { name: "Extended Mathematics", thresholds: { Astar: 158, A: 130, B: 102, C: 74, D: 56, E: 39 }, papers: [{ name: "Paper 2", max: 70, weight: 0.35 }, { name: "Paper 4", max: 130, weight: 0.65 }] },
+            "0620": { name: "Chemistry (Extended)", thresholds: { Astar: 142, A: 119, B: 96, C: 73, D: 59, E: 45 }, papers: [{ name: "Paper 2 (MCQ)", max: 40, weight: 0.3 }, { name: "Paper 4 (Theory)", max: 80, weight: 0.5 }, { name: "Paper 6 (Alt to Practical)", max: 40, weight: 0.2 }] },
+            "0625": { name: "Physics (Extended)", thresholds: { Astar: 139, A: 115, B: 91, C: 68, D: 55, E: 42 }, papers: [{ name: "Paper 2 (MCQ)", max: 40, weight: 0.3 }, { name: "Paper 4 (Theory)", max: 80, weight: 0.5 }, { name: "Paper 6 (Alt to Practical)", max: 40, weight: 0.2 }] },
+            "0610": { name: "Biology (Extended)", thresholds: { Astar: 145, A: 122, B: 99, C: 76, D: 62, E: 49 }, papers: [{ name: "Paper 2 (MCQ)", max: 40, weight: 0.3 }, { name: "Paper 4 (Theory)", max: 80, weight: 0.5 }, { name: "Paper 6 (Alt to Practical)", max: 40, weight: 0.2 }] },
+            "0478": { name: "Computer Science", thresholds: { Astar: 114, A: 96, B: 78, C: 60, D: 49, E: 39 }, papers: [{ name: "Paper 1 (Theory)", max: 75, weight: 0.5 }, { name: "Paper 2 (Algorithms)", max: 75, weight: 0.5 }] }
         };
 
-        // Uniform internal boundary percentages for standard threshold matrix mapping
-        const internalThresholdPercentages = { Astar: 82, A: 72, B: 62, C: 52, D: 46, E: 40 };
+        let selectedSubjectCode = "0606";
+        let selectedSeriesCode = "MJ";
 
-        const subjectSelect = document.getElementById('subjectSelect'),
-              seasonSelect = document.getElementById('seasonSelect'),
-              papersFormContainer = document.getElementById('papersFormContainer'),
+        const papersFormContainer = document.getElementById('papersFormContainer'),
               finalPercentDisplay = document.getElementById('finalPercentDisplay'),
               sideGradeDisplay = document.getElementById('sideGradeDisplay'),
-              cursor = document.getElementById('custom-cursor');
+              mainStar = document.getElementById('main-star'),
+              trailStars = Array.from(document.querySelectorAll('.trail-star'));
 
-        // Mousemove Event Tracker for Star Cursor position
+        // --- DOPPLER EFFECT SMOOTH INTERPOLATED MOUSE TRAIL TRACKER ---
+        let mouseX = 0, mouseY = 0;
+        let starPositions = Array(5).fill({x: 0, y: 0});
+
         document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
+            mouseX = e.clientX;
+            mouseY = e.clientY;
         });
 
-        function setupCursorInteractions() {
-            document.querySelectorAll('.interactive-item, select, input, a, button').forEach(item => {
-                item.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
-                item.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+        function animateStarsLoop() {
+            // Main anchor node star positions
+            starPositions[0] = { x: mouseX, y: mouseY };
+            mainStar.style.left = `${starPositions[0].x}px`;
+            mainStar.style.top = `${starPositions[0].y}px`;
+
+            // Back-chaining tail nodes with progressive dampening delays (Doppler Shift)
+            for (let i = 1; i < starPositions.length; i++) {
+                let current = starPositions[i];
+                let target = starPositions[i - 1];
+                
+                // Exponential decay interpolation factor creates organic delay trails
+                let dx = target.x - current.x;
+                let dy = target.y - current.y;
+                
+                let nextX = current.x + dx * 0.35;
+                let nextY = current.y + dy * 0.35;
+                
+                starPositions[i] = { x: nextX, y: nextY };
+                
+                let element = trailStars[i - 1];
+                element.style.left = `${nextX}px`;
+                element.style.top = `${nextY}px`;
+                element.style.opacity = `${1.0 - (i * 0.2)}`;
+            }
+            requestAnimationFrame(animateStarsLoop);
+        }
+        requestAnimationFrame(animateStarsLoop);
+
+        function attachCustomInteractions() {
+            document.querySelectorAll('.interactive-target, input').forEach(element => {
+                element.addEventListener('mouseenter', () => mainStar.style.transform = 'translate(-50%, -50%) scale(1.4) rotate(45deg)');
+                element.addEventListener('mouseleave', () => mainStar.style.transform = 'translate(-50%, -50%) scale(1) rotate(0deg)');
             });
         }
 
-        function buildSubjectSelections() { 
-            for (const code in syllabusData) { 
-                const opt = document.createElement('option'); 
-                opt.value = code; 
-                opt.textContent = `📚 ${syllabusData[code].name} (${code})`; 
-                subjectSelect.appendChild(opt); 
-            } 
+        // --- ULTRA-SMOOTH MODERN DROPDOWN DRAWER LOGIC CONTROLLERS ---
+        const customSubjectToggle = document.getElementById('customSubjectToggle'),
+              customSubjectMenu = document.getElementById('customSubjectMenu'),
+              customSeriesToggle = document.getElementById('customSeriesToggle'),
+              customSeriesMenu = document.getElementById('customSeriesMenu'),
+              selectedSubjectLabel = document.getElementById('selectedSubjectLabel'),
+              selectedSeriesLabel = document.getElementById('selectedSeriesLabel');
+
+        function initCustomDropdownMenus() {
+            // Build out choices lists internally
+            customSubjectMenu.innerHTML = "";
+            for (const code in syllabusData) {
+                const row = document.createElement('div');
+                row.className = "px-4 py-3 text-sm font-semibold text-sme-blue hover:bg-slate-50 interactive-target transition-colors";
+                row.textContent = `📚 ${syllabusData[code].name} (${code})`;
+                row.setAttribute('data-value', code);
+                
+                row.addEventListener('click', () => {
+                    selectedSubjectCode = code;
+                    selectedSubjectLabel.textContent = `📚 ${syllabusData[code].name} (${code})`;
+                    customSubjectMenu.classList.remove('open');
+                    customSubjectToggle.querySelector('svg').classList.remove('rotate-180');
+                    renderSyllabusInputComponents();
+                });
+                customSubjectMenu.appendChild(row);
+            }
+
+            customSubjectToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                customSeriesMenu.classList.remove('open');
+                customSubjectMenu.classList.toggle('open');
+                customSubjectToggle.querySelector('svg').classList.toggle('rotate-180');
+            });
+
+            customSeriesToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                customSubjectMenu.classList.remove('open');
+                customSeriesMenu.classList.toggle('open');
+                customSeriesToggle.querySelector('svg').classList.toggle('rotate-180');
+            });
+
+            customSeriesMenu.querySelectorAll('[data-value]').forEach(item => {
+                item.addEventListener('click', () => {
+                    selectedSeriesCode = item.getAttribute('data-value');
+                    selectedSeriesLabel.textContent = item.textContent;
+                    customSeriesMenu.classList.remove('open');
+                    customSeriesToggle.querySelector('svg').classList.remove('rotate-180');
+                    calculateSyllabusScores();
+                });
+            });
+
+            document.addEventListener('click', () => {
+                customSubjectMenu.classList.remove('open');
+                customSeriesMenu.classList.remove('open');
+                customSubjectToggle.querySelector('svg').classList.remove('rotate-180');
+                customSeriesToggle.querySelector('svg').classList.remove('rotate-180');
+            });
+
+            // Set default initial values
+            selectedSubjectLabel.textContent = `📚 ${syllabusData[selectedSubjectCode].name} (${selectedSubjectCode})`;
         }
 
-        function renderDynamicInputs() {
-            const code = subjectSelect.value, subject = syllabusData[code];
+        function renderSyllabusInputComponents() {
+            const subject = syllabusData[selectedSubjectCode];
             papersFormContainer.innerHTML = "";
 
             subject.papers.forEach((paper, index) => {
-                const rowId = `paper_input_${index}`, blockRow = document.createElement('div');
-                blockRow.className = "p-4 bg-white border border-slate-100 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-3xs";
+                const rowId = `paper_input_${index}`, containerBlock = document.createElement('div');
+                containerBlock.className = "p-4 bg-white border border-slate-100 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-3xs";
                 
-                blockRow.innerHTML = `
+                containerBlock.innerHTML = `
                     <div>
                         <p class="font-display font-700 text-sme-blue text-sm">📝 ${paper.name}</p>
                         <span class="text-[10px] font-800 text-slate-400 tracking-wide uppercase block mt-0.5">Component Weighting: ${paper.weight * 100}%</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <input type="number" id="${rowId}" min="0" max="${paper.max}" placeholder="0" 
-                            class="paper-score-input interactive-item w-24 bg-slate-50 border border-slate-200 focus:border-logo-gold rounded-xl py-2.5 font-display font-800 text-center text-sme-blue outline-none transition-all text-sm" 
+                            class="paper-score-input interactive-target w-24 bg-slate-50 border border-slate-200 focus:border-logo-gold rounded-xl py-2.5 font-display font-800 text-center text-sme-blue outline-none transition-all text-sm" 
                             data-index="${index}">
                         <span class="text-slate-300 font-bold">/</span>
                         <div class="w-16 bg-slate-100 text-slate-400 font-bold text-center py-2.5 rounded-xl border border-slate-200 text-xs select-none">${paper.max}</div>
                     </div>`;
-                papersFormContainer.appendChild(blockRow);
+                papersFormContainer.appendChild(containerBlock);
             });
 
             document.querySelectorAll('.paper-score-input').forEach(input => input.addEventListener('input', calculateSyllabusScores));
-            setupCursorInteractions();
+            attachCustomInteractions();
             calculateSyllabusScores();
         }
 
-        // --- DIRECT MATH INTERPOLATION MATCHING THE SPREADSHEET ALGORITHM ---
-        function runSpreadsheetPUMInterpolation(currentWeightedMark, bounds) {
-            if (currentWeightedMark === 0 || currentWeightedMark === "") return 0;
+        // --- NATIVE TRANSLATION OF PIECEWISE INTERPOLATION FORMULA ENGINE ---
+        function runSpreadsheetPUMInterpolation(weightedMarkSum, thresholds) {
+            if (weightedMarkSum === 0 || weightedMarkSum === "") return 0;
 
-            // Maps multi-tier evaluation conditional formulas directly
-            if (currentWeightedMark >= bounds.A) {
-                return 0.9 + 0.1 * ((currentWeightedMark - bounds.A) / (bounds.Astar - bounds.A));
-            } else if (currentWeightedMark >= bounds.B) {
-                return 0.8 + 0.1 * ((currentWeightedMark - bounds.B) / (bounds.A - bounds.B));
-            } else if (currentWeightedMark >= bounds.C) {
-                return 0.7 + 0.1 * ((currentWeightedMark - bounds.C) / (bounds.B - bounds.C));
-            } else if (currentWeightedMark >= bounds.D) {
-                return 0.6 + 0.1 * ((currentWeightedMark - bounds.D) / (bounds.C - bounds.D));
-            } else if (currentWeightedMark >= bounds.E) {
-                return 0.5 + 0.1 * ((currentWeightedMark - bounds.E) / (bounds.D - bounds.E));
+            // Follows nested IF sequence: IF(I6>VLOOKUP(...,4,0) [Grade A Threshold], 0.9 + 0.1 * ...)
+            if (weightedMarkSum >= thresholds.A) {
+                return 0.9 + 0.1 * ((weightedMarkSum - thresholds.A) / (thresholds.Astar - thresholds.A));
+            } else if (weightedMarkSum >= thresholds.B) {
+                return 0.8 + 0.1 * ((weightedMarkSum - thresholds.B) / (thresholds.A - thresholds.B));
+            } else if (weightedMarkSum >= thresholds.C) {
+                return 0.7 + 0.1 * ((weightedMarkSum - thresholds.C) / (thresholds.B - thresholds.C));
+            } else if (weightedMarkSum >= thresholds.D) {
+                return 0.6 + 0.1 * ((weightedMarkSum - thresholds.D) / (thresholds.C - thresholds.D));
+            } else if (weightedMarkSum >= thresholds.E) {
+                return 0.5 + 0.1 * ((weightedMarkSum - thresholds.E) / (thresholds.D - thresholds.E));
             } else {
-                return (currentWeightedMark / bounds.E) * 0.5;
+                // Default linear fallback threshold map beneath lowest scale point boundary
+                return (weightedMarkSum / thresholds.E) * 0.5;
             }
         }
 
         function calculateSyllabusScores() {
-            const code = subjectSelect.value, subject = syllabusData[code];
-            let rawWeightedSum = 0;
-            let maxTotalWeightedLimit = 0;
+            const subject = syllabusData[selectedSubjectCode];
+            let accumulatedWeightedMark = 0;
 
             subject.papers.forEach((paper, index) => {
-                const scoreField = document.getElementById(`paper_input_${index}`);
-                let markVal = parseFloat(scoreField.value) || 0;
+                const element = document.getElementById(`paper_input_${index}`);
+                let inputVal = parseFloat(element?.value) || 0;
                 
-                if (markVal > paper.max) { markVal = paper.max; scoreField.value = paper.max; }
-                if (markVal < 0) { markVal = 0; scoreField.value = 0; }
+                if (inputVal > paper.max) { inputVal = paper.max; element.value = paper.max; }
+                if (inputVal < 0) { inputVal = 0; element.value = 0; }
 
-                rawWeightedSum += (markVal * paper.weight);
-                maxTotalWeightedLimit += (paper.max * paper.weight);
+                accumulatedWeightedMark += (inputVal * paper.weight);
             });
 
-            // Convert raw weights internally relative to the threshold baseline map
-            const targetBounds = {
-                Astar: (internalThresholdPercentages.Astar / 100) * maxTotalWeightedLimit,
-                A: (internalThresholdPercentages.A / 100) * maxTotalWeightedLimit,
-                B: (internalThresholdPercentages.B / 100) * maxTotalWeightedLimit,
-                C: (internalThresholdPercentages.C / 100) * maxTotalWeightedLimit,
-                D: (internalThresholdPercentages.D / 100) * maxTotalWeightedLimit,
-                E: (internalThresholdPercentages.E / 100) * maxTotalWeightedLimit
-            };
-
-            // Process calculation model logic yield
-            const evaluatedDecimalPUM = runSpreadsheetPUMInterpolation(rawWeightedSum, targetBounds);
+            const currentThresholds = subject.thresholds;
+            const evaluatedPUMDecimal = runSpreadsheetPUMInterpolation(accumulatedWeightedMark, currentThresholds);
             
             // STRICT INTEGER CONVERSION RULE
-            let finalIntegerResult = Math.round(evaluatedDecimalPUM * 100);
-            if (finalIntegerResult > 100) finalIntegerResult = 100;
-            if (finalIntegerResult < 0 || isNaN(finalIntegerResult)) finalIntegerResult = 0;
+            let finalIntegerOutput = Math.round(evaluatedPUMDecimal * 100);
+            if (finalIntegerOutput > 100) finalIntegerOutput = 100;
+            if (finalIntegerOutput < 0 || isNaN(finalIntegerOutput)) finalIntegerOutput = 0;
 
-            // Generate contextual letter grade assignment
-            let calculatedGrade = "U";
-            if (rawWeightedSum >= targetBounds.Astar) calculatedGrade = "A*";
-            else if (rawWeightedSum >= targetBounds.A) calculatedGrade = "A";
-            else if (rawWeightedSum >= targetBounds.B) calculatedGrade = "B";
-            else if (rawWeightedSum >= targetBounds.C) calculatedGrade = "C";
-            else if (rawWeightedSum >= targetBounds.D) calculatedGrade = "D";
-            else if (rawWeightedSum >= targetBounds.E) calculatedGrade = "E";
+            // Contextual Letter Grade Match Logic Map
+            let associatedGrade = "U";
+            if (accumulatedWeightedMark >= currentThresholds.Astar) associatedGrade = "A*";
+            else if (accumulatedWeightedMark >= currentThresholds.A) associatedGrade = "A";
+            else if (accumulatedWeightedMark >= currentThresholds.B) associatedGrade = "B";
+            else if (accumulatedWeightedMark >= currentThresholds.C) associatedGrade = "C";
+            else if (accumulatedWeightedMark >= currentThresholds.D) associatedGrade = "D";
+            else if (accumulatedWeightedMark >= currentThresholds.E) associatedGrade = "E";
 
-            if (rawWeightedSum === 0) calculatedGrade = "U";
+            if (accumulatedWeightedMark === 0) associatedGrade = "U";
 
-            // Push calculation updates directly onto UI view layers
-            finalPercentDisplay.textContent = `${finalIntegerResult}%`;
-            sideGradeDisplay.textContent = calculatedGrade;
+            // Update DOM element containers
+            finalPercentDisplay.textContent = `${finalIntegerOutput}%`;
+            sideGradeDisplay.textContent = associatedGrade;
         }
 
-        subjectSelect.addEventListener('change', renderDynamicInputs);
-        seasonSelect.addEventListener('change', calculateSyllabusScores);
-
-        buildSubjectSelections();
-        renderDynamicInputs();
-        setupCursorInteractions();
+        initCustomDropdownMenus();
+        renderSyllabusInputComponents();
+        attachCustomInteractions();
     </script>
 </body>
 </html>
