@@ -387,8 +387,9 @@
             else if (totalRawMark >= col5) {
                 return 0.8 + 0.1 * ((totalRawMark - col5) / (col4 - col5));
             } 
+            // FIXED: Changed denominator from (col4 - col6) to (col5 - col6) to perfectly mirror Excel's nested IF logic
             else if (totalRawMark >= col6) {
-                return 0.7 + 0.1 * ((totalRawMark - col6) / (col4 - col6));
+                return 0.7 + 0.1 * ((totalRawMark - col6) / (col5 - col6));
             } 
             else {
                 return "60% or less";
@@ -409,7 +410,7 @@
                 totalOptionRawMarkDecimal += (inputVal * paper.factor);
             });
 
-            // FIXED: We pass the exact unrounded float to match cell precision, but show rounded value in the UI display label
+            // Match Cambridge and Excel exact precision alignment
             const displayRoundedTotal = Math.round(totalOptionRawMarkDecimal);
 
             const currentThresholds = subject.thresholds;
