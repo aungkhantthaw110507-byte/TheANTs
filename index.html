@@ -19,16 +19,21 @@
             --color-logo-black: #1A1A1A;
         }
         
+        /* FIXED: Restored standard OS default visibility pointers so your cursor never disappears */
         html, body, a, button, select, input, label, [role="button"] {
-            cursor: none !important;
+            cursor: auto !important;
+        }
+        
+        /* Links and interactive components show the standard pointer finger */
+        a, button, select, input[type="submit"], .interactive-target, .draggable-comp {
+            cursor: pointer !important;
         }
 
-        body {
-            font-family: var(--font-sans);
-            font-weight: 500;
-            background-color: #ffffff;
-            scroll-behavior: smooth;
-            overflow-x: hidden;
+        .draggable-comp {
+            cursor: grab !important;
+        }
+        .draggable-comp:active {
+            cursor: grabbing !important;
         }
 
         .star-cursor {
@@ -41,13 +46,13 @@
             will-change: transform;
         }
         #main-star {
-            font-size: 28px;
-            color: #1a1a1a;
+            font-size: 24px;
+            color: rgba(197, 160, 89, 0.9);
             transition: transform 0.1s ease, color 0.2s ease;
         }
         .trail-star {
-            font-size: 14px;
-            color: rgba(197, 160, 89, 0.6);
+            font-size: 12px;
+            color: rgba(197, 160, 89, 0.4);
             position: fixed;
             pointer-events: none;
             z-index: 9998;
@@ -56,7 +61,6 @@
 
         @media (pointer: coarse) {
             .star-cursor, .trail-star { display: none !important; }
-            html, body, a, button, select, input { cursor: auto !important; }
         }
 
         .font-display { font-family: var(--font-display); font-weight: 700; }
@@ -206,7 +210,7 @@
             </div>
 
             <div class="bg-white border border-slate-200/60 rounded-3xl overflow-hidden shadow-sm">
-                <div id="physicsHubHeader" class="px-6 py-5 bg-slate-100/60 border-b border-slate-200/60 flex items-center justify-between cursor-none interactive-target select-none">
+                <div id="physicsHubHeader" class="px-6 py-5 bg-slate-100/60 border-b border-slate-200/60 flex items-center justify-between cursor-pointer interactive-target select-none">
                     <div class="flex items-center gap-3">
                         <span class="text-2xl">⚛️</span>
                         <div>
@@ -739,7 +743,7 @@
                     }
                 ]
             },
-            topic4: { title: "4 Electricity & Magnetism", subTabs: [] }, // Controlled by high fidelity modules
+            topic4: { title: "4 Electricity & Magnetism", subTabs: [] }, 
             topic5: {
                 title: "5 Nuclear Physics",
                 subTabs: [
@@ -885,7 +889,7 @@
         });
 
 
-        // --- 4. ADVANCED NATIVE ELECTRICITY IMPLEMENTATION ENGINE ---
+        // --- 4. ADVANCED NELECTRICITY WORKSPACE ENGINE ---
         let currentSandboxLayoutState = { top: null, bottom: null };
         let sandboxEngineInitialized = false;
 
@@ -893,7 +897,6 @@
             if (sandboxEngineInitialized) return;
             sandboxEngineInitialized = true;
 
-            // Wire up electricity main navigation tabs toggles
             const elecTabBtn1 = document.getElementById('elecTabBtn1'),
                   elecTabBtn2 = document.getElementById('elecTabBtn2'),
                   elecPanelSandbox = document.getElementById('elecPanelSandbox'),
@@ -913,7 +916,6 @@
                 elecPanelSandbox.classList.add('hidden');
             });
 
-            // Flow simulator circuits selector rules
             const btnFlowA = document.getElementById('btnFlowA'),
                   btnFlowB = document.getElementById('btnFlowB'),
                   btnFlowC = document.getElementById('btnFlowC'),
@@ -942,7 +944,6 @@
                 flowDisplayC.classList.remove('hidden');
             });
 
-            // Native Drag and Drop Implementation Mechanics
             const components = document.querySelectorAll('.draggable-comp');
             const dropZones = [document.getElementById('zoneTop'), document.getElementById('zoneBottom')];
 
@@ -966,7 +967,7 @@
                     e.preventDefault();
                     zone.classList.remove('drop-zone-active');
                     const componentType = e.dataTransfer.getData('text/plain');
-                    const targetZoneKey = zone.getAttribute('data-zone'); // 'top' or 'bottom'
+                    const targetZoneKey = zone.getAttribute('data-zone');
                     
                     currentSandboxLayoutState[targetZoneKey] = componentType;
                     renderComponentInZone(zone, componentType);
@@ -1022,14 +1023,12 @@
             const lblCurrent = document.getElementById('lblCircuitCurrent');
             const lblPower = document.getElementById('lblCircuitPower');
 
-            // Closed loop validation math criteria
             if (currentSandboxLayoutState.top && currentSandboxLayoutState.bottom && hasCell) {
-                // Closed Loop operational logic triggers
                 particlesContainer.classList.remove('hidden');
                 lblStatus.textContent = "Closed Loop";
                 lblStatus.className = "text-emerald-400 font-bold";
 
-                let resistanceSum = 5; // internal base load wire resistance
+                let resistanceSum = 5; 
                 if (hasLamp) resistanceSum += 10;
                 if (hasResistor) resistanceSum += 20;
                 if (hasAmmeter) resistanceSum += 1;
@@ -1046,7 +1045,6 @@
                     glowOverlay.className = "absolute inset-0 bg-blue-500/5 transition-colors pointer-events-none duration-500";
                 }
             } else {
-                // Open Loop or disconnected circuit state rules
                 particlesContainer.classList.add('hidden');
                 glowOverlay.className = "absolute inset-0 bg-amber-500/0 transition-colors pointer-events-none duration-500";
                 lblStatus.textContent = "Open Loop";
@@ -1055,7 +1053,6 @@
                 lblPower.textContent = "0.0 W";
             }
         }
-
 
         // --- 5. INITIALIZATION ENGINE RUNNERS ---
         initCustomDropdownMenus();
