@@ -29,6 +29,33 @@
             background-color: #ffffff;
             scroll-behavior: smooth;
             overflow-x: hidden;
+            transition: padding 0.3s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* IPAD-STYLE DOTTED MATRIX BACKGROUND PLOT */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
+            background-size: 24px 24px;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.7;
+            transition: background-image 0.3s ease;
+        }
+
+        body.dark-theme-active::before {
+            background-image: radial-gradient(#334155 1.5px, transparent 1.5px);
+            opacity: 0.5;
+        }
+
+        body.dark-theme-active {
+            background-color: #0f172a;
+            color: #f8fafc;
         }
 
         .star-cursor {
@@ -44,6 +71,9 @@
             font-size: 28px;
             color: #1a1a1a;
             transition: transform 0.1s ease, color 0.2s ease;
+        }
+        body.dark-theme-active #main-star {
+            color: #facc15;
         }
         .trail-star {
             font-size: 14px;
@@ -74,474 +104,537 @@
             pointer-events: auto;
         }
 
-        /* STRICT PHYSICS NOTES SYSTEM OVERRIDES */
+        /* ENHANCED CONTRAST STUDENT GRAPHICS ENGINE */
         .physics-notes-engine {
             font-family: Arial, Helvetica, sans-serif !important;
         }
         
-        /* Master Table Formatting mimicking uploaded image */
         .physics-master-table {
             width: 100%;
             border-collapse: collapse !important;
-            margin-top: 4px;
-            margin-bottom: 4px;
-            border: 2px solid #000000 !important;
+            margin-top: 12px;
+            margin-bottom: 12px;
+            border: 3px solid #000000 !important;
             background-color: #ffffff;
+        }
+        body.dark-theme-active .physics-master-table {
+            border-color: #ffffff !important;
+            background-color: #1e293b;
         }
 
         .physics-master-table th, 
         .physics-master-table td {
-            border: 2px solid #000000 !important;
-            padding: 8px 12px;
+            border: 1px solid #718096 !important;
+            padding: 24px 28px;
             vertical-align: top;
-            font-size: 14px !important; /* Fixed base sizing matching physics notes structural grids */
-            line-height: 1.4;
+            font-size: 19px !important;
+            line-height: 1.7;
             color: #000000;
         }
+        body.dark-theme-active .physics-master-table td {
+            color: #f8fafc;
+            border-color: #475569 !important;
+        }
 
-        /* Subdivided cell tracking containing standard grid lines */
+        .physics-index-cell {
+            width: 70px; 
+            text-align: center; 
+            font-weight: 800; 
+            font-size: 20px !important;
+            background-color: #f8fafc;
+        }
+        body.dark-theme-active .physics-index-cell {
+            background-color: #334155;
+            color: #ffffff;
+        }
+
         .physics-split-cell {
             display: flex;
             flex-direction: column;
             width: 100%;
-            height: 100%;
         }
 
         .physics-internal-row {
-            padding-top: 6px;
-            padding-bottom: 6px;
+            padding-top: 16px;
+            padding-bottom: 16px;
             width: 100%;
         }
-
+        .physics-internal-row:first-child { padding-top: 0px; }
+        .physics-internal-row:last-child { padding-bottom: 0px; }
         .physics-internal-row:not(:last-child) {
-            border-bottom: 1px solid #000000 !important;
+            border-bottom: 1px solid #718096 !important;
+        }
+        body.dark-theme-active .physics-internal-row:not(:last-child) {
+            border-bottom-color: #475569 !important;
         }
 
-        /* Interactive Accordion Layout Classes */
-        .chapter-trigger {
-            transition: background-color 0.2s ease;
-        }
-        .chapter-content-box {
-            display: none;
-        }
-        .chapter-content-box.expanded {
-            display: block !important;
+        .chapter-trigger { transition: background-color 0.2s ease; }
+        .chapter-content-box { display: none; }
+        .chapter-content-box.expanded { display: block !important; }
+
+        /* THE INTEGRATED SPLIT & DUAL DRAWPLANE ARCHITECTURE */
+        #master-application-frame {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Canvas Note Overlay Architecture */
-        #sketch-canvas-board {
+        /* STICKY SPLIT SCREEN SHEET ENGINE */
+        #split-whiteboard-container {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 50%; /* Evaluated at 50% default footprint */
+            height: 100vh;
+            background-color: #ffffff;
+            border-left: 3px solid #cbd5e1;
+            box-shadow: -10px 0 30px rgba(0,0,0,0.08);
+            transform: translateX(100%);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 40;
+            display: flex;
+            flex-direction: column;
+        }
+        body.dark-theme-active #split-whiteboard-container {
+            background-color: #1e293b;
+            border-left-color: #475569;
+        }
+        body.split-drawing-active #split-whiteboard-container {
+            transform: translateX(0);
+        }
+
+        /* EXCLUSIVE DUAL LAYER INTERFACE */
+        #universal-drawing-plane {
             position: fixed;
             top: 0;
             left: 0;
             width: 100vw;
             height: 100vh;
-            z-index: 30;
+            z-index: 35;
             pointer-events: none;
+            display: block;
         }
-        #sketch-canvas-board.active {
+        body.split-drawing-active #universal-drawing-plane {
             pointer-events: auto;
+        }
+
+        /* VERTICALLY EXPANDABLE PANEL ACCORDION */
+        .tools-expandable-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+            opacity: 0;
+        }
+        .tools-container-box.expanded .tools-expandable-content {
+            max-height: 520px;
+            opacity: 1;
+            margin-top: 12px;
+        }
+
+        .color-palette-swatch {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid #e2e8f0;
+            transition: transform 0.15s ease, border-color 0.15s ease;
+        }
+        .color-palette-swatch.active {
+            transform: scale(1.15);
+            box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #c5a059;
+        }
+
+        /* UNIFIED LIGHT THEME FOR DARK MODE SECTIONS */
+        body.dark-theme-active .dark-adaptive-card {
+            background-color: #1e293b;
+            border-color: #334155;
+        }
+        body.dark-theme-active .dark-adaptive-input {
+            background-color: #334155;
+            border-color: #475569;
+            color: #ffffff;
         }
     </style>
 </head>
 <body class="text-slate-900 min-h-screen antialiased selection:bg-logo-gold/20">
 
-    <canvas id="sketch-canvas-board"></canvas>
+    <canvas id="universal-drawing-plane"></canvas>
 
-    <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 bg-slate-900/90 backdrop-blur-md p-3 rounded-2xl border border-slate-700 shadow-2xl interactive-target">
-        <div class="text-[10px] text-logo-gold font-bold font-display tracking-widest text-center border-b border-slate-800 pb-1.5 mb-1">PAD TOOLS</div>
-        <button id="toggle-writing-mode-btn" class="bg-logo-gold text-slate-900 font-display font-bold text-xs py-2 px-4 rounded-xl cursor-none transition-all hover:bg-white flex items-center justify-center gap-2">
-            <span id="writing-status-icon">📝</span> <span id="writing-status-text">Draw: OFF</span>
-        </button>
-        <button id="clear-writing-plane-btn" class="bg-slate-800 text-slate-300 font-display font-bold text-xs py-1.5 px-4 rounded-xl cursor-none transition-all hover:bg-red-600 hover:text-white">
-            🗑️ Clear Page
-        </button>
+    <div id="split-whiteboard-container">
+        <div class="bg-slate-50 border-b border-slate-200 text-slate-800 px-6 py-4 flex justify-between items-center dark:bg-slate-800 dark:border-slate-700 dark:text-slate-200">
+            <div class="flex items-center gap-3">
+                <span class="text-xl">✏️</span>
+                <div>
+                    <h4 class="font-display font-bold text-sm tracking-tight">whiteboard</h4>
+                    <p class="text-[10px] font-medium text-slate-500 dark:text-slate-400">High-Resolution Vector Sketch Canvas</p>
+                </div>
+            </div>
+            <button id="close-whiteboard-dock-btn" class="text-slate-600 hover:text-slate-900 transition-colors text-xs font-display font-bold bg-slate-200/80 px-3 py-1.5 rounded-lg interactive-target dark:bg-slate-700 dark:text-slate-300 dark:hover:text-white">
+                Minimize ×
+            </button>
+        </div>
+        <div class="flex-1 relative bg-white dark:bg-slate-900">
+            <canvas id="split-whiteboard-canvas" class="w-full h-full block"></canvas>
+        </div>
     </div>
 
-    <div id="main-star" class="star-cursor">✦</div>
-    <div class="trail-star">✦</div>
-    <div class="trail-star">✦</div>
-    <div class="trail-star">✦</div>
-    <div class="trail-star">✦</div>
-
-    <nav class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-100">
-        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+    <div id="floating-tools-container" class="tools-container-box fixed bottom-6 right-6 z-50 bg-slate-900/95 backdrop-blur-md p-4 rounded-2xl border border-slate-700 shadow-2xl interactive-target w-64">
+        <button id="master-toggle-drawer-btn" class="w-full flex items-center justify-between text-left cursor-none focus:outline-none">
             <div class="flex items-center gap-2.5">
-                <div class="w-9 h-9 bg-sme-blue rounded-xl flex items-center justify-center text-logo-gold font-display font-800 text-base">A</div>
-                <span class="font-display font-800 text-xl tracking-tight text-sme-blue">The ANTs <span class="text-logo-gold">Tutoring</span></span>
-            </div>
-            <div class="flex items-center gap-6 font-display font-semibold text-sm">
-                <a href="#calculator-section" class="text-sme-blue hover:text-logo-gold transition-colors interactive-target">Calculator</a>
-                <a href="#notes-section" class="text-sme-blue hover:text-logo-gold transition-colors interactive-target">Resource Hub</a>
-            </div>
-        </div>
-    </nav>
-
-    <header class="bg-gradient-to-b from-light-beige via-[#fbfaf8] to-white min-h-[440px] flex flex-col justify-center items-center px-6 py-20 text-center border-b border-slate-50">
-        <div class="max-w-3xl mx-auto">
-            <h1 class="font-display font-800 text-5xl md:text-7xl tracking-tight text-sme-blue mb-2">
-                The ANTs <span class="text-logo-gold drop-shadow-3xs">Tutoring</span>
-            </h1>
-            <p class="font-cursive text-3xl md:text-4xl text-sme-blue/80 tracking-wide mb-12">Ace with us</p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4 max-w-xs mx-auto">
-                <a href="#calculator-section" class="bg-sme-blue text-white hover:bg-logo-black font-display font-bold py-3.5 px-8 rounded-xl text-center text-sm transition-all shadow-md flex-1 interactive-target">
-                    📊 Open Calculator
-                </a>
-                <a href="#notes-section" class="bg-white border border-slate-200 text-sme-blue hover:bg-slate-50 font-display font-bold py-3.5 px-8 rounded-xl text-center text-sm transition-all shadow-sm flex-1 interactive-target">
-                    📚 Read Physics Notes
-                </a>
-            </div>
-        </div>
-    </header>
-
-    <section id="calculator-section" class="bg-white py-16 scroll-mt-6">
-        <div class="max-w-7xl mx-auto px-6">
-            <div class="mb-10 text-center lg:text-left">
-                <div class="inline-flex items-center gap-2 bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-xl mb-3 text-xs font-bold text-sme-blue font-display">
-                    ⚙️ AUTOMATED CONVERSION ENGINE
+                <span id="drawer-main-icon-indicator" class="text-base">📝</span>
+                <div class="flex flex-col">
+                    <span class="text-[10px] text-logo-gold font-bold font-display tracking-widest uppercase">Workspace Control</span>
+                    <span id="drawer-main-status-label" class="text-xs text-white font-bold mt-0.5">Draw Mode: OFF</span>
                 </div>
-                <h2 class="font-display font-800 text-3xl text-sme-blue tracking-tight">Syllabus Evaluation System</h2>
             </div>
+            <span id="drawer-arrow-indicator" class="text-slate-400 text-xs transition-transform duration-300">▲</span>
+        </button>
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-                <div class="lg:col-span-8 space-y-6">
-                    <div class="bg-slate-50/60 rounded-3xl p-6 md:p-8 border border-slate-200/50 shadow-3xs">
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                            <div class="md:col-span-2 relative">
-                                <label class="block text-xs font-800 uppercase tracking-widest text-slate-400 mb-2">Subject Selected</label>
-                                <div id="customSubjectToggle" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 font-display font-bold text-sme-blue text-sm shadow-3xs flex justify-between items-center interactive-target select-none">
-                                    <span id="selectedSubjectLabel">Select Subject</span>
-                                    <svg class="w-4 h-4 text-slate-500 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                                </div>
-                                <div id="customSubjectMenu" class="dropdown-menu-list absolute left-0 right-0 mt-2 bg-white border border-slate-200 rounded-xl shadow-lg z-50 max-h-64 overflow-y-auto"></div>
-                            </div>
+        <div class="tools-expandable-content border-t border-slate-800/80">
+            <div class="space-y-4 pt-2">
+                <button id="toggle-writing-mode-btn" class="w-full bg-logo-gold text-slate-900 font-display font-bold text-xs py-2.5 px-4 rounded-xl cursor-none transition-all hover:bg-white flex items-center justify-center gap-2">
+                    Activate Workspace
+                </button>
 
-                            <div class="relative">
-                                <label class="block text-xs font-800 uppercase tracking-widest text-slate-400 mb-2">Series Track</label>
-                                <div id="customSeriesToggle" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 font-display font-bold text-sme-blue text-sm shadow-3xs flex justify-between items-center interactive-target select-none">
-                                    <span id="selectedSeriesLabel">May/June 2024 (V2)</span>
-                                    <svg class="w-4 h-4 text-slate-500 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                                </div>
-                                <div id="customSeriesMenu" class="dropdown-menu-list absolute left-0 right-0 mt-2 bg-white border border-slate-200 rounded-xl shadow-lg z-50">
-                                    <div class="px-4 py-3 text-sm font-semibold text-sme-blue hover:bg-slate-50 interactive-target" data-value="MJ24">May/June 2024 (V2)</div>
-                                </div>
-                            </div>
-                        </div>
+                <div class="bg-slate-800/50 p-2.5 rounded-xl border border-slate-800">
+                    <div class="flex justify-between items-center mb-1.5">
+                        <span class="text-[9px] text-slate-400 font-bold uppercase tracking-wider">Canvas Width Split</span>
+                        <span id="width-slider-value" class="text-[10px] text-logo-gold font-bold">50%</span>
+                    </div>
+                    <input type="range" id="whiteboard-width-slider" min="20" max="80" value="50" class="w-full h-1 bg-slate-700 rounded-lg appearance-none cursor-none accent-logo-gold interactive-target">
+                </div>
 
-                        <div id="papersFormContainer" class="space-y-4"></div>
+                <div>
+                    <span class="text-[9px] text-slate-400 font-bold uppercase tracking-wider block mb-2">Select Ink / Tool</span>
+                    <div class="grid grid-cols-6 gap-2 items-center">
+                        <button class="color-palette-swatch active cursor-none bg-black border-slate-400 interactive-target" data-color="#000000" title="Black ink"></button>
+                        <button class="color-palette-swatch cursor-none bg-red-600 border-transparent interactive-target" data-color="#dc2626" title="Red ink"></button>
+                        <button class="color-palette-swatch cursor-none bg-blue-600 border-transparent interactive-target" data-color="#2563eb" title="Blue ink"></button>
+                        <button class="color-palette-swatch cursor-none bg-emerald-600 border-transparent interactive-target" data-color="#16a34a" title="Green ink"></button>
+                        <button class="color-palette-swatch cursor-none bg-amber-400 border-transparent interactive-target" data-color="#facc15" title="Yellow ink"></button>
+                        <button id="eraser-tool-btn" class="w-8 h-8 rounded-full border-2 border-slate-700 hover:border-white bg-slate-800 text-xs flex items-center justify-center cursor-none interactive-target" title="Use Eraser">🧽</button>
                     </div>
                 </div>
 
-                <div class="lg:col-span-4 lg:sticky lg:top-24">
-                    <div class="bg-logo-black rounded-3xl p-6 md:p-8 text-white shadow-xl relative overflow-hidden border-b-4 border-logo-gold">
-                        <div class="absolute -top-10 -right-10 w-36 h-36 bg-logo-gold/10 rounded-full pointer-events-none"></div>
-                        <h3 class="font-display font-700 text-logo-gold uppercase tracking-widest text-[10px] mb-6 flex items-center gap-2">
-                            <span>📋</span> CALCULATED PUM RESULT
-                        </h3>
-                        <div class="space-y-4">
-                            <div>
-                                <span class="text-slate-400 text-xs uppercase tracking-wider font-semibold block mb-1">Total Option Raw Mark</span>
-                                <div id="rawMarkDisplay" class="text-2xl font-display font-bold text-slate-200">0 / 160</div>
+                <button id="clear-writing-plane-btn" class="w-full bg-slate-800 text-slate-300 font-display font-bold text-xs py-2 px-4 rounded-xl cursor-none transition-all hover:bg-red-600 hover:text-white">
+                    🗑️ Clear Active Boards
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed bottom-6 left-6 z-50 bg-slate-900/95 backdrop-blur-md p-2 rounded-xl border border-slate-700 shadow-xl flex items-center gap-1 interactive-target">
+        <button id="theme-switch-light-btn" class="bg-logo-gold text-slate-900 p-2 rounded-lg font-display text-xs font-bold transition-all cursor-none">☀️ Light</button>
+        <button id="theme-switch-dark-btn" class="text-slate-400 hover:text-white p-2 rounded-lg font-display text-xs font-bold transition-all cursor-none">🌙 Dark</button>
+    </div>
+
+    <div id="master-application-frame">
+        <div id="main-star" class="star-cursor">✦</div>
+        <div class="trail-star">✦</div>
+        <div class="trail-star">✦</div>
+        <div class="trail-star">✦</div>
+        <div class="trail-star">✦</div>
+
+        <nav class="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-100 dark:bg-slate-900/80 dark:border-slate-800">
+            <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-9 h-9 bg-sme-blue rounded-xl flex items-center justify-center text-logo-gold font-display font-800 text-base">A</div>
+                    <span class="font-display font-800 text-xl tracking-tight text-sme-blue dark:text-white">The ANTs <span class="text-logo-gold">Tutoring</span></span>
+                </div>
+                <div class="flex items-center gap-6 font-display font-semibold text-sm">
+                    <a href="#calculator-section" class="text-sme-blue hover:text-logo-gold transition-colors interactive-target dark:text-slate-300 dark:hover:text-logo-gold">Calculator</a>
+                    <a href="#notes-section" class="text-sme-blue hover:text-logo-gold transition-colors interactive-target dark:text-slate-300 dark:hover:text-logo-gold">Resource Hub</a>
+                </div>
+            </div>
+        </nav>
+
+        <header class="bg-gradient-to-b from-light-beige via-[#fbfaf8] to-white min-h-[400px] flex flex-col justify-center items-center px-6 py-16 text-center border-b border-slate-50 dark:from-slate-900 dark:via-slate-900/60 dark:to-slate-900 dark:border-slate-800">
+            <div class="max-w-3xl mx-auto">
+                <h1 class="font-display font-800 text-5xl md:text-7xl tracking-tight text-sme-blue mb-2 dark:text-white">
+                    The ANTs <span class="text-logo-gold drop-shadow-3xs">Tutoring</span>
+                </h1>
+                <p class="font-cursive text-3xl md:text-4xl text-sme-blue/80 tracking-wide mb-10 dark:text-slate-300">Ace with us</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4 max-w-xs mx-auto">
+                    <a href="#calculator-section" class="bg-sme-blue text-white hover:bg-logo-black font-display font-bold py-3.5 px-8 rounded-xl text-center text-sm transition-all shadow-md flex-1 interactive-target dark:bg-logo-gold dark:text-slate-900 dark:hover:bg-white">
+                        📊 Open Calculator
+                    </a>
+                    <a href="#notes-section" class="bg-white border border-slate-200 text-sme-blue hover:bg-slate-50 font-display font-bold py-3.5 px-8 rounded-xl text-center text-sm transition-all shadow-sm flex-1 interactive-target dark:bg-slate-800 dark:border-slate-700 dark:text-white dark:hover:bg-slate-700">
+                        📚 Read Physics Notes
+                    </a>
+                </div>
+            </div>
+        </header>
+
+        <section id="calculator-section" class="py-16 scroll-mt-6">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="mb-10 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-xl mb-3 text-xs font-bold text-sme-blue font-display dark:bg-slate-800 dark:border-slate-700 dark:text-logo-gold">
+                        ⚙️ AUTOMATED CONVERSION ENGINE
+                    </div>
+                    <h2 class="font-display font-800 text-3xl text-sme-blue tracking-tight dark:text-white">Syllabus Evaluation System</h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                    <div class="lg:col-span-8 space-y-6">
+                        <div class="bg-slate-50/60 dark:bg-slate-800/40 rounded-3xl p-6 md:p-8 border border-slate-200/50 dark:border-slate-700 shadow-3xs backdrop-blur-xs">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                                <div class="md:col-span-2 relative">
+                                    <label class="block text-xs font-800 uppercase tracking-widest text-slate-400 mb-2">Subject Selected</label>
+                                    <div id="customSubjectToggle" class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3.5 font-display font-bold text-sme-blue dark:text-white text-sm shadow-3xs flex justify-between items-center interactive-target select-none">
+                                        <span id="selectedSubjectLabel">Select Subject</span>
+                                        <svg class="w-4 h-4 text-slate-500 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                    </div>
+                                    <div id="customSubjectMenu" class="dropdown-menu-list absolute left-0 right-0 mt-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-lg z-50 max-h-64 overflow-y-auto"></div>
+                                </div>
+
+                                <div class="relative">
+                                    <label class="block text-xs font-800 uppercase tracking-widest text-slate-400 mb-2">Series Track</label>
+                                    <div id="customSeriesToggle" class="w-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-4 py-3.5 font-display font-bold text-sme-blue dark:text-white text-sm shadow-3xs flex justify-between items-center interactive-target select-none">
+                                        <span id="selectedSeriesLabel">May/June 2024 (V2)</span>
+                                        <svg class="w-4 h-4 text-slate-500 transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                                    </div>
+                                    <div id="customSeriesMenu" class="dropdown-menu-list absolute left-0 right-0 mt-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl shadow-lg z-50">
+                                        <div class="px-4 py-3 text-sm font-semibold text-sme-blue dark:text-white hover:bg-slate-50 dark:hover:bg-slate-700 interactive-target" data-value="MJ24">May/June 2024 (V2)</div>
+                                    </div>
+                                </div>
                             </div>
-                            <hr class="border-slate-800">
-                            <div>
-                                <span class="text-slate-400 text-xs uppercase tracking-wider font-semibold block mb-1">Percentage Uniform Mark</span>
-                                <div class="flex items-center gap-4 mt-1">
-                                    <div id="finalPercentDisplay" class="text-4xl lg:text-5xl font-display font-800 tracking-tight text-white transition-all duration-150">0%</div>
-                                    <div id="sideGradeDisplay" class="text-3xl font-display font-800 text-white bg-slate-800 px-4 py-1.5 rounded-xl border border-slate-700 min-w-[65px] text-center shadow-inner select-none">U</div>
+
+                            <div id="papersFormContainer" class="space-y-4"></div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-4 lg:sticky lg:top-24">
+                        <div class="bg-logo-black rounded-3xl p-6 md:p-8 text-white shadow-xl relative overflow-hidden border-b-4 border-logo-gold">
+                            <div class="absolute -top-10 -right-10 w-36 h-36 bg-logo-gold/10 rounded-full pointer-events-none"></div>
+                            <h3 class="font-display font-700 text-logo-gold uppercase tracking-widest text-[10px] mb-6 flex items-center gap-2">
+                                <span>📋</span> CALCULATED PUM RESULT
+                            </h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <span class="text-slate-400 text-xs uppercase tracking-wider font-semibold block mb-1">Total Option Raw Mark</span>
+                                    <div id="rawMarkDisplay" class="text-2xl font-display font-bold text-slate-200">0 / 160</div>
+                                </div>
+                                <hr class="border-slate-800">
+                                <div>
+                                    <span class="text-slate-400 text-xs uppercase tracking-wider font-semibold block mb-1">Percentage Uniform Mark</span>
+                                    <div class="flex items-center gap-4 mt-1">
+                                        <div id="finalPercentDisplay" class="text-4xl lg:text-5xl font-display font-800 tracking-tight text-white transition-all duration-150">0%</div>
+                                        <div id="sideGradeDisplay" class="text-3xl font-display font-800 text-white bg-slate-800 px-4 py-1.5 rounded-xl border border-slate-700 min-w-[65px] text-center shadow-inner select-none">U</div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="notes-section" class="bg-slate-50 border-t border-slate-100 py-16 scroll-mt-6">
-        <div class="max-w-7xl mx-auto px-6">
-            
-            <div class="text-center max-w-xl mx-auto mb-12">
-                <div class="inline-flex items-center gap-2 bg-amber-50 border border-logo-gold/20 px-3 py-1.5 rounded-xl mb-3 text-xs font-bold text-logo-gold font-display">
-                    🗂️ MASTER FILE ACCORDION REPOSITORY
-                </div>
-                <h2 class="font-display font-800 text-3xl text-sme-blue tracking-tight">Syllabus Resource Hub</h2>
-                <p class="text-slate-500 font-medium text-xs mt-1">Click headers to toggle data matrices. Font sizes run at exactly 14px in compliance with verification log templates.</p>
-            </div>
-
-            <div class="max-w-5xl mx-auto space-y-4 physics-notes-engine">
+        <section id="notes-section" class="bg-slate-100/60 dark:bg-slate-800/30 border-t border-slate-200 dark:border-slate-800 py-16 scroll-mt-6">
+            <div class="max-w-7xl mx-auto px-6">
                 
-                <div class="bg-white border border-slate-200/80 rounded-2xl shadow-3xs overflow-hidden">
-                    <button class="chapter-trigger w-full px-6 py-5 bg-white hover:bg-slate-50/80 flex justify-between items-center text-left interactive-target">
-                        <div>
-                            <span class="text-[10px] font-bold text-logo-gold tracking-widest block mb-0.5">PAGE 2 – 13</span>
-                            <h3 class="font-display font-800 text-lg text-sme-blue">Chapter 1: Motion, Forces, and Energy</h3>
-                        </div>
-                        <span class="accordion-icon text-slate-400 font-bold transition-transform text-lg">＋</span>
-                    </button>
+                <div class="text-center max-w-xl mx-auto mb-12">
+                    <div class="inline-flex items-center gap-2 bg-amber-50 border border-logo-gold/20 px-3 py-1.5 rounded-xl mb-3 text-xs font-bold text-logo-gold font-display dark:bg-slate-800 dark:border-slate-700">
+                        🗂️ ACCORDION REPOSITORY
+                    </div>
+                    <h2 class="font-display font-800 text-3xl text-sme-blue tracking-tight dark:text-white">Syllabus Resource Hub</h2>
+                    <p class="text-slate-600 font-semibold text-sm mt-2 dark:text-slate-400">Enhanced High-Contrast Student View (Optimized for iPad Browsing at 100% Zoom)</p>
+                </div>
+
+                <div class="max-w-5xl mx-auto space-y-4 physics-notes-engine">
                     
-                    <div class="chapter-content-box p-6 border-t border-slate-100 bg-white">
-                        <div class="mb-6">
-                            <div class="font-bold text-xs bg-sme-blue text-logo-gold px-3 py-1.5 rounded-md inline-block mb-3">1.1 Physical quantities and measurement techniques</div>
-                            <table class="physics-master-table">
-                                <tbody>
-                                    <tr>
-                                        <td style="width: 60px; text-align: center; font-weight: bold;">4</td>
-                                        <td>
-                                            <div class="physics-split-cell">
-                                                <div class="physics-internal-row"><strong>Scalar:</strong> has only magnitude.</div>
-                                                <div class="physics-internal-row"><strong>Vector:</strong> has both magnitude and direction.</div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="text-align: center; font-weight: bold;">5</td>
-                                        <td><strong>Scalars:</strong> Distance, speed, time, mass, energy and temperature.</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="text-align: center; font-weight: bold;">6</td>
-                                        <td><strong>Vectors:</strong> force, weight, velocity, acceleration, momentum, electric field strength and gravitational field strength.</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="text-align: center; font-weight: bold;">7</td>
-                                        <td><strong>Resultant at Right Angles:</strong> Computed via vector triangles, using the equation $R = \sqrt{F_x^2 + F_y^2}$ and angular alignments determined by $\tan\theta = \frac{F_y}{F_x}$.</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
-                        <div class="mb-6">
-                            <div class="font-bold text-xs bg-sme-blue text-logo-gold px-3 py-1.5 rounded-md inline-block mb-3">1.2 Motion</div>
-                            <table class="physics-master-table">
-                                <tbody>
-                                    <tr>
-                                        <td style="width: 60px; text-align: center; font-weight: bold;">1</td>
-                                        <td><strong>Speed:</strong> distance travelled per unit time ($v = \frac{s}{t}$).</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="text-align: center; font-weight: bold;">2</td>
-                                        <td><strong>Velocity:</strong> distance travelled per unit time in a given direction.</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="text-align: center; font-weight: bold;">9</td>
-                                        <td><strong>Acceleration:</strong> change of velocity per unit time ($a = \frac{\Delta v}{\Delta t}$).</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="text-align: center; font-weight: bold;">3</td>
-                                        <td><strong>Average Speed:</strong> Total distance divided by total time elapsed.</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-
-                            <div class="my-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                <div class="bg-slate-50 border border-slate-200 p-3 rounded-lg text-xs text-slate-400 italic text-center">[Caption: Distance-Time Profile - Flat horizontal track represents rest/stationary alignment states]</div>
-                                <div class="bg-slate-50 border border-slate-200 p-3 rounded-lg text-xs text-slate-400 italic text-center">[Caption: Distance-Time Profile - Linear upward straight line represents uniform speed tracks]</div>
+                    <div class="bg-white border-2 border-slate-300 rounded-2xl shadow-sm overflow-hidden dark:bg-slate-800 dark:border-slate-700">
+                        <button class="chapter-trigger w-full px-6 py-6 bg-white hover:bg-slate-50 flex justify-between items-center text-left interactive-target dark:bg-slate-800 dark:hover:bg-slate-700/50">
+                            <div>
+                                <span class="text-[11px] font-bold text-logo-gold tracking-widest block mb-1">PAGE 2 – 13</span>
+                                <h3 class="font-display font-800 text-xl text-sme-blue dark:text-white">Chapter 1: Motion, Forces, and Energy</h3>
+                            </div>
+                            <span class="accordion-icon text-slate-500 font-bold transition-transform text-2xl">＋</span>
+                        </button>
+                        
+                        <div class="chapter-content-box p-6 border-t-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+                            <div class="mb-10">
+                                <div class="font-bold text-sm bg-sme-blue text-logo-gold px-4 py-2 rounded-md inline-block mb-4 tracking-wide">1.1 Physical quantities and measurement techniques</div>
+                                <table class="physics-master-table">
+                                    <tbody>
+                                        <tr>
+                                            <td class="physics-index-cell">4</td>
+                                            <td>
+                                                <div class="physics-split-cell">
+                                                    <div class="physics-internal-row"><strong>Scalar</strong> has only magnitude.</div>
+                                                    <div class="physics-internal-row"><strong>Vector</strong> has both magnitude and direction.</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="physics-index-cell">5</td>
+                                            <td>
+                                                <div class="physics-split-cell">
+                                                    <div class="physics-internal-row"><strong>Scalars:</strong></div>
+                                                    <div class="physics-internal-row">Distance, speed, time, mass, energy and temperature</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="physics-index-cell">6</td>
+                                            <td>
+                                                <div class="physics-split-cell">
+                                                    <div class="physics-internal-row"><strong>Vectors:</strong></div>
+                                                    <div class="physics-internal-row">force, weight, velocity, acceleration, momentum, electric field strength and gravitational field strength</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="physics-index-cell">7</td>
+                                            <td>
+                                                <div class="physics-split-cell">
+                                                    <div class="physics-internal-row">Determine the resultant force of two vectors at right angles</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
 
-                            <table class="physics-master-table">
-                                <tbody>
-                                    <tr>
-                                        <td style="width: 60px; text-align: center; font-weight: bold;">6</td>
-                                        <td>The <strong>gradient</strong> of a distance-time graph represents the exact local calculated <strong>speed</strong>.</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="text-align: center; font-weight: bold;">14</td>
-                                        <td>The <strong>area under a speed-time graph</strong> corresponds to the evaluated <strong>distance travelled</strong>.</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="mb-6">
+                                <div class="font-bold text-sm bg-sme-blue text-logo-gold px-4 py-2 rounded-md inline-block mb-4 tracking-wide">1.2 Motion</div>
+                                <table class="physics-master-table">
+                                    <tbody>
+                                        <tr>
+                                            <td class="physics-index-cell">1</td>
+                                            <td>
+                                                <div class="physics-split-cell">
+                                                    <div class="physics-internal-row"><strong>Speed</strong></div>
+                                                    <div class="physics-internal-row">distance travelled per unit time</div>
+                                                    <div class="physics-internal-row">$v = s / t$</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="physics-index-cell">2</td>
+                                            <td>
+                                                <div class="physics-split-cell">
+                                                    <div class="physics-internal-row"><strong>Velocity</strong></div>
+                                                    <div class="physics-internal-row">Distance travelled per unit time in given direction</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="physics-index-cell">9</td>
+                                            <td>
+                                                <div class="physics-split-cell">
+                                                    <div class="physics-internal-row"><strong>Acceleration</strong></div>
+                                                    <div class="physics-internal-row">Rate of change of velocity</div>
+                                                    <div class="physics-internal-row">$a = \Delta v / \Delta t$</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="physics-index-cell">3</td>
+                                            <td>
+                                                <div class="physics-split-cell">
+                                                    <div class="physics-internal-row">Average speed = total distance travelled / total time taken</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="bg-white border border-slate-200/80 rounded-2xl shadow-3xs overflow-hidden">
-                    <button class="chapter-trigger w-full px-6 py-5 bg-white hover:bg-slate-50/80 flex justify-between items-center text-left interactive-target">
-                        <div>
-                            <span class="text-[10px] font-bold text-logo-gold tracking-widest block mb-0.5">PAGE 14 – 19</span>
-                            <h3 class="font-display font-800 text-lg text-sme-blue">Chapter 2: Thermal Physics</h3>
-                        </div>
-                        <span class="accordion-icon text-slate-400 font-bold transition-transform text-lg">＋</span>
-                    </button>
-                    
-                    <div class="chapter-content-box p-6 border-t border-slate-100 bg-white">
-                        <div class="mb-4">
-                            <div class="font-bold text-xs bg-sme-blue text-logo-gold px-3 py-1.5 rounded-md inline-block mb-3">2.1 Kinetic Particle Model of Matter</div>
-                            <table class="physics-master-table">
-                                <tbody>
-                                    <tr>
-                                        <td style="width: 60px; text-align: center; font-weight: bold;">1</td>
-                                        <td>
-                                            <div class="physics-split-cell">
-                                                <div class="physics-internal-row"><strong>Solids:</strong> High density, fixed volume and rigid shape. Particles vibrate about fixed points inside regular lattice formations.</div>
-                                                <div class="physics-internal-row"><strong>Liquids:</strong> Medium-high density, constant volumetric configuration but conforms to container geometries. Particles change neighborhoods dynamically.</div>
-                                                <div class="physics-internal-row"><strong>Gases:</strong> Extremely low density, occupies any configuration volume. High velocity independent molecular paths.</div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="text-align: center; font-weight: bold;">4</td>
-                                        <td><strong>Brownian Motion:</strong> Random micro-particle movements caused by consistent collisions with much smaller, fast-moving fluid molecules.</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                    <div class="bg-white border-2 border-slate-300 rounded-2xl shadow-sm overflow-hidden dark:bg-slate-800 dark:border-slate-700">
+                        <button class="chapter-trigger w-full px-6 py-6 bg-white hover:bg-slate-50 flex justify-between items-center text-left interactive-target dark:bg-slate-800 dark:hover:bg-slate-700/50">
+                            <div>
+                                <span class="text-[11px] font-bold text-logo-gold tracking-widest block mb-1">PAGE 14 – 19</span>
+                                <h3 class="font-display font-800 text-xl text-sme-blue dark:text-white">Chapter 2: Thermal Physics</h3>
+                            </div>
+                            <span class="accordion-icon text-slate-500 font-bold transition-transform text-2xl">＋</span>
+                        </button>
+                        
+                        <div class="chapter-content-box p-6 border-t-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+                            <div class="mb-4">
+                                <div class="font-bold text-sm bg-sme-blue text-logo-gold px-4 py-2 rounded-md inline-block mb-4 tracking-wide">2.1 Kinetic Particle Model of Matter</div>
+                                <table class="physics-master-table">
+                                    <tbody>
+                                        <tr>
+                                            <td class="physics-index-cell">1</td>
+                                            <td>
+                                                <div class="physics-split-cell">
+                                                    <div class="physics-internal-row"><strong>Solids:</strong> High density, fixed volume and rigid shape. Particles vibrate about fixed points inside regular lattice formations.</div>
+                                                    <div class="physics-internal-row"><strong>Liquids:</strong> Medium-high density, constant volumetric configuration but conforms to container geometries. Particles change neighborhoods dynamically.</div>
+                                                    <div class="physics-internal-row"><strong>Gases:</strong> Extremely low density, occupies any configuration volume. High velocity independent molecular paths.</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="bg-white border border-slate-200/80 rounded-2xl shadow-3xs overflow-hidden">
-                    <button class="chapter-trigger w-full px-6 py-5 bg-white hover:bg-slate-50/80 flex justify-between items-center text-left interactive-target">
-                        <div>
-                            <span class="text-[10px] font-bold text-logo-gold tracking-widest block mb-0.5">PAGE 20 – 31</span>
-                            <h3 class="font-display font-800 text-lg text-sme-blue">Chapter 3: Waves</h3>
-                        </div>
-                        <span class="accordion-icon text-slate-400 font-bold transition-transform text-lg">＋</span>
-                    </button>
-                    
-                    <div class="chapter-content-box p-6 border-t border-slate-100 bg-white">
-                        <div class="mb-4">
-                            <div class="font-bold text-xs bg-sme-blue text-logo-gold px-3 py-1.5 rounded-md inline-block mb-3">3.1 General Properties of Waves</div>
-                            <table class="physics-master-table">
-                                <tbody>
-                                    <tr>
-                                        <td style="width: 60px; text-align: center; font-weight: bold;">1</td>
-                                        <td>Waves transfer energy without transferring mass. Standard wave relation formulation: $v = f\lambda$.</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="text-align: center; font-weight: bold;">3</td>
-                                        <td>
-                                            <div class="physics-split-cell">
-                                                <div class="physics-internal-row"><strong>Longitudinal Waves:</strong> Structural oscillations are parallel to energy vectors.</div>
-                                                <div class="physics-internal-row"><strong>Transverse Waves:</strong> Structural oscillations are perpendicular to energy vectors.</div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                    <div class="bg-white border-2 border-slate-300 rounded-2xl shadow-sm overflow-hidden dark:bg-slate-800 dark:border-slate-700">
+                        <button class="chapter-trigger w-full px-6 py-6 bg-white hover:bg-slate-50 flex justify-between items-center text-left interactive-target dark:bg-slate-800 dark:hover:bg-slate-700/50">
+                            <div>
+                                <span class="text-[11px] font-bold text-logo-gold tracking-widest block mb-1">PAGE 20 – 31</span>
+                                <h3 class="font-display font-800 text-xl text-sme-blue dark:text-white">Chapter 3: Waves</h3>
+                            </div>
+                            <span class="accordion-icon text-slate-500 font-bold transition-transform text-2xl">＋</span>
+                        </button>
+                        
+                        <div class="chapter-content-box p-6 border-t-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+                            <div class="mb-4">
+                                <div class="font-bold text-sm bg-sme-blue text-logo-gold px-4 py-2 rounded-md inline-block mb-4 tracking-wide">3.1 General Properties of Waves</div>
+                                <table class="physics-master-table">
+                                    <tbody>
+                                        <tr>
+                                            <td class="physics-index-cell">1</td>
+                                            <td>Waves transfer energy without transferring mass. Standard wave relation formulation: $v = f\lambda$.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="bg-white border border-slate-200/80 rounded-2xl shadow-3xs overflow-hidden">
-                    <button class="chapter-trigger w-full px-6 py-5 bg-white hover:bg-slate-50/80 flex justify-between items-center text-left interactive-target">
-                        <div>
-                            <span class="text-[10px] font-bold text-logo-gold tracking-widest block mb-0.5">PAGE 32 – 46</span>
-                            <h3 class="font-display font-800 text-lg text-sme-blue">Chapter 4: Electricity and Magnetism</h3>
-                        </div>
-                        <span class="accordion-icon text-slate-400 font-bold transition-transform text-lg">＋</span>
-                    </button>
-                    
-                    <div class="chapter-content-box p-6 border-t border-slate-100 bg-white">
-                        <div class="mb-4">
-                            <div class="font-bold text-xs bg-sme-blue text-logo-gold px-3 py-1.5 rounded-md inline-block mb-3">4.2 Electrical Quantities</div>
-                            <table class="physics-master-table">
-                                <tbody>
-                                    <tr>
-                                        <td style="width: 60px; text-align: center; font-weight: bold;">2</td>
-                                        <td>
-                                            <div class="physics-split-cell">
-                                                <div class="physics-internal-row"><strong>Electric Current ($I$):</strong> The rate of flow of electric charge across loop planes ($I = \frac{Q}{t}$).</div>
-                                                <div class="physics-internal-row"><strong>Ohm's Law:</strong> Linear resistance properties governed via $V = IR$ ratios.</div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                    <div class="bg-white border-2 border-slate-300 rounded-2xl shadow-sm overflow-hidden dark:bg-slate-800 dark:border-slate-700">
+                        <button class="chapter-trigger w-full px-6 py-6 bg-white hover:bg-slate-50 flex justify-between items-center text-left interactive-target dark:bg-slate-800 dark:hover:bg-slate-700/50">
+                            <div>
+                                <span class="text-[11px] font-bold text-logo-gold tracking-widest block mb-1">PAGE 67 – 79</span>
+                                <h3 class="font-display font-800 text-xl text-sme-blue dark:text-white">Chapter 7: Paper 6 Practical</h3>
+                            </div>
+                            <span class="accordion-icon text-slate-500 font-bold transition-transform text-2xl">＋</span>
+                        </button>
+                        
+                        <div class="chapter-content-box p-6 border-t-2 border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
+                            <div class="mb-4">
+                                <div class="font-bold text-sm bg-sme-blue text-logo-gold px-4 py-2 rounded-md inline-block mb-4 tracking-wide">7.2 Question 4 Format: Balancing and Verification Systems</div>
+                                <table class="physics-master-table">
+                                    <tbody>
+                                        <tr>
+                                            <td class="physics-index-cell">Q</td>
+                                            <td>Briefly describe how to check that a meter ruler is horizontal relative to a standard laboratory workbench plane.</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="physics-index-cell" style="color: #C5A059;">A</td>
+                                            <td>Measure the exact distance or tracking height down to the workbench surface in <strong>two distinct positions</strong>, and confirm that these measurements are completely equal.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="bg-white border border-slate-200/80 rounded-2xl shadow-3xs overflow-hidden">
-                    <button class="chapter-trigger w-full px-6 py-5 bg-white hover:bg-slate-50/80 flex justify-between items-center text-left interactive-target">
-                        <div>
-                            <span class="text-[10px] font-bold text-logo-gold tracking-widest block mb-0.5">PAGE 47 – 55</span>
-                            <h3 class="font-display font-800 text-lg text-sme-blue">Chapter 5: Nuclear Physics</h3>
-                        </div>
-                        <span class="accordion-icon text-slate-400 font-bold transition-transform text-lg">＋</span>
-                    </button>
-                    
-                    <div class="chapter-content-box p-6 border-t border-slate-100 bg-white">
-                        <div class="mb-4">
-                            <div class="font-bold text-xs bg-sme-blue text-logo-gold px-3 py-1.5 rounded-md inline-block mb-3">5.2 Radioactivity</div>
-                            <table class="physics-master-table">
-                                <tbody>
-                                    <tr>
-                                        <td style="width: 60px; text-align: center; font-weight: bold;">3</td>
-                                        <td>
-                                            <div class="physics-split-cell">
-                                                <div class="physics-internal-row"><strong>Alpha ($\alpha$):</strong> High ionization power, short trajectory paths, stopped easily via paper sheets.</div>
-                                                <div class="physics-internal-row"><strong>Beta ($\beta$):</strong> Moderate structural ionization profiles, penetration halted by thin aluminum elements.</div>
-                                                <div class="physics-internal-row"><strong>Gamma ($\gamma$):</strong> Electromagnetic radiation paths. High penetration potential, attenuated strictly by lead arrays.</div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
                 </div>
-
-                <div class="bg-white border border-slate-200/80 rounded-2xl shadow-3xs overflow-hidden">
-                    <button class="chapter-trigger w-full px-6 py-5 bg-white hover:bg-slate-50/80 flex justify-between items-center text-left interactive-target">
-                        <div>
-                            <span class="text-[10px] font-bold text-logo-gold tracking-widest block mb-0.5">PAGE 56 – 66</span>
-                            <h3 class="font-display font-800 text-lg text-sme-blue">Chapter 6: Space Physics</h3>
-                        </div>
-                        <span class="accordion-icon text-slate-400 font-bold transition-transform text-lg">＋</span>
-                    </button>
-                    
-                    <div class="chapter-content-box p-6 border-t border-slate-100 bg-white">
-                        <div class="mb-4">
-                            <div class="font-bold text-xs bg-sme-blue text-logo-gold px-3 py-1.5 rounded-md inline-block mb-3">6.1 Earth and the Solar System</div>
-                            <table class="physics-master-table">
-                                <tbody>
-                                    <tr>
-                                        <td style="width: 60px; text-align: center; font-weight: bold;">2</td>
-                                        <td><strong>Orbital velocity:</strong> Calculated tracking cyclic outer space configurations: $v = \frac{2\pi r}{T}$.</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white border border-slate-200/80 rounded-2xl shadow-3xs overflow-hidden">
-                    <button class="chapter-trigger w-full px-6 py-5 bg-white hover:bg-slate-50/80 flex justify-between items-center text-left interactive-target">
-                        <div>
-                            <span class="text-[10px] font-bold text-logo-gold tracking-widest block mb-0.5">PAGE 67 – 79</span>
-                            <h3 class="font-display font-800 text-lg text-sme-blue">Chapter 7: Paper 6 Practical</h3>
-                        </div>
-                        <span class="accordion-icon text-slate-400 font-bold transition-transform text-lg">＋</span>
-                    </button>
-                    
-                    <div class="chapter-content-box p-6 border-t border-slate-100 bg-white">
-                        <div class="mb-4">
-                            <div class="font-bold text-xs bg-sme-blue text-logo-gold px-3 py-1.5 rounded-md inline-block mb-3">7.2 Question 4 Format: Balancing and Verification Systems</div>
-                            <table class="physics-master-table">
-                                <tbody>
-                                    <tr>
-                                        <td style="width: 60px; text-align: center; font-weight: bold;">Q</td>
-                                        <td>Briefly describe how to check that a meter ruler is horizontal relative to a standard laboratory workbench plane.</td>
-                                    </tr>
-                                    <tr>
-                                        <td style="text-align: center; font-weight: bold; color: #C5A059;">A</td>
-                                        <td>Measure the exact distance or tracking height down to the workbench surface in <strong>two distinct positions</strong>, and confirm that these measurements are completely equal.</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div class="mt-3 bg-slate-50 border border-slate-200 p-3 rounded-lg text-xs text-slate-400 italic text-center">[Caption: Lab setup - Vertical height comparison check on both left and right ruler margins using set squares]</div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
-        </div>
-    </section>
+        </section>
 
-    <footer class="bg-white border-t border-slate-100 py-10 text-center font-semibold text-slate-400 text-xs">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
-            <span class="font-display font-800 text-base text-sme-blue">The ANTs <span class="text-logo-gold">Tutoring</span></span>
-            <div class="font-medium text-slate-400">&copy; 2026 The ANTs Portal Suite &bull; Verified Spreadsheet Synced Engine</div>
-        </div>
-    </footer>
+        <footer class="bg-white border-t border-slate-200 py-10 text-center font-semibold text-slate-400 text-xs dark:bg-slate-900 dark:border-slate-800">
+            <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4">
+                <span class="font-display font-800 text-base text-sme-blue dark:text-white">The ANTs <span class="text-logo-gold">Tutoring</span></span>
+                <div class="font-medium text-slate-400">&copy; 2026 The ANTs Portal Suite &bull; Verified Spreadsheet Synced Engine</div>
+            </div>
+        </footer>
+    </div>
 
     <script>
         const syllabusData = {
@@ -557,29 +650,11 @@
                 thresholds: { Astar: 158, A: 130, B: 102, C: 74, D: 56, E: 39 }, 
                 papers: [{ name: "Paper 22", max: 70, factor: 1.0 }, { name: "Paper 42", max: 130, factor: 1.0 }] 
             },
-            "0620": { 
-                name: "Chemistry (Extended)", 
-                optionMax: 200,
-                thresholds: { Astar: 142, A: 119, B: 96, C: 73, D: 59, E: 45 }, 
-                papers: [{ name: "Paper 22 (MCQ)", max: 40, factor: 1.5 }, { name: "Paper 42 (Theory)", max: 80, factor: 1.25 }, { name: "Paper 62 (Alternative to Practical)", max: 40, factor: 1.0 }] 
-            },
             "0625": { 
                 name: "Physics (Extended)", 
                 optionMax: 200,
                 thresholds: { Astar: 139, A: 115, B: 91, C: 68, D: 55, E: 42 }, 
                 papers: [{ name: "Paper 22 (MCQ)", max: 40, factor: 1.5 }, { name: "Paper 42 (Theory)", max: 80, factor: 1.25 }, { name: "Paper 62 (Alternative to Practical)", max: 40, factor: 1.0 }] 
-            },
-            "0610": { 
-                name: "Biology (Extended)", 
-                optionMax: 200,
-                thresholds: { Astar: 145, A: 122, B: 99, C: 76, D: 62, E: 49 }, 
-                papers: [{ name: "Paper 22 (MCQ)", max: 40, factor: 1.5 }, { name: "Paper 42 (Theory)", max: 80, factor: 1.25 }, { name: "Paper 62 (Alternative to Practical)", max: 40, factor: 1.0 }] 
-            },
-            "0478": { 
-                name: "Computer Science", 
-                optionMax: 150,
-                thresholds: { Astar: 114, A: 96, B: 78, C: 60, D: 49, E: 39 }, 
-                papers: [{ name: "Paper 12 (Theory)", max: 75, factor: 1.0 }, { name: "Paper 22 (Algorithms)", max: 75, factor: 1.0 }] 
             }
         };
 
@@ -606,11 +681,8 @@
             mainStar.style.top = `${starPositions[0].y}px`;
 
             for (let i = 1; i < starPositions.length; i++) {
-                let current = starPositions[i];
-                let target = starPositions[i - 1];
-                let dx = target.x - current.x;
-                let dy = target.y - current.y;
-                
+                let current = starPositions[i], target = starPositions[i - 1];
+                let dx = target.x - current.x, dy = target.y - current.y;
                 starPositions[i] = { x: current.x + dx * 0.35, y: current.y + dy * 0.35 };
                 
                 let element = trailStars[i - 1];
@@ -622,15 +694,12 @@
         }
         requestAnimationFrame(animateStarsLoop);
 
-        // Accordion Management Setup
+        // Core Accordions
         document.querySelectorAll('.chapter-trigger').forEach(trigger => {
             trigger.addEventListener('click', () => {
                 const contentBox = trigger.nextElementSibling;
                 const icon = trigger.querySelector('.accordion-icon');
-                
-                const isExpanded = contentBox.classList.contains('expanded');
-                
-                if(isExpanded) {
+                if(contentBox.classList.contains('expanded')) {
                     contentBox.classList.remove('expanded');
                     icon.textContent = '＋';
                 } else {
@@ -640,85 +709,256 @@
             });
         });
 
-        // HTML5 Writing Board Implementation
-        const canvas = document.getElementById('sketch-canvas-board');
-        const ctx = canvas.getContext('2d');
-        let isDrawingMode = false;
-        let isWriting = false;
+        // Theme Engine Toggles
+        const lightThemeBtn = document.getElementById('theme-switch-light-btn');
+        const darkThemeBtn = document.getElementById('theme-switch-dark-btn');
 
-        function handleResize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-            ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-            ctx.lineWidth = 3;
-            ctx.strokeStyle = '#C5A059'; 
+        lightThemeBtn.addEventListener('click', () => {
+            document.body.classList.remove('dark-theme-active');
+            lightThemeBtn.className = "bg-logo-gold text-slate-900 p-2 rounded-lg font-display text-xs font-bold transition-all cursor-none";
+            darkThemeBtn.className = "text-slate-400 hover:text-white p-2 rounded-lg font-display text-xs font-bold transition-all cursor-none";
+        });
+
+        darkThemeBtn.addEventListener('click', () => {
+            document.body.classList.add('dark-theme-active');
+            darkThemeBtn.className = "bg-logo-gold text-slate-900 p-2 rounded-lg font-display text-xs font-bold transition-all cursor-none";
+            lightThemeBtn.className = "text-slate-400 hover:text-white p-2 rounded-lg font-display text-xs font-bold transition-all cursor-none";
+        });
+
+        // Expandable Menu Control Box
+        const floatingToolsContainer = document.getElementById('floating-tools-container');
+        const masterToggleDrawerBtn = document.getElementById('master-toggle-drawer-btn');
+        const drawerArrowIndicator = document.getElementById('drawer-arrow-indicator');
+
+        masterToggleDrawerBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const isExpanded = floatingToolsContainer.classList.toggle('expanded');
+            drawerArrowIndicator.style.transform = isExpanded ? 'rotate(180deg)' : 'rotate(0deg)';
+        });
+
+        // Canvas Engine System Orchestration
+        const uniPlane = document.getElementById('universal-drawing-plane');
+        const splitCanvas = document.getElementById('split-whiteboard-canvas');
+        const uCtx = uniPlane.getContext('2d');
+        const sCtx = splitCanvas.getContext('2d');
+
+        let isDrawingMode = false;
+        let isWritingU = false;
+        let isWritingS = false;
+        let currentBrushColor = '#000000';
+        let isEraserActive = false;
+
+        function resizeCanvasEngine() {
+            const dpr = window.devicePixelRatio || 1;
+            
+            // 1. Universal Screen Plane Setup
+            uniPlane.width = window.innerWidth * dpr;
+            uniPlane.height = window.innerHeight * dpr;
+            uCtx.scale(dpr, dpr);
+            uCtx.lineCap = 'round';
+            uCtx.lineJoin = 'round';
+            
+            // 2. Split Whiteboard Sheet Setup
+            const sRect = splitCanvas.parentElement.getBoundingClientRect();
+            splitCanvas.width = sRect.width * dpr;
+            splitCanvas.height = sRect.height * dpr;
+            sCtx.scale(dpr, dpr);
+            sCtx.lineCap = 'round';
+            sCtx.lineJoin = 'round';
+
+            applyBrushParameters(uCtx);
+            applyBrushParameters(sCtx);
         }
-        window.addEventListener('resize', handleResize);
-        handleResize();
+
+        function applyBrushParameters(targetContext) {
+            if (isEraserActive) {
+                // Safe eraser execution context profiles
+                targetContext.strokeStyle = (targetContext === sCtx) ? (document.body.classList.contains('dark-theme-active') ? '#1e293b' : '#ffffff') : 'transparent';
+                targetContext.lineWidth = 32;
+                if (targetContext === uCtx) {
+                    targetContext.globalCompositeOperation = "destination-out";
+                }
+            } else {
+                targetContext.strokeStyle = currentBrushColor;
+                targetContext.lineWidth = 2.5;
+                targetContext.globalCompositeOperation = "source-over";
+            }
+        }
+
+        window.addEventListener('resize', resizeCanvasEngine);
 
         const toggleWritingBtn = document.getElementById('toggle-writing-mode-btn');
         const clearWritingBtn = document.getElementById('clear-writing-plane-btn');
-        const writingStatusText = document.getElementById('writing-status-text');
-        const writingStatusIcon = document.getElementById('writing-status-icon');
+        const drawerMainStatusLabel = document.getElementById('drawer-main-status-label');
+        const drawerMainIconIndicator = document.getElementById('drawer-main-icon-indicator');
+        const closeWhiteboardDockBtn = document.getElementById('close-whiteboard-dock-btn');
+        const appFrame = document.getElementById('master-application-frame');
+        const whiteboardWidthSlider = document.getElementById('whiteboard-width-slider');
+        const widthSliderValue = document.getElementById('width-slider-value');
+        const splitContainer = document.getElementById('split-whiteboard-container');
+
+        // Layout Width Calibration Engine
+        function updateLayoutWidths() {
+            const currentPercentage = whiteboardWidthSlider.value;
+            widthSliderValue.textContent = `${currentPercentage}%`;
+            if (document.body.classList.contains('split-drawing-active')) {
+                splitContainer.style.width = `${currentPercentage}%`;
+                appFrame.style.width = `${100 - currentPercentage}%`;
+            } else {
+                splitContainer.style.width = `${currentPercentage}%`;
+                appFrame.style.width = '100%';
+            }
+            setTimeout(resizeCanvasEngine, 40);
+        }
+
+        whiteboardWidthSlider.addEventListener('input', updateLayoutWidths);
+
+        function activateWorkspace() {
+            document.body.classList.add('split-drawing-active');
+            isDrawingMode = true;
+            toggleWritingBtn.textContent = "Disable Workspace";
+            drawerMainStatusLabel.textContent = "Draw Mode: ON";
+            drawerMainIconIndicator.textContent = "✏️"; // Pencil icon visible state
+            toggleWritingBtn.classList.replace('bg-logo-gold', 'bg-emerald-500');
+            toggleWritingBtn.classList.add('text-white');
+            updateLayoutWidths();
+        }
+
+        function deactivateWorkspace() {
+            document.body.classList.remove('split-drawing-active');
+            isDrawingMode = false;
+            isWritingU = false;
+            isWritingS = false;
+            toggleWritingBtn.textContent = "Activate Workspace";
+            drawerMainStatusLabel.textContent = "Draw Mode: OFF";
+            drawerMainIconIndicator.textContent = "📝";
+            toggleWritingBtn.classList.replace('bg-emerald-500', 'bg-logo-gold');
+            toggleWritingBtn.classList.remove('text-white');
+            updateLayoutWidths();
+        }
 
         toggleWritingBtn.addEventListener('click', () => {
-            isDrawingMode = !isDrawingMode;
-            if(isDrawingMode) {
-                canvas.classList.add('active');
-                writingStatusText.textContent = "Draw: ON";
-                writingStatusIcon.textContent = "✏️";
-                toggleWritingBtn.classList.replace('bg-logo-gold', 'bg-emerald-500');
-                toggleWritingBtn.classList.add('text-white');
-            } else {
-                canvas.classList.remove('active');
-                writingStatusText.textContent = "Draw: OFF";
-                writingStatusIcon.textContent = "📝";
-                toggleWritingBtn.classList.replace('bg-emerald-500', 'bg-logo-gold');
-                toggleWritingBtn.classList.remove('text-white');
-                isWriting = false;
-            }
+            if(!isDrawingMode) activateWorkspace();
+            else deactivateWorkspace();
         });
 
+        closeWhiteboardDockBtn.addEventListener('click', deactivateWorkspace);
+        
         clearWritingBtn.addEventListener('click', () => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const dpr = window.devicePixelRatio || 1;
+            uCtx.clearRect(0, 0, uniPlane.width / dpr, uniPlane.height / dpr);
+            sCtx.clearRect(0, 0, splitCanvas.width / dpr, splitCanvas.height / dpr);
         });
 
-        canvas.addEventListener('mousedown', (e) => {
+        // Color Tool Matrix Actions
+        document.querySelectorAll('.color-palette-swatch').forEach(swatch => {
+            swatch.addEventListener('click', () => {
+                document.querySelectorAll('.color-palette-swatch').forEach(s => s.classList.remove('active'));
+                document.getElementById('eraser-tool-btn').classList.remove('bg-logo-gold', 'text-slate-900');
+                
+                swatch.classList.add('active');
+                currentBrushColor = swatch.getAttribute('data-color');
+                isEraserActive = false;
+                applyBrushParameters(uCtx);
+                applyBrushParameters(sCtx);
+            });
+        });
+
+        document.getElementById('eraser-tool-btn').addEventListener('click', () => {
+            document.querySelectorAll('.color-palette-swatch').forEach(s => s.classList.remove('active'));
+            document.getElementById('eraser-tool-btn').classList.add('bg-logo-gold', 'text-slate-900');
+            isEraserActive = true;
+            applyBrushParameters(uCtx);
+            applyBrushParameters(sCtx);
+        });
+
+        // Universal Event Matrix Calculations
+        function getLocalTouchCoordinates(e, targetElement) {
+            const rect = targetElement.getBoundingClientRect();
+            if (e.touches && e.touches.length > 0) {
+                return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
+            }
+            return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+        }
+
+        // 1. Universal Drawing Plane Trace Routines
+        uniPlane.addEventListener('mousedown', (e) => {
             if(!isDrawingMode) return;
-            isWriting = true;
-            ctx.beginPath();
-            ctx.moveTo(e.clientX, e.clientY);
+            // Intercept path processing if inside split whiteboard view area
+            const splitBoundX = window.innerWidth - splitCanvas.parentElement.getBoundingClientRect().width;
+            if (e.clientX >= splitBoundX) return;
+
+            isWritingU = true;
+            const coords = getLocalTouchCoordinates(e, uniPlane);
+            uCtx.beginPath();
+            uCtx.moveTo(coords.x, coords.y);
         });
 
-        canvas.addEventListener('mousemove', (e) => {
-            if(!isWriting || !isDrawingMode) return;
-            ctx.lineTo(e.clientX, e.clientY);
-            ctx.stroke();
+        uniPlane.addEventListener('mousemove', (e) => {
+            if(!isWritingU || !isDrawingMode) return;
+            const coords = getLocalTouchCoordinates(e, uniPlane);
+            uCtx.lineTo(coords.x, coords.y);
+            uCtx.stroke();
         });
 
-        canvas.addEventListener('mouseup', () => isWriting = false);
-        canvas.addEventListener('mouseleave', () => isWriting = false);
+        window.addEventListener('mouseup', () => isWritingU = false);
 
-        // Touch systems overlay compatibility tracking maps
-        canvas.addEventListener('touchstart', (e) => {
+        // 2. Split Whiteboard Tracking Procedures
+        splitCanvas.addEventListener('mousedown', (e) => {
             if(!isDrawingMode) return;
-            isWriting = true;
-            const t = e.touches[0];
-            ctx.beginPath();
-            ctx.moveTo(t.clientX, t.clientY);
-            e.preventDefault();
+            isWritingS = true;
+            const coords = getLocalTouchCoordinates(e, splitCanvas);
+            sCtx.beginPath();
+            sCtx.moveTo(coords.x, coords.y);
         });
 
-        canvas.addEventListener('touchmove', (e) => {
-            if(!isWriting || !isDrawingMode) return;
-            const t = e.touches[0];
-            ctx.lineTo(t.clientX, t.clientY);
-            ctx.stroke();
-            e.preventDefault();
+        splitCanvas.addEventListener('mousemove', (e) => {
+            if(!isWritingS || !isDrawingMode) return;
+            const coords = getLocalTouchCoordinates(e, splitCanvas);
+            sCtx.lineTo(coords.x, coords.y);
+            sCtx.stroke();
         });
 
-        canvas.addEventListener('touchend', () => isWriting = false);
+        window.addEventListener('mouseup', () => isWritingS = false);
+
+        // Mobile Device Compatibility Adapters
+        uniPlane.addEventListener('touchstart', (e) => {
+            if(!isDrawingMode) return;
+            const targetTouch = e.touches[0];
+            const splitBoundX = window.innerWidth - splitCanvas.parentElement.getBoundingClientRect().width;
+            if (targetTouch.clientX >= splitBoundX) return;
+
+            isWritingU = true;
+            const coords = getLocalTouchCoordinates(e, uniPlane);
+            uCtx.beginPath();
+            uCtx.moveTo(coords.x, coords.y);
+            e.preventDefault();
+        }, { passive: false });
+
+        uniPlane.addEventListener('touchmove', (e) => {
+            if(!isWritingU || !isDrawingMode) return;
+            const coords = getLocalTouchCoordinates(e, uniPlane);
+            uCtx.lineTo(coords.x, coords.y);
+            uCtx.stroke();
+            e.preventDefault();
+        }, { passive: false });
+
+        splitCanvas.addEventListener('touchstart', (e) => {
+            if(!isDrawingMode) return;
+            isWritingS = true;
+            const coords = getLocalTouchCoordinates(e, splitCanvas);
+            sCtx.beginPath();
+            sCtx.moveTo(coords.x, coords.y);
+            e.preventDefault();
+        }, { passive: false });
+
+        splitCanvas.addEventListener('touchmove', (e) => {
+            if(!isWritingS || !isDrawingMode) return;
+            const coords = getLocalTouchCoordinates(e, splitCanvas);
+            sCtx.lineTo(coords.x, coords.y);
+            sCtx.stroke();
+            e.preventDefault();
+        }, { passive: false });
 
         function attachCustomInteractions() {
             document.querySelectorAll('.interactive-target, input, button, .chapter-trigger').forEach(element => {
@@ -737,7 +977,7 @@
             customSubjectMenu.innerHTML = "";
             for (const code in syllabusData) {
                 const row = document.createElement('div');
-                row.className = "px-4 py-3 text-sm font-semibold text-sme-blue hover:bg-slate-50 interactive-target transition-colors";
+                row.className = "px-4 py-3 text-sm font-semibold text-sme-blue dark:text-white hover:bg-slate-50 dark:hover:bg-slate-700 interactive-target transition-colors";
                 row.textContent = `📚 ${syllabusData[code].name} (${code})`;
                 
                 row.addEventListener('click', () => {
@@ -780,19 +1020,19 @@
 
             subject.papers.forEach((paper, index) => {
                 const rowId = `paper_input_${index}`, containerBlock = document.createElement('div');
-                containerBlock.className = "p-4 bg-white border border-slate-100 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-3xs";
+                containerBlock.className = "p-4 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-3xs";
                 
                 containerBlock.innerHTML = `
                     <div>
-                        <p class="font-display font-700 text-sme-blue text-sm">📝 ${paper.name}</p>
+                        <p class="font-display font-700 text-sme-blue dark:text-slate-200 text-sm">📝 ${paper.name}</p>
                         <span class="text-[10px] font-800 text-slate-400 tracking-wide uppercase block mt-0.5">Max Raw Mark: ${paper.max}</span>
                     </div>
                     <div class="flex items-center gap-2">
                         <input type="number" id="${rowId}" min="0" max="${paper.max}" placeholder="0" step="any"
-                            class="paper-score-input interactive-target w-24 bg-slate-50 border border-slate-200 focus:border-logo-gold rounded-xl py-2.5 font-display font-800 text-center text-sme-blue outline-none transition-all text-sm" 
+                            class="paper-score-input interactive-target w-24 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 focus:border-logo-gold rounded-xl py-2.5 font-display font-800 text-center text-sme-blue dark:text-white outline-none transition-all text-sm" 
                             data-index="${index}">
-                        <span class="text-slate-300 font-bold">/</span>
-                        <div class="w-16 bg-slate-100 text-slate-400 font-bold text-center py-2.5 rounded-xl border border-slate-200 text-xs select-none">${paper.max}</div>
+                        <span class="text-slate-300 dark:text-slate-600 font-bold">/</span>
+                        <div class="w-16 bg-slate-100 dark:bg-slate-900 text-slate-400 font-bold text-center py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 text-xs select-none">${paper.max}</div>
                     </div>`;
                 papersFormContainer.appendChild(containerBlock);
             });
@@ -804,24 +1044,12 @@
 
         function runSpreadsheetPUMInterpolation(totalRawMark, thresholds, optionMax) {
             if (totalRawMark === "" || totalRawMark === null || totalRawMark === undefined) return "";
+            const col3 = optionMax, col4 = thresholds.Astar, col5 = thresholds.A, col6 = thresholds.B;
 
-            const col3 = optionMax;            
-            const col4 = thresholds.Astar;     
-            const col5 = thresholds.A;         
-            const col6 = thresholds.B;         
-
-            if (totalRawMark >= col4) {
-                return 0.9 + 0.1 * ((totalRawMark - col4) / (col3 - col4));
-            } 
-            else if (totalRawMark >= col5) {
-                return 0.8 + 0.1 * ((totalRawMark - col5) / (col4 - col5));
-            } 
-            else if (totalRawMark >= col6) {
-                return 0.7 + 0.1 * ((totalRawMark - col6) / (col5 - col6));
-            } 
-            else {
-                return "60% or less";
-            }
+            if (totalRawMark >= col4) return 0.9 + 0.1 * ((totalRawMark - col4) / (col3 - col4));
+            else if (totalRawMark >= col5) return 0.8 + 0.1 * ((totalRawMark - col5) / (col4 - col5));
+            else if (totalRawMark >= col6) return 0.7 + 0.1 * ((totalRawMark - col6) / (col5 - col6));
+            else return "60% or less";
         }
 
         function calculateSyllabusScores() {
@@ -831,10 +1059,8 @@
             subject.papers.forEach((paper, index) => {
                 const element = document.getElementById(`paper_input_${index}`);
                 let inputVal = parseFloat(element?.value) || 0;
-                
                 if (inputVal > paper.max) { inputVal = paper.max; element.value = paper.max; }
                 if (inputVal < 0) { inputVal = 0; element.value = 0; }
-
                 totalOptionRawMarkDecimal += (inputVal * paper.factor);
             });
 
@@ -858,7 +1084,6 @@
             else if (displayRoundedTotal >= currentThresholds.C) associatedGrade = "C";
             else if (displayRoundedTotal >= currentThresholds.D) associatedGrade = "D";
             else if (displayRoundedTotal >= currentThresholds.E) associatedGrade = "E";
-
             if (displayRoundedTotal === 0) associatedGrade = "U";
 
             rawMarkDisplay.textContent = `${displayRoundedTotal} / ${subject.optionMax}`;
@@ -868,6 +1093,7 @@
         initCustomDropdownMenus();
         renderSyllabusInputComponents();
         attachCustomInteractions();
+        updateLayoutWidths();
     </script>
 </body>
 </html>
