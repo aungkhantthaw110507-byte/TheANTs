@@ -6,7 +6,7 @@
     <title>The ANTs Tutoring | Ace With Us</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=500;600;700;800&family=Playfair+Display:ital,wght=1,600;1,700&family=Inter:wght=500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Playfair+Display:ital,wght@1,600;1,700&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <style type="text/tailwindcss">
         @theme {
@@ -62,6 +62,13 @@
             font-size: 28px;
             color: #1a1a1a;
             transition: transform 0.1s ease;
+        }
+        .grid-layout-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
         }
         .trail-star {
             font-size: 14px;
@@ -160,7 +167,6 @@
             transform: translateX(0);
         }
 
-        /* Drawing canvas layer setup */
         #universal-drawing-plane {
             position: fixed;
             top: 0;
@@ -175,7 +181,6 @@
             pointer-events: auto;
         }
 
-        /* Floating Toolbar Panel Container - Styled in Faint Beige (#FBF9F4) */
         #floating-tools-container {
             width: 56px;
             max-height: 56px;
@@ -212,7 +217,6 @@
             box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #c5a059;
         }
 
-        /* Tool Preset Selector Styles */
         .freeform-tool-btn {
             background-color: #f1f5f9;
             border: 2px solid transparent;
@@ -224,7 +228,6 @@
             transform: scale(1.05);
         }
 
-        /* Star-shaped Burst Particle Effect Renderer Styles */
         .click-burst-star-particle {
             position: fixed;
             pointer-events: none;
@@ -236,14 +239,210 @@
             line-height: 1;
         }
         @keyframes burst-star-out {
-            0% {
-                transform: translate(-50%, -50%) scale(0.2) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-                transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1) rotate(var(--star-rot, 140deg));
-            }
+            0% { transform: translate(-50%, -50%) scale(0.2) rotate(0deg); opacity: 1; }
+            100% { opacity: 0; transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1) rotate(var(--star-rot, 140deg)); }
+        }
+
+        .grade-astar { background-color: #0F172A; color: #C5A059; border-color: #C5A059; }
+        .grade-a     { background-color: #1e3a5f; color: #93c5fd; border-color: #3b82f6; }
+        .grade-b     { background-color: #14532d; color: #86efac; border-color: #22c55e; }
+        .grade-cfail { background-color: #450a0a; color: #fca5a5; border-color: #ef4444; }
+        .grade-default { background-color: #1e293b; color: #94a3b8; border-color: #475569; }
+
+        /* ── Graph mini styles ── */
+        .graph-cell {
+            border: 1px solid #718096 !important;
+            padding: 12px 8px 8px 8px;
+            vertical-align: top;
+            background: #ffffff;
+            text-align: center;
+        }
+        .graph-cell svg {
+            display: block;
+            margin: 0 auto 6px;
+        }
+        .graph-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #1e293b;
+            background: #e2e8f0;
+            padding: 3px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 4px;
+        }
+
+        /* ── Terminal Velocity interactive ── */
+        .tv-step-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin-bottom: 4px;
+        }
+        .tv-step-row:hover {
+            background: #f0f9ff;
+            border-color: #bae6fd;
+        }
+        .tv-step-row.active {
+            background: #eff6ff;
+            border-color: #3b82f6;
+        }
+        .tv-step-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 800;
+            color: #1e293b;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+        .tv-step-row.active .tv-step-num {
+            background: #3b82f6;
+            color: #ffffff;
+        }
+        .tv-step-text {
+            font-size: 15px;
+            line-height: 1.5;
+            color: #1e293b;
+            padding-top: 3px;
+        }
+
+        /* Book figure animation */
+        #tv-figure-wrap {
+            width: 180px;
+            flex-shrink: 0;
+            position: relative;
+        }
+        #tv-stage-canvas {
+            width: 180px;
+            height: 320px;
+            background: linear-gradient(to bottom, #e0f2fe 0%, #bae6fd 100%);
+            border-radius: 12px;
+            border: 2px solid #93c3d8;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* The stick figure (book person) */
+        .figure-container {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: top 1.2s cubic-bezier(0.4, 0, 0.6, 1);
+            width: 60px;
+            height: 90px;
+        }
+
+        /* Force arrows */
+        .force-arrow {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 10px;
+            font-weight: 800;
+            transition: all 0.4s ease;
+            pointer-events: none;
+        }
+        .arrow-line {
+            width: 3px;
+            border-radius: 2px;
+            transition: height 0.5s ease, background 0.3s ease;
+        }
+        .arrow-head {
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+        }
+
+        /* Speed readout */
+        #tv-speed-bar {
+            height: 8px;
+            border-radius: 4px;
+            background: #e2e8f0;
+            margin: 8px 0 2px;
+            overflow: hidden;
+        }
+        #tv-speed-fill {
+            height: 100%;
+            border-radius: 4px;
+            background: linear-gradient(to right, #3b82f6, #ef4444);
+            transition: width 1s ease;
+            width: 0%;
+        }
+        #tv-speed-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #475569;
+            text-align: center;
+        }
+
+        /* Velocity-time graph for terminal velocity */
+        #tv-vt-graph {
+            width: 100%;
+            height: 80px;
+            margin-top: 8px;
+        }
+
+        @keyframes falling-fast {
+            0%, 100% { transform: translateX(-50%) translateY(0px); }
+            50%       { transform: translateX(-50%) translateY(6px); }
+        }
+        @keyframes falling-slow {
+            0%, 100% { transform: translateX(-50%) translateY(0px); }
+            50%       { transform: translateX(-50%) translateY(3px); }
+        }
+        @keyframes steady {
+            0%, 100% { transform: translateX(-50%) translateY(0px); }
+        }
+        .anim-fast  { animation: falling-fast 0.5s ease-in-out infinite; }
+        .anim-slow  { animation: falling-slow 1s ease-in-out infinite; }
+        .anim-steady{ animation: steady 1s ease-in-out infinite; }
+
+        .ground-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 24px;
+            background: #78716c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+            color: #fff;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        /* Air particles */
+        .air-particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: rgba(186, 230, 253, 0.8);
+            animation: drift linear infinite;
+            pointer-events: none;
+        }
+        @keyframes drift {
+            from { transform: translateY(-10px); opacity: 0; }
+            10%  { opacity: 1; }
+            90%  { opacity: 0.6; }
+            to   { transform: translateY(330px); opacity: 0; }
         }
     </style>
 </head>
@@ -260,9 +459,7 @@
                     <p class="text-[10px] font-medium text-slate-500">High-Resolution Vector Sketch Canvas</p>
                 </div>
             </div>
-            <button id="close-whiteboard-dock-btn" class="text-slate-600 hover:text-slate-900 transition-colors text-xs font-display font-bold bg-slate-200/80 px-3 py-1.5 rounded-lg interactive-target">
-                Minimize ×
-            </button>
+            <button id="close-whiteboard-dock-btn" class="text-slate-600 hover:text-slate-900 transition-colors text-xs font-display font-bold bg-slate-200/80 px-3 py-1.5 rounded-lg interactive-target">Minimize ×</button>
         </div>
         <div class="flex-1 relative bg-white">
             <canvas id="split-whiteboard-canvas" class="w-full h-full block"></canvas>
@@ -274,56 +471,30 @@
             <span class="text-xl">🎨</span>
             <span id="drawer-title-text" class="hidden font-display font-bold text-sm text-sme-blue tracking-tight select-none whitespace-nowrap">Freeform Studio</span>
         </button>
-
         <div class="tools-expandable-content w-full px-5 pb-5 space-y-4">
             <div class="space-y-2">
-                <button id="global-draw-toggle-btn" class="w-full bg-logo-gold text-slate-900 font-display font-bold text-xs py-2.5 px-4 rounded-xl cursor-none transition-all flex items-center justify-center gap-2 shadow-xs touch-manipulation">
-                    ✏️ Global Screen Draw: Off
-                </button>
-                <button id="toggle-writing-mode-btn" class="w-full bg-sme-blue text-white font-display font-bold text-xs py-2.5 px-4 rounded-xl cursor-none transition-all hover:bg-logo-black flex items-center justify-center gap-2 shadow-xs touch-manipulation">
-                    🖥️ Open Side Workspace
-                </button>
+                <button id="global-draw-toggle-btn" class="w-full bg-logo-gold text-slate-900 font-display font-bold text-xs py-2.5 px-4 rounded-xl cursor-none transition-all flex items-center justify-center gap-2 shadow-xs touch-manipulation">✏️ Global Screen Draw: Off</button>
+                <button id="toggle-writing-mode-btn" class="w-full bg-sme-blue text-white font-display font-bold text-xs py-2.5 px-4 rounded-xl cursor-none transition-all hover:bg-logo-black flex items-center justify-center gap-2 shadow-xs touch-manipulation">🖥️ Open Side Workspace</button>
             </div>
-
             <div>
                 <span class="text-[9px] text-slate-500 font-bold uppercase tracking-wider block mb-2">Freeform Pencil Toolkit</span>
                 <div class="grid grid-cols-4 gap-2">
-                    <button id="tool-pen" class="freeform-tool-btn active p-2.5 rounded-xl text-center interactive-target flex flex-col items-center gap-1" title="Pen Tool">
-                        <span class="text-lg">🖊️</span>
-                        <span class="text-[9px] font-bold">Pen</span>
-                    </button>
-                    <button id="tool-marker" class="freeform-tool-btn p-2.5 rounded-xl text-center interactive-target flex flex-col items-center gap-1" title="Marker Tool">
-                        <span class="text-lg">🖍️</span>
-                        <span class="text-[9px] font-bold">Marker</span>
-                    </button>
-                    <button id="tool-crayon" class="freeform-tool-btn p-2.5 rounded-xl text-center interactive-target flex flex-col items-center gap-1" title="Crayon Tool">
-                        <span class="text-lg">✏️</span>
-                        <span class="text-[9px] font-bold">Crayon</span>
-                    </button>
-                    <button id="tool-eraser" class="freeform-tool-btn p-2.5 rounded-xl text-center interactive-target flex flex-col items-center gap-1" title="Pixel Eraser">
-                        <span class="text-lg">🧼</span>
-                        <span class="text-[9px] font-bold">Eraser</span>
-                    </button>
+                    <button id="tool-pen" class="freeform-tool-btn active p-2.5 rounded-xl text-center interactive-target flex flex-col items-center gap-1"><span class="text-lg">🖊️</span><span class="text-[9px] font-bold">Pen</span></button>
+                    <button id="tool-marker" class="freeform-tool-btn p-2.5 rounded-xl text-center interactive-target flex flex-col items-center gap-1"><span class="text-lg">🖍️</span><span class="text-[9px] font-bold">Marker</span></button>
+                    <button id="tool-crayon" class="freeform-tool-btn p-2.5 rounded-xl text-center interactive-target flex flex-col items-center gap-1"><span class="text-lg">✏️</span><span class="text-[9px] font-bold">Crayon</span></button>
+                    <button id="tool-eraser" class="freeform-tool-btn p-2.5 rounded-xl text-center interactive-target flex flex-col items-center gap-1"><span class="text-lg">🧼</span><span class="text-[9px] font-bold">Eraser</span></button>
                 </div>
             </div>
-
             <div class="grid grid-cols-2 gap-3">
                 <div class="bg-white/80 p-2.5 rounded-xl border border-logo-gold/20 shadow-3xs">
-                    <div class="flex justify-between items-center mb-1">
-                        <span class="text-[9px] text-slate-500 font-bold uppercase">Thickness</span>
-                        <span id="thickness-val" class="text-[10px] text-logo-gold font-bold">3px</span>
-                    </div>
+                    <div class="flex justify-between items-center mb-1"><span class="text-[9px] text-slate-500 font-bold uppercase">Thickness</span><span id="thickness-val" class="text-[10px] text-logo-gold font-bold">3px</span></div>
                     <input type="range" id="brush-thickness-slider" min="1" max="40" value="3" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-none accent-logo-gold interactive-target">
                 </div>
                 <div class="bg-white/80 p-2.5 rounded-xl border border-logo-gold/20 shadow-3xs">
-                    <div class="flex justify-between items-center mb-1">
-                        <span class="text-[9px] text-slate-500 font-bold uppercase">Opacity</span>
-                        <span id="opacity-val" class="text-[10px] text-logo-gold font-bold">100%</span>
-                    </div>
+                    <div class="flex justify-between items-center mb-1"><span class="text-[9px] text-slate-500 font-bold uppercase">Opacity</span><span id="opacity-val" class="text-[10px] text-logo-gold font-bold">100%</span></div>
                     <input type="range" id="brush-opacity-slider" min="10" max="100" value="100" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-none accent-logo-gold interactive-target">
                 </div>
             </div>
-
             <div>
                 <span class="text-[9px] text-slate-500 font-bold uppercase tracking-wider block mb-2">Color Swatch</span>
                 <div class="grid grid-cols-6 gap-2 items-center">
@@ -335,18 +506,11 @@
                     <button class="color-palette-swatch cursor-none bg-purple-600 border-transparent interactive-target" data-color="#9333ea"></button>
                 </div>
             </div>
-
             <div class="bg-white/80 p-3 rounded-xl border border-logo-gold/20 shadow-3xs">
-                <div class="flex justify-between items-center mb-1.5">
-                    <span class="text-[9px] text-slate-500 font-bold uppercase">Workspace Split</span>
-                    <span id="width-slider-value" class="text-[10px] text-logo-gold font-bold">50%</span>
-                </div>
+                <div class="flex justify-between items-center mb-1.5"><span class="text-[9px] text-slate-500 font-bold uppercase">Workspace Split</span><span id="width-slider-value" class="text-[10px] text-logo-gold font-bold">50%</span></div>
                 <input type="range" id="whiteboard-width-slider" min="20" max="80" value="50" class="w-full h-1 bg-slate-200 rounded-lg appearance-none cursor-none accent-logo-gold interactive-target">
             </div>
-
-            <button id="clear-writing-plane-btn" class="w-full bg-slate-200 text-slate-700 font-display font-bold text-xs py-2.5 px-4 rounded-xl cursor-none transition-all hover:bg-red-600 hover:text-white">
-                🗑️ Clear Canvas Layers
-            </button>
+            <button id="clear-writing-plane-btn" class="w-full bg-slate-200 text-slate-700 font-display font-bold text-xs py-2.5 px-4 rounded-xl cursor-none transition-all hover:bg-red-600 hover:text-white">🗑️ Clear Canvas Layers</button>
         </div>
     </div>
 
@@ -366,30 +530,23 @@
 
         <header class="bg-gradient-to-b from-light-beige via-[#fbfaf8] to-white min-h-[400px] flex flex-col justify-center items-center px-6 py-16 text-center border-b border-slate-50">
             <div class="max-w-3xl mx-auto">
-                <h1 class="font-display font-800 text-5xl md:text-7xl tracking-tight text-sme-blue mb-2">
-                    The ANTs <span class="text-logo-gold drop-shadow-3xs">Tutoring</span>
-                </h1>
+                <h1 class="font-display font-800 text-5xl md:text-7xl tracking-tight text-sme-blue mb-2">The ANTs <span class="text-logo-gold drop-shadow-3xs">Tutoring</span></h1>
                 <p class="font-cursive text-3xl md:text-4xl text-sme-blue/80 tracking-wide mb-10">Ace with us</p>
                 <div class="flex flex-col sm:flex-row justify-center gap-4 max-w-xs mx-auto">
-                    <a href="#calculator-section" class="bg-sme-blue text-white hover:bg-logo-black font-display font-bold py-3.5 px-8 rounded-xl text-center text-sm transition-all shadow-md flex-1 interactive-target">
-                        📊 Open Calculator
-                    </a>
-                    <a href="#notes-section" class="bg-white border border-slate-200 text-sme-blue hover:bg-slate-50 font-display font-bold py-3.5 px-8 rounded-xl text-center text-sm transition-all shadow-sm flex-1 interactive-target">
-                        📚 Read Physics Notes
-                    </a>
+                    <a href="#calculator-section" class="bg-sme-blue text-white hover:bg-logo-black font-display font-bold py-3.5 px-8 rounded-xl text-center text-sm transition-all shadow-md flex-1 interactive-target">📊 Open Calculator</a>
+                    <a href="#notes-section" class="bg-white border border-slate-200 text-sme-blue hover:bg-slate-50 font-display font-bold py-3.5 px-8 rounded-xl text-center text-sm transition-all shadow-sm flex-1 interactive-target">📚 Read Physics Notes</a>
                 </div>
             </div>
         </header>
 
+        <!-- CALCULATOR SECTION (unchanged) -->
         <section id="calculator-section" class="py-16 scroll-mt-6">
             <div class="max-w-7xl mx-auto px-6">
                 <div class="mb-10 text-center lg:text-left">
-                    <div class="inline-flex items-center gap-2 bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-xl mb-3 text-xs font-bold text-sme-blue font-display">
-                        ⚙️ AUTOMATED CONVERSION ENGINE
-                    </div>
+                    <div class="inline-flex items-center gap-2 bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-xl mb-3 text-xs font-bold text-sme-blue font-display">⚙️ AUTOMATED CONVERSION ENGINE</div>
                     <h2 class="font-display font-800 text-3xl text-sme-blue tracking-tight">Syllabus Evaluation System</h2>
+                    <p class="text-slate-500 text-sm mt-2 font-medium">Grade boundaries from your spreadsheet · CIE IGCSE May/June 2024 (V2)</p>
                 </div>
-
                 <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                     <div class="lg:col-span-8 space-y-6">
                         <div class="bg-slate-50/60 rounded-3xl p-6 md:p-8 border border-slate-200/50 shadow-3xs backdrop-blur-xs">
@@ -402,7 +559,6 @@
                                     </div>
                                     <div id="customSubjectMenu" class="dropdown-menu-list absolute left-0 right-0 mt-2 bg-white border border-slate-200 rounded-xl shadow-lg z-50 max-h-64 overflow-y-auto"></div>
                                 </div>
-
                                 <div class="relative">
                                     <label class="block text-xs font-800 uppercase tracking-widest text-slate-400 mb-2">Series Track</label>
                                     <div id="customSeriesToggle" class="w-full bg-white border border-slate-200 rounded-xl px-4 py-3.5 font-display font-bold text-sme-blue text-sm shadow-3xs flex justify-between items-center interactive-target select-none">
@@ -414,44 +570,47 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div id="papersFormContainer" class="space-y-4"></div>
+                            <div id="boundaryReferenceRow" class="hidden mt-6 p-4 bg-white border border-slate-100 rounded-2xl shadow-3xs">
+                                <p class="text-[10px] font-800 uppercase tracking-widest text-slate-400 mb-3">Grade Boundary Reference (Weighted Mark / <span id="boundaryWeightingLabel">—</span>)</p>
+                                <div class="flex flex-wrap gap-2" id="boundaryBadges"></div>
+                            </div>
                         </div>
                     </div>
-
                     <div class="lg:col-span-4 lg:sticky lg:top-24">
                         <div class="bg-logo-black rounded-3xl p-6 md:p-8 text-white shadow-xl relative overflow-hidden border-b-4 border-logo-gold">
                             <div class="absolute -top-10 -right-10 w-36 h-36 bg-logo-gold/10 rounded-full pointer-events-none"></div>
-                            <h3 class="font-display font-700 text-logo-gold uppercase tracking-widest text-[10px] mb-6 flex items-center gap-2">
-                                <span>📋</span> CALCULATED PUM RESULT
-                            </h3>
+                            <h3 class="font-display font-700 text-logo-gold uppercase tracking-widest text-[10px] mb-6 flex items-center gap-2"><span>📋</span> CALCULATED PUM RESULT</h3>
                             <div class="space-y-4">
-                                <div>
-                                    <span class="text-slate-400 text-xs uppercase tracking-wider font-semibold block mb-1">Total Option Raw Mark</span>
-                                    <div id="rawMarkDisplay" class="text-2xl font-display font-bold text-slate-200">— / —</div>
-                                </div>
+                                <div><span class="text-slate-400 text-xs uppercase tracking-wider font-semibold block mb-1">Total Raw Mark</span><div id="rawMarkDisplay" class="text-2xl font-display font-bold text-slate-200">— / —</div></div>
+                                <div><span class="text-slate-400 text-xs uppercase tracking-wider font-semibold block mb-1">Weighted Mark</span><div id="weightedMarkDisplay" class="text-lg font-display font-bold text-slate-300">— / —</div></div>
                                 <hr class="border-slate-800">
                                 <div>
                                     <span class="text-slate-400 text-xs uppercase tracking-wider font-semibold block mb-1">Percentage Uniform Mark</span>
                                     <div class="flex items-center gap-4 mt-1">
                                         <div id="finalPercentDisplay" class="text-4xl lg:text-5xl font-display font-800 tracking-tight text-white transition-all duration-150">—</div>
-                                        <div id="sideGradeDisplay" class="text-3xl font-display font-800 text-white bg-slate-800 px-4 py-1.5 rounded-xl border border-slate-700 min-w-[65px] text-center shadow-inner select-none">—</div>
+                                        <div id="sideGradeDisplay" class="text-3xl font-display font-800 px-4 py-1.5 rounded-xl border min-w-[65px] text-center shadow-inner select-none grade-default">—</div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
+                        <div class="mt-4 p-4 bg-slate-50 rounded-2xl border border-slate-200 text-xs text-slate-500 font-medium space-y-1">
+                            <p class="font-bold text-slate-700 text-[11px] uppercase tracking-wide">How it's calculated</p>
+                            <p>1. Raw marks are summed across all papers.</p>
+                            <p>2. <strong>Weighted Mark</strong> = (Sum of raw marks ÷ Sum of max marks) × Weighting</p>
+                            <p>3. PUM is interpolated between grade boundaries (A*, A, B). Below B = 60% or less.</p>
+                            <p class="text-[10px] text-slate-400 pt-1">Formula matches your spreadsheet exactly.</p>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- NOTES SECTION — enhanced -->
         <section id="notes-section" class="bg-slate-100/60 border-t border-slate-200 py-16 scroll-mt-6">
             <div class="max-w-7xl mx-auto px-6">
-                
                 <div class="text-center max-w-xl mx-auto mb-12">
-                    <div class="inline-flex items-center gap-2 bg-amber-50 border border-logo-gold/20 px-3 py-1.5 rounded-xl mb-3 text-xs font-bold text-logo-gold font-display">
-                        🗂️ ACCORDION REPOSITORY
-                    </div>
+                    <div class="inline-flex items-center gap-2 bg-amber-50 border border-logo-gold/20 px-3 py-1.5 rounded-xl mb-3 text-xs font-bold text-logo-gold font-display">🗂️ ACCORDION REPOSITORY</div>
                     <h2 class="font-display font-800 text-3xl text-sme-blue tracking-tight">Syllabus Resource Hub</h2>
                 </div>
 
@@ -468,6 +627,7 @@
                         
                         <div class="chapter-content-box expanded p-6 bg-white rounded-b-2xl">
                             
+                            <!-- 1.1 -->
                             <div class="mb-10">
                                 <div class="font-bold text-sm bg-sme-blue text-logo-gold px-4 py-2 rounded-md inline-block mb-4 tracking-wide">1.1 Physical quantities and measurement techniques</div>
                                 <table class="physics-master-table">
@@ -481,17 +641,11 @@
                                         </tr>
                                         <tr>
                                             <td class="physics-index-cell">5</td>
-                                            <td>
-                                                <span class="block font-bold mb-2">Scalars:</span>
-                                                Distance, speed, time, mass, energy and temperature
-                                            </td>
+                                            <td><span class="block font-bold mb-2">Scalars:</span>Distance, speed, time, mass, energy and temperature</td>
                                         </tr>
                                         <tr>
                                             <td class="physics-index-cell">6</td>
-                                            <td>
-                                                <span class="block font-bold mb-2">Vectors:</span>
-                                                force, weight, velocity, acceleration, momentum, electric field strength and gravitational field strength
-                                            </td>
+                                            <td><span class="block font-bold mb-2">Vectors:</span>force, weight, velocity, acceleration, momentum, electric field strength and gravitational field strength</td>
                                         </tr>
                                         <tr>
                                             <td class="physics-index-cell">7</td>
@@ -501,18 +655,21 @@
                                 </table>
                             </div>
 
+                            <!-- 1.2 MOTION -->
                             <div class="mb-10">
                                 <div class="font-bold text-sm bg-sme-blue text-logo-gold px-4 py-2 rounded-md inline-block mb-4 tracking-wide">1.2 Motion</div>
                                 <table class="physics-master-table">
                                     <tbody>
+                                        <!-- Row 1: Speed -->
                                         <tr>
                                             <td class="physics-index-cell">1</td>
                                             <td>
                                                 <span class="block font-bold mb-1">Speed</span>
                                                 <span class="block mb-2">distance travelled per unit time</span>
-                                                <span class="block font-serif">$v = \frac{s}{t}$</span>
+                                                <span class="block font-serif">v = s / t</span>
                                             </td>
                                         </tr>
+                                        <!-- Row 2: Velocity -->
                                         <tr>
                                             <td class="physics-index-cell">2</td>
                                             <td>
@@ -520,174 +677,345 @@
                                                 <span class="block">Distance travelled per unit time in given direction</span>
                                             </td>
                                         </tr>
+                                        <!-- Row 9: Acceleration -->
                                         <tr>
                                             <td class="physics-index-cell">9</td>
                                             <td>
                                                 <span class="block font-bold mb-1">Acceleration</span>
                                                 <span class="block mb-2">Rate of change of velocity</span>
-                                                <span class="block font-serif">$a = \frac{\Delta v}{\Delta t}$</span>
+                                                <span class="block font-serif">a = Δv / Δt</span>
                                             </td>
                                         </tr>
+                                        <!-- Row 3: Average speed -->
                                         <tr>
                                             <td class="physics-index-cell">3</td>
                                             <td>Average speed = total distance travelled / total time taken</td>
                                         </tr>
-                                    </tbody>
-                                </table>
 
-                                <div class="font-bold text-xs bg-slate-200 text-sme-blue px-3 py-1.5 rounded-md inline-block mb-3 mt-4 tracking-wide">Distance-time graphs</div>
-                                <table class="physics-master-table">
-                                    <tbody>
+                                        <!-- Row 4/5: Distance-Time Graphs -->
                                         <tr>
-                                            <td class="physics-index-cell">4</td>
-                                            <td>
-                                                <div class="flex flex-col items-center justify-center p-6 bg-white border border-slate-200 rounded-2xl max-w-sm mx-auto my-2">
-                                                    <svg viewBox="0 0 160 160" class="w-48 h-48 overflow-visible">
-                                                        <line x1="25" y1="130" x2="155" y2="130" stroke="#000000" stroke-width="2.5" stroke-linecap="square"/>
-                                                        <line x1="25" y1="15" x2="25" y2="130" stroke="#000000" stroke-width="2.5" stroke-linecap="square"/>
-                                                        
-                                                        <text x="155" y="145" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="end" fill="#000000">Time</text>
-                                                        <text x="18" y="10" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#000000">Distance</text>
-                                                        <text x="15" y="142" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#000000">0</text>
-                                                        
-                                                        <line x1="25" y1="70" x2="145" y2="70" stroke="#000000" stroke-width="3.5" stroke-linecap="round"/>
-                                                    </svg>
-                                                    <div class="text-sm font-bold text-black mt-4 tracking-wide text-center uppercase">
-                                                        At Rest / Stationary
-                                                    </div>
-                                                </div>
+                                            <td class="physics-index-cell" style="vertical-align:top; padding-top:20px;">4<br><br>5</td>
+                                            <td style="padding: 16px 20px;">
+                                                <span class="block font-bold mb-3" style="font-size:17px;">Distance-time graphs</span>
+                                                <table style="width:100%; border-collapse:collapse;">
+                                                    <tr>
+                                                        <!-- Graph 1: At rest / stationary -->
+                                                        <td class="graph-cell" style="width:25%;">
+                                                            <svg width="90" height="70" viewBox="0 0 90 70">
+                                                                <line x1="10" y1="5" x2="10" y2="58" stroke="#000" stroke-width="1.5"/>
+                                                                <line x1="10" y1="58" x2="85" y2="58" stroke="#000" stroke-width="1.5"/>
+                                                                <text x="3" y="12" font-size="8" fill="#444" font-family="Arial">d</text>
+                                                                <text x="80" y="65" font-size="8" fill="#444" font-family="Arial">t</text>
+                                                                <!-- Flat horizontal line — at rest -->
+                                                                <line x1="14" y1="38" x2="80" y2="38" stroke="#1d4ed8" stroke-width="2"/>
+                                                            </svg>
+                                                            <div class="graph-label">At rest / Stationary</div>
+                                                        </td>
+                                                        <!-- Graph 2: Constant Speed -->
+                                                        <td class="graph-cell" style="width:25%;">
+                                                            <svg width="90" height="70" viewBox="0 0 90 70">
+                                                                <line x1="10" y1="5" x2="10" y2="58" stroke="#000" stroke-width="1.5"/>
+                                                                <line x1="10" y1="58" x2="85" y2="58" stroke="#000" stroke-width="1.5"/>
+                                                                <text x="3" y="12" font-size="8" fill="#444" font-family="Arial">d</text>
+                                                                <text x="80" y="65" font-size="8" fill="#444" font-family="Arial">t</text>
+                                                                <!-- Straight line from origin going up -->
+                                                                <line x1="14" y1="55" x2="78" y2="10" stroke="#1d4ed8" stroke-width="2"/>
+                                                            </svg>
+                                                            <div class="graph-label">Constant Speed</div>
+                                                        </td>
+                                                        <!-- Graph 3: Increasing speed / acceleration -->
+                                                        <td class="graph-cell" style="width:25%;">
+                                                            <svg width="90" height="70" viewBox="0 0 90 70">
+                                                                <line x1="10" y1="5" x2="10" y2="58" stroke="#000" stroke-width="1.5"/>
+                                                                <line x1="10" y1="58" x2="85" y2="58" stroke="#000" stroke-width="1.5"/>
+                                                                <text x="3" y="12" font-size="8" fill="#444" font-family="Arial">d</text>
+                                                                <text x="80" y="65" font-size="8" fill="#444" font-family="Arial">t</text>
+                                                                <!-- Concave up curve (increasing gradient) -->
+                                                                <path d="M14 56 Q40 50 78 10" fill="none" stroke="#1d4ed8" stroke-width="2"/>
+                                                            </svg>
+                                                            <div class="graph-label">Increasing speed / acceleration</div>
+                                                        </td>
+                                                        <!-- Graph 4: Decreasing speed / deceleration -->
+                                                        <td class="graph-cell" style="width:25%;">
+                                                            <svg width="90" height="70" viewBox="0 0 90 70">
+                                                                <line x1="10" y1="5" x2="10" y2="58" stroke="#000" stroke-width="1.5"/>
+                                                                <line x1="10" y1="58" x2="85" y2="58" stroke="#000" stroke-width="1.5"/>
+                                                                <text x="3" y="12" font-size="8" fill="#444" font-family="Arial">d</text>
+                                                                <text x="80" y="65" font-size="8" fill="#444" font-family="Arial">t</text>
+                                                                <!-- Concave down curve (decreasing gradient) -->
+                                                                <path d="M14 56 Q50 52 78 10" fill="none" stroke="#1d4ed8" stroke-width="2"/>
+                                                            </svg>
+                                                            <div class="graph-label">Decreasing speed / deceleration</div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td class="physics-index-cell">5</td>
-                                            <td>
-                                                <div class="flex flex-col items-center justify-center p-6 bg-white border border-slate-200 rounded-2xl max-w-sm mx-auto my-2">
-                                                    <svg viewBox="0 0 160 160" class="w-48 h-48 overflow-visible">
-                                                        <line x1="25" y1="130" x2="155" y2="130" stroke="#000000" stroke-width="2.5" stroke-linecap="square"/>
-                                                        <line x1="25" y1="15" x2="25" y2="130" stroke="#000000" stroke-width="2.5" stroke-linecap="square"/>
-                                                        
-                                                        <text x="155" y="145" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="end" fill="#000000">Time</text>
-                                                        <text x="18" y="10" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#000000">Distance</text>
-                                                        <text x="15" y="142" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#000000">0</text>
-                                                        
-                                                        <line x1="25" y1="130" x2="145" y2="25" stroke="#000000" stroke-width="3.5" stroke-linecap="round"/>
-                                                    </svg>
-                                                    <div class="text-sm font-bold text-black mt-4 tracking-wide text-center uppercase">
-                                                        Constant Speed
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="physics-index-cell">6</td>
-                                            <td>
-                                                <div class="flex flex-col items-center justify-center p-6 bg-white border border-slate-200 rounded-2xl max-w-sm mx-auto my-2">
-                                                    <svg viewBox="0 0 160 160" class="w-48 h-48 overflow-visible">
-                                                        <line x1="25" y1="130" x2="155" y2="130" stroke="#000000" stroke-width="2.5" stroke-linecap="square"/>
-                                                        <line x1="25" y1="15" x2="25" y2="130" stroke="#000000" stroke-width="2.5" stroke-linecap="square"/>
-                                                        
-                                                        <text x="155" y="145" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="end" fill="#000000">Time</text>
-                                                        <text x="18" y="10" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#000000">Distance</text>
-                                                        <text x="15" y="142" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#000000">0</text>
-                                                        
-                                                        <path d="M 25 130 Q 115 125 145 25" fill="none" stroke="#000000" stroke-width="3.5" stroke-linecap="round"/>
-                                                    </svg>
-                                                    <div class="text-sm font-bold text-black mt-4 tracking-wide text-center uppercase">
-                                                        Changing speed (Increasing speed)
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="physics-index-cell">7</td>
-                                            <td>
-                                                <div class="flex flex-col items-center justify-center p-6 bg-white border border-slate-200 rounded-2xl max-w-sm mx-auto my-2">
-                                                    <svg viewBox="0 0 160 160" class="w-48 h-48 overflow-visible">
-                                                        <line x1="25" y1="130" x2="155" y2="130" stroke="#000000" stroke-width="2.5" stroke-linecap="square"/>
-                                                        <line x1="25" y1="15" x2="25" y2="130" stroke="#000000" stroke-width="2.5" stroke-linecap="square"/>
-                                                        
-                                                        <text x="155" y="145" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="end" fill="#000000">Time</text>
-                                                        <text x="18" y="10" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#000000">Distance</text>
-                                                        <text x="15" y="142" font-family="sans-serif" font-size="12" font-weight="bold" text-anchor="middle" fill="#000000">0</text>
-                                                        
-                                                        <path d="M 25 130 Q 30 30 145 25" fill="none" stroke="#000000" stroke-width="3.5" stroke-linecap="round"/>
-                                                    </svg>
-                                                    <div class="text-sm font-bold text-black mt-4 tracking-wide text-center uppercase">
-                                                        Changing speed (Decreasing speed)
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="physics-index-cell">8</td>
-                                            <td>Determine speed from gradient of a distance-time graph</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
 
-                                <div class="font-bold text-xs bg-slate-200 text-sme-blue px-3 py-1.5 rounded-md inline-block mb-3 mt-4 tracking-wide">Speed-time graphs</div>
-                                <table class="physics-master-table">
-                                    <tbody>
+                                        <!-- Row 4/5/10: Speed-Time Graphs -->
                                         <tr>
-                                            <td class="physics-index-cell">10</td>
-                                            <td><strong>At rest:</strong> Horizontal line at y = 0</td>
+                                            <td class="physics-index-cell" style="vertical-align:top; padding-top:20px;">4<br><br>5<br><br>10</td>
+                                            <td style="padding: 16px 20px;">
+                                                <span class="block font-bold mb-3" style="font-size:17px;">Speed-time graphs</span>
+                                                <table style="width:100%; border-collapse:collapse;">
+                                                    <!-- Row 1: Constant speed, At rest -->
+                                                    <tr>
+                                                        <td class="graph-cell" style="width:33%;">
+                                                            <svg width="90" height="70" viewBox="0 0 90 70">
+                                                                <line x1="10" y1="5" x2="10" y2="58" stroke="#000" stroke-width="1.5"/>
+                                                                <line x1="10" y1="58" x2="85" y2="58" stroke="#000" stroke-width="1.5"/>
+                                                                <text x="3" y="12" font-size="8" fill="#444" font-family="Arial">v</text>
+                                                                <text x="80" y="65" font-size="8" fill="#444" font-family="Arial">t</text>
+                                                                <!-- Flat line at mid-height -->
+                                                                <line x1="14" y1="32" x2="80" y2="32" stroke="#dc2626" stroke-width="2"/>
+                                                            </svg>
+                                                            <div class="graph-label">Constant Speed</div>
+                                                        </td>
+                                                        <td class="graph-cell" style="width:33%;">
+                                                            <svg width="90" height="70" viewBox="0 0 90 70">
+                                                                <line x1="10" y1="5" x2="10" y2="58" stroke="#000" stroke-width="1.5"/>
+                                                                <line x1="10" y1="58" x2="85" y2="58" stroke="#000" stroke-width="1.5"/>
+                                                                <text x="3" y="12" font-size="8" fill="#444" font-family="Arial">v</text>
+                                                                <text x="80" y="65" font-size="8" fill="#444" font-family="Arial">t</text>
+                                                                <!-- Flat line at baseline (at rest = v=0) -->
+                                                                <line x1="14" y1="56" x2="80" y2="56" stroke="#dc2626" stroke-width="2"/>
+                                                            </svg>
+                                                            <div class="graph-label">At rest</div>
+                                                        </td>
+                                                        <td class="graph-cell" style="width:33%;"></td>
+                                                    </tr>
+                                                    <!-- Row 2: Constant accel, Increasing accel, Decreasing accel -->
+                                                    <tr>
+                                                        <td class="graph-cell">
+                                                            <svg width="90" height="70" viewBox="0 0 90 70">
+                                                                <line x1="10" y1="5" x2="10" y2="58" stroke="#000" stroke-width="1.5"/>
+                                                                <line x1="10" y1="58" x2="85" y2="58" stroke="#000" stroke-width="1.5"/>
+                                                                <text x="3" y="12" font-size="8" fill="#444" font-family="Arial">v</text>
+                                                                <text x="80" y="65" font-size="8" fill="#444" font-family="Arial">t</text>
+                                                                <!-- Straight line from origin -->
+                                                                <line x1="14" y1="55" x2="78" y2="12" stroke="#dc2626" stroke-width="2"/>
+                                                            </svg>
+                                                            <div class="graph-label">Constant acceleration</div>
+                                                        </td>
+                                                        <td class="graph-cell">
+                                                            <svg width="90" height="70" viewBox="0 0 90 70">
+                                                                <line x1="10" y1="5" x2="10" y2="58" stroke="#000" stroke-width="1.5"/>
+                                                                <line x1="10" y1="58" x2="85" y2="58" stroke="#000" stroke-width="1.5"/>
+                                                                <text x="3" y="12" font-size="8" fill="#444" font-family="Arial">v</text>
+                                                                <text x="80" y="65" font-size="8" fill="#444" font-family="Arial">t</text>
+                                                                <!-- Concave up (increasing acceleration = increasing gradient) -->
+                                                                <path d="M14 56 Q50 54 78 10" fill="none" stroke="#dc2626" stroke-width="2"/>
+                                                            </svg>
+                                                            <div class="graph-label">Increasing acceleration</div>
+                                                        </td>
+                                                        <td class="graph-cell">
+                                                            <svg width="90" height="70" viewBox="0 0 90 70">
+                                                                <line x1="10" y1="5" x2="10" y2="58" stroke="#000" stroke-width="1.5"/>
+                                                                <line x1="10" y1="58" x2="85" y2="58" stroke="#000" stroke-width="1.5"/>
+                                                                <text x="3" y="12" font-size="8" fill="#444" font-family="Arial">v</text>
+                                                                <text x="80" y="65" font-size="8" fill="#444" font-family="Arial">t</text>
+                                                                <!-- Concave down (decreasing acceleration) -->
+                                                                <path d="M14 56 Q32 20 78 10" fill="none" stroke="#dc2626" stroke-width="2"/>
+                                                            </svg>
+                                                            <div class="graph-label">Decreasing acceleration</div>
+                                                        </td>
+                                                    </tr>
+                                                    <!-- Row 3: Constant decel, Increasing decel, Decreasing decel -->
+                                                    <tr>
+                                                        <td class="graph-cell">
+                                                            <svg width="90" height="70" viewBox="0 0 90 70">
+                                                                <line x1="10" y1="5" x2="10" y2="58" stroke="#000" stroke-width="1.5"/>
+                                                                <line x1="10" y1="58" x2="85" y2="58" stroke="#000" stroke-width="1.5"/>
+                                                                <text x="3" y="12" font-size="8" fill="#444" font-family="Arial">v</text>
+                                                                <text x="80" y="65" font-size="8" fill="#444" font-family="Arial">t</text>
+                                                                <!-- Straight line going down (constant decel) -->
+                                                                <line x1="14" y1="12" x2="78" y2="55" stroke="#dc2626" stroke-width="2"/>
+                                                            </svg>
+                                                            <div class="graph-label">Constant deceleration</div>
+                                                        </td>
+                                                        <td class="graph-cell">
+                                                            <svg width="90" height="70" viewBox="0 0 90 70">
+                                                                <line x1="10" y1="5" x2="10" y2="58" stroke="#000" stroke-width="1.5"/>
+                                                                <line x1="10" y1="58" x2="85" y2="58" stroke="#000" stroke-width="1.5"/>
+                                                                <text x="3" y="12" font-size="8" fill="#444" font-family="Arial">v</text>
+                                                                <text x="80" y="65" font-size="8" fill="#444" font-family="Arial">t</text>
+                                                                <!-- Concave down going from high to low (increasing deceleration) -->
+                                                                <path d="M14 10 Q50 12 78 55" fill="none" stroke="#dc2626" stroke-width="2"/>
+                                                            </svg>
+                                                            <div class="graph-label">Increasing deceleration</div>
+                                                        </td>
+                                                        <td class="graph-cell">
+                                                            <svg width="90" height="70" viewBox="0 0 90 70">
+                                                                <line x1="10" y1="5" x2="10" y2="58" stroke="#000" stroke-width="1.5"/>
+                                                                <line x1="10" y1="58" x2="85" y2="58" stroke="#000" stroke-width="1.5"/>
+                                                                <text x="3" y="12" font-size="8" fill="#444" font-family="Arial">v</text>
+                                                                <text x="80" y="65" font-size="8" fill="#444" font-family="Arial">t</text>
+                                                                <!-- Concave up going from high to low (decreasing deceleration) -->
+                                                                <path d="M14 10 Q46 46 78 55" fill="none" stroke="#dc2626" stroke-width="2"/>
+                                                            </svg>
+                                                            <div class="graph-label">Decreasing deceleration</div>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
                                         </tr>
+
+                                        <!-- Row 8: Free fall (no air resistance) -->
                                         <tr>
-                                            <td class="physics-index-cell">11</td>
-                                            <td><strong>Constant speed:</strong> Horizontal line above the x-axis</td>
+                                            <td class="physics-index-cell" style="vertical-align:top; padding-top:16px; font-size:14px!important; font-weight:700;">8<br><span style="font-size:11px;font-weight:600;color:#64748b;">Free<br>fall</span></td>
+                                            <td>
+                                                <div style="background:#f0f9ff; border-left:4px solid #0ea5e9; padding:12px 16px; border-radius:6px; margin-bottom:8px;">
+                                                    <strong>When there is no air resistance / liquid resistance acting,</strong>
+                                                </div>
+                                                <ul style="list-style:none; padding:0; margin:0; font-size:16px; line-height:2;">
+                                                    <li>➤ &nbsp;Acceleration of free fall = 9.8 m/s²</li>
+                                                    <li>➤ &nbsp;Acceleration of free fall is always <strong>constant</strong></li>
+                                                    <li>➤ &nbsp;Acceleration of free fall = gravitational field strength</li>
+                                                </ul>
+                                            </td>
                                         </tr>
+
+                                        <!-- Row 9 / Terminal Velocity — INTERACTIVE -->
                                         <tr>
-                                            <td class="physics-index-cell">12</td>
-                                            <td><strong>Constant acceleration:</strong> Straight line with constant positive gradient</td>
+                                            <td class="physics-index-cell" style="vertical-align:top; padding-top:16px; font-size:14px!important; font-weight:700;">9<br><span style="font-size:11px;font-weight:600;color:#64748b;">Terminal<br>velocity</span></td>
+                                            <td style="padding: 20px 24px;">
+                                                <div style="background:#fef9c3; border-left:4px solid #eab308; padding:12px 16px; border-radius:6px; margin-bottom:14px;">
+                                                    <strong>When there is air resistance / liquid resistance acting,</strong>
+                                                </div>
+                                                
+                                                <p style="font-size:13px; color:#64748b; margin:0 0 12px; font-style:italic;">👆 Click each step below to see the animation</p>
+
+                                                <!-- Interactive layout -->
+                                                <div style="display:flex; gap:20px; align-items:flex-start; flex-wrap:wrap;">
+                                                    <!-- Steps list -->
+                                                    <div style="flex:1; min-width:280px;">
+                                                        <div class="tv-step-row" onclick="activateTVStep(1)" id="tvrow-1">
+                                                            <div class="tv-step-num">1</div>
+                                                            <div class="tv-step-text">At first, there is <strong>only weight</strong> acting on the object.</div>
+                                                        </div>
+                                                        <div class="tv-step-row" onclick="activateTVStep(2)" id="tvrow-2">
+                                                            <div class="tv-step-num">2</div>
+                                                            <div class="tv-step-text">The object begins to accelerate at 9.8m/s²</div>
+                                                        </div>
+                                                        <div class="tv-step-row" onclick="activateTVStep(3)" id="tvrow-3">
+                                                            <div class="tv-step-num">3</div>
+                                                            <div class="tv-step-text">Then, <strong>air resistance gradually increases.</strong><br>Since F = weight − air resistance, <strong>resultant force decreases.</strong></div>
+                                                        </div>
+                                                        <div class="tv-step-row" onclick="activateTVStep(4)" id="tvrow-4">
+                                                            <div class="tv-step-num">4</div>
+                                                            <div class="tv-step-text">Since F = ma, <strong>acceleration decreases.</strong></div>
+                                                        </div>
+                                                        <div class="tv-step-row" onclick="activateTVStep(5)" id="tvrow-5">
+                                                            <div class="tv-step-num">5</div>
+                                                            <div class="tv-step-text">When weight = air resistance, <strong>resultant force becomes zero</strong> and <strong>acceleration becomes zero.</strong></div>
+                                                        </div>
+                                                        <div class="tv-step-row" onclick="activateTVStep(6)" id="tvrow-6">
+                                                            <div class="tv-step-num">6</div>
+                                                            <div class="tv-step-text">Then, the object reaches the <strong>terminal velocity.</strong></div>
+                                                        </div>
+
+                                                        <!-- v-t graph for terminal velocity -->
+                                                        <div style="margin-top:16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:12px;">
+                                                            <div style="font-size:11px; font-weight:800; color:#64748b; text-transform:uppercase; margin-bottom:6px; letter-spacing:.5px;">Velocity-Time Graph</div>
+                                                            <svg id="tv-vt-graph" viewBox="0 0 260 90" style="width:100%;height:80px;">
+                                                                <line x1="20" y1="5" x2="20" y2="78" stroke="#94a3b8" stroke-width="1.5"/>
+                                                                <line x1="20" y1="78" x2="255" y2="78" stroke="#94a3b8" stroke-width="1.5"/>
+                                                                <text x="4" y="12" font-size="8" fill="#64748b" font-family="Arial">v</text>
+                                                                <text x="248" y="84" font-size="8" fill="#64748b" font-family="Arial">t</text>
+                                                                <!-- Terminal velocity graph: steep curve flattening out -->
+                                                                <path d="M22 76 Q60 30 130 18 Q180 12 250 12" fill="none" stroke="#e2e8f0" stroke-width="2" stroke-dasharray="4 3"/>
+                                                                <path id="tv-graph-path" d="M22 76" fill="none" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"/>
+                                                                <!-- Terminal velocity label -->
+                                                                <line id="tv-horiz-line" x1="130" y1="18" x2="250" y2="18" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4 3" opacity="0"/>
+                                                                <text id="tv-label" x="175" y="15" font-size="7.5" fill="#ef4444" font-family="Arial" font-weight="bold" opacity="0">Terminal velocity</text>
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Figure animation panel -->
+                                                    <div id="tv-figure-wrap">
+                                                        <div id="tv-stage-canvas">
+                                                            <!-- Air particles (JS adds them) -->
+                                                            <div id="air-particles"></div>
+
+                                                            <!-- Weight arrow (downward, red) -->
+                                                            <div id="weight-arrow" class="force-arrow" style="top:0; left:50%; display:none;">
+                                                                <span style="color:#dc2626; font-size:9px; margin-bottom:2px;" id="weight-label">W</span>
+                                                                <div class="arrow-line" id="weight-line" style="height:30px; background:#dc2626;"></div>
+                                                                <div class="arrow-head" style="border-top:8px solid #dc2626; border-bottom:none;"></div>
+                                                            </div>
+
+                                                            <!-- Air resistance arrow (upward, blue) -->
+                                                            <div id="air-arrow" class="force-arrow" style="bottom:0; left:50%; display:none; flex-direction:column-reverse;">
+                                                                <span style="color:#2563eb; font-size:9px; margin-top:2px;" id="air-label">AR</span>
+                                                                <div class="arrow-line" id="air-line" style="height:0px; background:#2563eb;"></div>
+                                                                <div class="arrow-head" style="border-bottom:8px solid #2563eb; border-top:none; transform:rotate(180deg);"></div>
+                                                            </div>
+
+                                                            <!-- The figure -->
+                                                            <div class="figure-container" id="tv-figure" style="top: 20px;">
+                                                                <svg viewBox="0 0 60 90" width="60" height="90">
+                                                                    <!-- Head -->
+                                                                    <circle cx="30" cy="10" r="9" fill="#fbbf24" stroke="#92400e" stroke-width="1.5"/>
+                                                                    <!-- Eyes -->
+                                                                    <circle cx="26" cy="9" r="1.5" fill="#1e293b"/>
+                                                                    <circle cx="34" cy="9" r="1.5" fill="#1e293b"/>
+                                                                    <!-- Mouth (changes with step) -->
+                                                                    <path id="fig-mouth" d="M26 14 Q30 17 34 14" fill="none" stroke="#92400e" stroke-width="1.5" stroke-linecap="round"/>
+                                                                    <!-- Body -->
+                                                                    <line x1="30" y1="19" x2="30" y2="55" stroke="#1e293b" stroke-width="2.5" stroke-linecap="round"/>
+                                                                    <!-- Arms (change position with step) -->
+                                                                    <line id="arm-l" x1="30" y1="30" x2="10" y2="42" stroke="#1e293b" stroke-width="2" stroke-linecap="round"/>
+                                                                    <line id="arm-r" x1="30" y1="30" x2="50" y2="42" stroke="#1e293b" stroke-width="2" stroke-linecap="round"/>
+                                                                    <!-- Legs -->
+                                                                    <line id="leg-l" x1="30" y1="55" x2="15" y2="78" stroke="#1e293b" stroke-width="2" stroke-linecap="round"/>
+                                                                    <line id="leg-r" x1="30" y1="55" x2="45" y2="78" stroke="#1e293b" stroke-width="2" stroke-linecap="round"/>
+                                                                    <!-- Shirt body (simple rect) -->
+                                                                    <rect x="20" y="20" width="20" height="22" rx="3" fill="#3b82f6" opacity="0.7"/>
+                                                                    <!-- "Book" label on shirt -->
+                                                                    <text x="30" y="35" text-anchor="middle" font-size="6" fill="white" font-weight="bold" font-family="Arial">ANT</text>
+                                                                </svg>
+                                                            </div>
+
+                                                            <!-- Ground -->
+                                                            <div class="ground-line">GROUND</div>
+                                                        </div>
+
+                                                        <!-- Speed indicator -->
+                                                        <div style="margin-top:8px;">
+                                                            <div id="tv-speed-bar"><div id="tv-speed-fill"></div></div>
+                                                            <div id="tv-speed-label">Speed: —</div>
+                                                            <div style="font-size:10px; color:#94a3b8; text-align:center; margin-top:2px;" id="tv-accel-label">Acceleration: —</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
                                         </tr>
-                                        <tr>
-                                            <td class="physics-index-cell">13</td>
-                                            <td><strong>Changing acceleration:</strong> Curved line with changing gradient</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="physics-index-cell">14</td>
-                                            <td>Calculate acceleration from gradient of speed-time graph</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="physics-index-cell">15</td>
-                                            <td>Distance travelled = area under speed-time graph</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="physics-index-cell">16</td>
-                                            <td>Free fall acceleration ($g = 9.8 \, \text{m/s}^2$)</td>
-                                        </tr>
+
                                     </tbody>
                                 </table>
                             </div>
 
+                            <!-- 1.3 Mass and weight -->
                             <div class="mb-10">
                                 <div class="font-bold text-sm bg-sme-blue text-logo-gold px-4 py-2 rounded-md inline-block mb-4 tracking-wide">1.3 Mass and weight</div>
                                 <table class="physics-master-table">
                                     <tbody>
                                         <tr>
                                             <td class="physics-index-cell">1</td>
-                                            <td>
-                                                <span class="block font-bold mb-1">Mass</span>
-                                                Measure of quantity of matter in object at rest relative to observer (Resistance to change in velocity)
-                                            </td>
+                                            <td><span class="block font-bold mb-1">Mass</span>Measure of quantity of matter in object at rest relative to observer (Resistance to change in velocity)</td>
                                         </tr>
                                         <tr>
                                             <td class="physics-index-cell">2</td>
-                                            <td>
-                                                <span class="block font-bold mb-1">Weight</span>
-                                                Gravitational force on an object with mass
-                                            </td>
+                                            <td><span class="block font-bold mb-1">Weight</span>Gravitational force on an object with mass</td>
                                         </tr>
                                         <tr>
                                             <td class="physics-index-cell">3</td>
-                                            <td>
-                                                <span class="block font-bold mb-1">Gravitational field strength (g)</span>
-                                                Force per unit mass. Equivalent to acceleration of free fall.
-                                            </td>
+                                            <td><span class="block font-bold mb-1">Gravitational field strength (g)</span>Force per unit mass. Equivalent to acceleration of free fall.</td>
                                         </tr>
                                         <tr>
                                             <td class="physics-index-cell">4</td>
-                                            <td class="font-serif">$W = mg$</td>
+                                            <td class="font-serif">W = mg</td>
                                         </tr>
                                         <tr>
                                             <td class="physics-index-cell">5</td>
@@ -719,629 +1047,366 @@
     <div class="trail-star">✦</div>
 
     <script>
+        // ── SYLLABUS DATA ──────────────────────────────────────────────────
         const syllabusData = {
-            "0606": { 
-                name: "Additional Mathematics", 
-                optionMax: 160,
-                thresholds: { Astar: 144, A: 126, B: 101, C: 76, D: 61, E: 46 }, 
-                papers: [{ name: "Paper 12", max: 80, factor: 1.0 }, { name: "Paper 22", max: 80, factor: 1.0 }] 
-            },
-            "0580": { 
-                name: "Extended Mathematics", 
-                optionMax: 200,
-                thresholds: { Astar: 158, A: 130, B: 102, C: 74, D: 56, E: 39 }, 
-                papers: [{ name: "Paper 22", max: 70, factor: 1.0 }, { name: "Paper 42", max: 130, factor: 1.0 }] 
-            },
-            "0625": { 
-                name: "Physics (Extended)", 
-                optionMax: 200,
-                thresholds: { Astar: 139, A: 115, B: 91, C: 68, D: 55, E: 42 }, 
-                papers: [{ name: "Paper 22 (MCQ)", max: 40, factor: 1.5 }, { name: "Paper 42 (Theory)", max: 80, factor: 1.25 }, { name: "Paper 62 (Alternative to Practical)", max: 40, factor: 1.0 }] 
-            }
+            "606": { name:"Additional Mathematics", code:"0606", weighting:160, boundaries:{Astar:137,A:115,B:87}, papers:[{name:"Paper 1",max:80},{name:"Paper 2",max:80}] },
+            "580": { name:"Mathematics (Extended)", code:"0580", weighting:200, boundaries:{Astar:181,A:162,B:132}, papers:[{name:"Paper 2",max:70},{name:"Paper 4",max:130}] },
+            "625": { name:"Physics (Extended)", code:"0625", weighting:200, boundaries:{Astar:153,A:128,B:103}, papers:[{name:"Paper 2 (MCQ)",max:40},{name:"Paper 4 (Theory)",max:80},{name:"Paper 6 (Alt. to Practical)",max:40}] },
+            "620": { name:"Chemistry (Extended)", code:"0620", weighting:200, boundaries:{Astar:173,A:146,B:117}, papers:[{name:"Paper 2 (MCQ)",max:40},{name:"Paper 4 (Theory)",max:80},{name:"Paper 6 (Alt. to Practical)",max:40}] },
+            "610": { name:"Biology (Extended)", code:"0610", weighting:200, boundaries:{Astar:172,A:145,B:123}, papers:[{name:"Paper 2 (MCQ)",max:40},{name:"Paper 4 (Theory)",max:80},{name:"Paper 6 (Alt. to Practical)",max:40}] },
+            "478": { name:"Computer Science", code:"0478", weighting:150, boundaries:{Astar:120,A:97,B:76}, papers:[{name:"Paper 1 (Theory)",max:75},{name:"Paper 2 (Problem Solving)",max:75}] },
+            "417": { name:"ICT", code:"0417", weighting:280, boundaries:{Astar:210,A:178,B:146}, papers:[{name:"Paper 1 (Theory)",max:80},{name:"Paper 2 (Practical)",max:70},{name:"Paper 3 (Practical)",max:70}] },
+            "500": { name:"First Language English", code:"0500", weighting:160, boundaries:{Astar:123,A:109,B:96}, papers:[{name:"Paper 1",max:80},{name:"Paper 2",max:80}] }
         };
 
-        let selectedSubjectCode = "0606";
+        function computePUM(weightedMark, boundaries, weighting) {
+            const { Astar, A, B } = boundaries;
+            if (weightedMark < B) return { pumRaw:null, pum:null, grade:"C or Fail", isBelowB:true };
+            let pumRaw;
+            if (weightedMark > Astar) pumRaw = 0.9 + 0.1*((weightedMark-Astar)/(weighting-Astar));
+            else if (weightedMark > A) pumRaw = 0.8 + 0.1*((weightedMark-A)/(Astar-A));
+            else pumRaw = 0.7 + 0.1*((weightedMark-B)/(A-B));
+            const pum = Math.min(100, Math.round(pumRaw*100));
+            const grade = weightedMark >= Astar ? "A*" : weightedMark >= A ? "A" : "B";
+            return { pumRaw, pum, grade, isBelowB:false };
+        }
+
+        let selectedSubjectKey = "606";
         let previousCalculationWasAStar = false;
+        const papersFormContainer  = document.getElementById('papersFormContainer'),
+              rawMarkDisplay       = document.getElementById('rawMarkDisplay'),
+              weightedMarkDisplay  = document.getElementById('weightedMarkDisplay'),
+              finalPercentDisplay  = document.getElementById('finalPercentDisplay'),
+              sideGradeDisplay     = document.getElementById('sideGradeDisplay'),
+              boundaryReferenceRow = document.getElementById('boundaryReferenceRow'),
+              boundaryBadges       = document.getElementById('boundaryBadges'),
+              boundaryWeightingLbl = document.getElementById('boundaryWeightingLabel'),
+              mainStar             = document.getElementById('main-star'),
+              trailStars           = Array.from(document.querySelectorAll('.trail-star'));
 
-        const papersFormContainer = document.getElementById('papersFormContainer'),
-              rawMarkDisplay = document.getElementById('rawMarkDisplay'),
-              finalPercentDisplay = document.getElementById('finalPercentDisplay'),
-              sideGradeDisplay = document.getElementById('sideGradeDisplay'),
-              mainStar = document.getElementById('main-star'),
-              trailStars = Array.from(document.querySelectorAll('.trail-star'));
-
-        let mouseX = 0, mouseY = 0;
-        let starPositions = Array(5).fill({x: 0, y: 0});
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-
-        function animateStarsLoop() {
-            starPositions[0] = { x: mouseX, y: mouseY };
-            mainStar.style.left = `${starPositions[0].x}px`;
-            mainStar.style.top = `${starPositions[0].y}px`;
-
-            for (let i = 1; i < starPositions.length; i++) {
-                let current = starPositions[i], target = starPositions[i - 1];
-                let dx = target.x - current.x, dy = target.y - current.y;
-                starPositions[i] = { x: current.x + dx * 0.35, y: current.y + dy * 0.35 };
-                
-                let element = trailStars[i - 1];
-                element.style.left = `${starPositions[i].x}px`;
-                element.style.top = `${starPositions[i].y}px`;
-                element.style.opacity = `${1.0 - (i * 0.2)}`;
+        // ── CURSOR ──────────────────────────────────────────────────────────
+        let mouseX=0,mouseY=0,starPositions=Array(5).fill({x:0,y:0});
+        document.addEventListener('mousemove',(e)=>{mouseX=e.clientX;mouseY=e.clientY;});
+        function animateStarsLoop(){
+            starPositions[0]={x:mouseX,y:mouseY};
+            mainStar.style.left=`${starPositions[0].x}px`;mainStar.style.top=`${starPositions[0].y}px`;
+            for(let i=1;i<starPositions.length;i++){
+                let cur=starPositions[i],tgt=starPositions[i-1];
+                starPositions[i]={x:cur.x+(tgt.x-cur.x)*0.35,y:cur.y+(tgt.y-cur.y)*0.35};
+                trailStars[i-1].style.left=`${starPositions[i].x}px`;
+                trailStars[i-1].style.top=`${starPositions[i].y}px`;
+                trailStars[i-1].style.opacity=`${1.0-i*0.2}`;
             }
             requestAnimationFrame(animateStarsLoop);
         }
         requestAnimationFrame(animateStarsLoop);
 
-        function createBurstStarSplash(clientX, clientY, isPremiumAStar = false) {
-            const particleCount = isPremiumAStar ? 28 : 12;
-            const premiumColors = ['#FFDF00', '#0F172A', '#C5A059', '#1E3A8A'];
-            const standardColors = ['#C5A059', '#0F172A', '#CBD5E1'];
-            const starSymbols = ['✦', '★', '✨', '✶'];
-
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'click-burst-star-particle';
-                particle.textContent = starSymbols[Math.floor(Math.random() * starSymbols.length)];
-                
-                if (isPremiumAStar) {
-                    particle.style.color = premiumColors[Math.floor(Math.random() * premiumColors.length)];
-                    if (Math.random() > 0.4) {
-                        particle.style.textShadow = '0 0 8px #FFDF00, 0 0 12px #C5A059';
-                    }
-                } else {
-                    particle.style.color = standardColors[Math.floor(Math.random() * standardColors.length)];
-                }
-                
-                const size = isPremiumAStar 
-                    ? Math.floor(Math.random() * 16) + 20
-                    : Math.floor(Math.random() * 8) + 12;
-                particle.style.setProperty('--star-size', `${size}px`);
-                
-                const angle = Math.random() * Math.PI * 2;
-                const distance = isPremiumAStar ? Math.floor(Math.random() * 110) + 40 : Math.floor(Math.random() * 50) + 20;
-                    
-                const dx = Math.cos(angle) * distance;
-                const dy = Math.sin(angle) * distance;
-                
-                particle.style.setProperty('--dx', `${dx}px`);
-                particle.style.setProperty('--dy', `${dy}px`);
-                particle.style.setProperty('--star-rot', `${Math.floor(Math.random() * 360)}deg`);
-                particle.style.setProperty('--star-duration', isPremiumAStar ? '1.1s' : '0.6s');
-                
-                particle.style.left = `${clientX}px`;
-                particle.style.top = `${clientY}px`;
-                
-                document.body.appendChild(particle);
-                particle.addEventListener('animationend', () => particle.remove());
+        // ── BURST PARTICLES ──────────────────────────────────────────────────
+        function createBurstStarSplash(clientX,clientY,isPremiumAStar=false){
+            const count=isPremiumAStar?28:12,colors=isPremiumAStar?['#FFDF00','#0F172A','#C5A059','#1E3A8A']:['#C5A059','#0F172A','#CBD5E1'],symbols=['✦','★','✨','✶'];
+            for(let i=0;i<count;i++){
+                const p=document.createElement('div');p.className='click-burst-star-particle';p.textContent=symbols[Math.floor(Math.random()*symbols.length)];
+                p.style.color=colors[Math.floor(Math.random()*colors.length)];
+                if(isPremiumAStar&&Math.random()>0.4)p.style.textShadow='0 0 8px #FFDF00,0 0 12px #C5A059';
+                const size=isPremiumAStar?Math.floor(Math.random()*16)+20:Math.floor(Math.random()*8)+12;
+                const angle=Math.random()*Math.PI*2,dist=isPremiumAStar?Math.floor(Math.random()*110)+40:Math.floor(Math.random()*50)+20;
+                p.style.setProperty('--star-size',`${size}px`);p.style.setProperty('--dx',`${Math.cos(angle)*dist}px`);
+                p.style.setProperty('--dy',`${Math.sin(angle)*dist}px`);p.style.setProperty('--star-rot',`${Math.floor(Math.random()*360)}deg`);
+                p.style.setProperty('--star-duration',isPremiumAStar?'1.1s':'0.6s');
+                p.style.left=`${clientX}px`;p.style.top=`${clientY}px`;
+                document.body.appendChild(p);p.addEventListener('animationend',()=>p.remove());
             }
         }
-
-        window.addEventListener('click', (e) => {
-            const path = e.composedPath();
-            let shouldBurst = false;
-            for (let el of path) {
-                if (el.tagName === 'BUTTON' || el.tagName === 'A' || (el.classList && el.classList.contains('interactive-target'))) {
-                    shouldBurst = true;
-                    break;
-                }
-            }
-            if (shouldBurst) {
-                createBurstStarSplash(e.clientX, e.clientY, false);
+        window.addEventListener('click',(e)=>{
+            for(let el of e.composedPath()){
+                if(el.tagName==='BUTTON'||el.tagName==='A'||(el.classList&&el.classList.contains('interactive-target'))){createBurstStarSplash(e.clientX,e.clientY,false);break;}
             }
         });
 
-        document.querySelectorAll('.chapter-trigger').forEach(trigger => {
-            trigger.addEventListener('click', () => {
-                const contentBox = trigger.nextElementSibling;
-                const icon = trigger.querySelector('.accordion-icon');
-                if(contentBox.classList.contains('expanded')) {
-                    contentBox.classList.remove('expanded');
-                    trigger.classList.remove('is-open');
-                    icon.textContent = '＋';
-                } else {
-                    contentBox.classList.add('expanded');
-                    trigger.classList.add('is-open');
-                    icon.textContent = '－';
-                }
+        // ── ACCORDION ────────────────────────────────────────────────────────
+        document.querySelectorAll('.chapter-trigger').forEach(trigger=>{
+            trigger.addEventListener('click',()=>{
+                const box=trigger.nextElementSibling,icon=trigger.querySelector('.accordion-icon');
+                box.classList.toggle('expanded');trigger.classList.toggle('is-open');
+                icon.textContent=box.classList.contains('expanded')?'－':'＋';
             });
         });
 
-        const floatingToolsContainer = document.getElementById('floating-tools-container');
-        const masterToggleDrawerBtn = document.getElementById('master-toggle-drawer-btn');
-        const drawerTitleText = document.getElementById('drawer-title-text');
-
-        masterToggleDrawerBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const expanding = !floatingToolsContainer.classList.contains('expanded');
-            floatingToolsContainer.classList.toggle('expanded');
-            if(expanding) {
-                drawerTitleText.classList.remove('hidden');
-            } else {
-                drawerTitleText.classList.add('hidden');
-            }
+        // ── FLOATING TOOLS ───────────────────────────────────────────────────
+        const floatingToolsContainer=document.getElementById('floating-tools-container'),
+              masterToggleDrawerBtn=document.getElementById('master-toggle-drawer-btn'),
+              drawerTitleText=document.getElementById('drawer-title-text');
+        masterToggleDrawerBtn.addEventListener('click',(e)=>{
+            e.stopPropagation();floatingToolsContainer.classList.toggle('expanded');
+            drawerTitleText.classList.toggle('hidden',!floatingToolsContainer.classList.contains('expanded'));
         });
 
-        // Advanced Freeform Engine Variables & Selection Mechanics
-        const uniPlane = document.getElementById('universal-drawing-plane');
-        const splitCanvas = document.getElementById('split-whiteboard-canvas');
-        const uCtx = uniPlane.getContext('2d');
-        const sCtx = splitCanvas.getContext('2d');
+        // ── CANVAS / DRAWING ─────────────────────────────────────────────────
+        const uniPlane=document.getElementById('universal-drawing-plane'),splitCanvas=document.getElementById('split-whiteboard-canvas');
+        const uCtx=uniPlane.getContext('2d'),sCtx=splitCanvas.getContext('2d');
+        let isWorkspaceActive=false,isGlobalDrawActive=false,isWritingU=false,isWritingS=false;
+        let selectedFreeformPreset='pen',currentBrushColor='#000000',brushThickness=3,brushOpacity=100;
+        const tools={pen:document.getElementById('tool-pen'),marker:document.getElementById('tool-marker'),crayon:document.getElementById('tool-crayon'),eraser:document.getElementById('tool-eraser')};
 
-        let isWorkspaceActive = false;
-        let isGlobalDrawActive = false;
-        let isWritingU = false;
-        let isWritingS = false;
+        function setFreeformToolPreset(name){
+            selectedFreeformPreset=name;Object.keys(tools).forEach(k=>tools[k].classList.toggle('active',k===name));
+            if(name==='pen'){brushThickness=3;brushOpacity=100;}if(name==='marker'){brushThickness=12;brushOpacity=45;}
+            if(name==='crayon'){brushThickness=6;brushOpacity=80;}if(name==='eraser'){brushThickness=20;brushOpacity=100;}
+            document.getElementById('brush-thickness-slider').value=brushThickness;document.getElementById('brush-opacity-slider').value=brushOpacity;
+            document.getElementById('thickness-val').textContent=`${brushThickness}px`;document.getElementById('opacity-val').textContent=`${brushOpacity}%`;
+            applyBrushParameters(uCtx);applyBrushParameters(sCtx);
+        }
+        Object.keys(tools).forEach(n=>tools[n].addEventListener('click',(e)=>{e.stopPropagation();setFreeformToolPreset(n);}));
+        document.getElementById('brush-thickness-slider').addEventListener('input',(e)=>{brushThickness=parseInt(e.target.value);document.getElementById('thickness-val').textContent=`${brushThickness}px`;applyBrushParameters(uCtx);applyBrushParameters(sCtx);});
+        document.getElementById('brush-opacity-slider').addEventListener('input',(e)=>{brushOpacity=parseInt(e.target.value);document.getElementById('opacity-val').textContent=`${brushOpacity}%`;applyBrushParameters(uCtx);applyBrushParameters(sCtx);});
 
-        let selectedFreeformPreset = 'pen'; // pen, marker, crayon, eraser
-        let currentBrushColor = '#000000';
-        let brushThickness = 3;
-        let brushOpacity = 100;
-
-        // UI Tool Preset Selectors
-        const tools = {
-            pen: document.getElementById('tool-pen'),
-            marker: document.getElementById('tool-marker'),
-            crayon: document.getElementById('tool-crayon'),
-            eraser: document.getElementById('tool-eraser')
-        };
-
-        function setFreeformToolPreset(toolName) {
-            selectedFreeformPreset = toolName;
-            Object.keys(tools).forEach(k => {
-                if(k === toolName) tools[k].classList.add('active');
-                else tools[k].classList.remove('active');
-            });
-            
-            // Auto-adjust default properties based on Freeform brush characteristics
-            if (toolName === 'pen') {
-                brushThickness = 3;
-                brushOpacity = 100;
-            } else if (toolName === 'marker') {
-                brushThickness = 12;
-                brushOpacity = 45;
-            } else if (toolName === 'crayon') {
-                brushThickness = 6;
-                brushOpacity = 80;
-            } else if (toolName === 'eraser') {
-                brushThickness = 20;
-                brushOpacity = 100;
-            }
-            
-            document.getElementById('brush-thickness-slider').value = brushThickness;
-            document.getElementById('brush-opacity-slider').value = brushOpacity;
-            document.getElementById('thickness-val').textContent = `${brushThickness}px`;
-            document.getElementById('opacity-val').textContent = `${brushOpacity}%`;
-
-            applyBrushParameters(uCtx);
-            applyBrushParameters(sCtx);
+        function resizeCanvasEngine(){
+            const dpr=window.devicePixelRatio||1;
+            uniPlane.width=window.innerWidth*dpr;uniPlane.height=window.innerHeight*dpr;
+            uCtx.scale(dpr,dpr);uCtx.lineCap='round';uCtx.lineJoin='round';
+            const sRect=splitCanvas.parentElement.getBoundingClientRect();
+            if(sRect.width>0&&sRect.height>0){splitCanvas.width=sRect.width*dpr;splitCanvas.height=sRect.height*dpr;sCtx.scale(dpr,dpr);sCtx.lineCap='round';sCtx.lineJoin='round';}
+            applyBrushParameters(uCtx);applyBrushParameters(sCtx);
         }
 
-        Object.keys(tools).forEach(toolName => {
-            tools[toolName].addEventListener('click', (e) => {
-                e.stopPropagation();
-                setFreeformToolPreset(toolName);
+        function applyBrushParameters(ctx){
+            const alpha=brushOpacity/100;
+            if(selectedFreeformPreset==='eraser'){ctx.globalCompositeOperation="destination-out";ctx.strokeStyle="rgba(0,0,0,1)";ctx.lineWidth=brushThickness*2.5;}
+            else{ctx.globalCompositeOperation="source-over";const hex=currentBrushColor.replace('#','');const r=parseInt(hex.slice(0,2),16),g=parseInt(hex.slice(2,4),16),b=parseInt(hex.slice(4,6),16);ctx.strokeStyle=`rgba(${r},${g},${b},${alpha})`;ctx.lineWidth=brushThickness;ctx.lineJoin=selectedFreeformPreset==='crayon'?'miter':'round';}
+            ctx.lineCap='round';
+        }
+        window.addEventListener('resize',resizeCanvasEngine);
+
+        const globalDrawToggleBtn=document.getElementById('global-draw-toggle-btn'),toggleWritingBtn=document.getElementById('toggle-writing-mode-btn'),clearWritingBtn=document.getElementById('clear-writing-plane-btn'),closeWhiteboardBtn=document.getElementById('close-whiteboard-dock-btn'),appFrame=document.getElementById('master-application-frame'),whiteboardWidthSlider=document.getElementById('whiteboard-width-slider'),widthSliderValue=document.getElementById('width-slider-value'),splitContainer=document.getElementById('split-whiteboard-container');
+
+        globalDrawToggleBtn.addEventListener('click',(e)=>{
+            e.stopPropagation();isGlobalDrawActive=!isGlobalDrawActive;document.body.classList.toggle('drawing-mode-active',isGlobalDrawActive||isWorkspaceActive);
+            globalDrawToggleBtn.textContent=isGlobalDrawActive?"✏️ Global Screen Draw: On":"✏️ Global Screen Draw: Off";
+            globalDrawToggleBtn.classList.toggle('bg-emerald-600',isGlobalDrawActive);globalDrawToggleBtn.classList.toggle('text-white',isGlobalDrawActive);globalDrawToggleBtn.classList.toggle('bg-logo-gold',!isGlobalDrawActive);
+        });
+
+        function updateLayoutWidths(){
+            const pct=whiteboardWidthSlider.value;widthSliderValue.textContent=`${pct}%`;splitContainer.style.width=`${pct}%`;
+            appFrame.style.width=document.body.classList.contains('split-drawing-active')?`${100-pct}%`:'100%';setTimeout(resizeCanvasEngine,40);
+        }
+        whiteboardWidthSlider.addEventListener('input',updateLayoutWidths);
+
+        function activateWorkspace(){document.body.classList.add('split-drawing-active','drawing-mode-active');isWorkspaceActive=true;toggleWritingBtn.textContent="🖥️ Close Side Workspace";toggleWritingBtn.classList.replace('bg-sme-blue','bg-red-600');updateLayoutWidths();}
+        function deactivateWorkspace(){document.body.classList.remove('split-drawing-active');isWorkspaceActive=false;if(!isGlobalDrawActive)document.body.classList.remove('drawing-mode-active');isWritingU=isWritingS=false;toggleWritingBtn.textContent="🖥️ Open Side Workspace";toggleWritingBtn.classList.replace('bg-red-600','bg-sme-blue');updateLayoutWidths();}
+        toggleWritingBtn.addEventListener('click',(e)=>{e.stopPropagation();isWorkspaceActive?deactivateWorkspace():activateWorkspace();});
+        closeWhiteboardBtn.addEventListener('click',deactivateWorkspace);
+        clearWritingBtn.addEventListener('click',(e)=>{
+            e.stopPropagation();const dpr=window.devicePixelRatio||1;
+            uCtx.clearRect(0,0,uniPlane.width/dpr,uniPlane.height/dpr);sCtx.clearRect(0,0,splitCanvas.width/dpr,splitCanvas.height/dpr);
+        });
+
+        document.querySelectorAll('.color-palette-swatch').forEach(sw=>{
+            sw.addEventListener('click',(e)=>{
+                e.stopPropagation();document.querySelectorAll('.color-palette-swatch').forEach(s=>s.classList.remove('active'));sw.classList.add('active');
+                currentBrushColor=sw.getAttribute('data-color');if(selectedFreeformPreset==='eraser')setFreeformToolPreset('pen');else{applyBrushParameters(uCtx);applyBrushParameters(sCtx);}
             });
         });
 
-        // Sliders Integration
-        document.getElementById('brush-thickness-slider').addEventListener('input', (e) => {
-            brushThickness = parseInt(e.target.value);
-            document.getElementById('thickness-val').textContent = `${brushThickness}px`;
-            applyBrushParameters(uCtx);
-            applyBrushParameters(sCtx);
+        function getCoords(e,el){const r=el.getBoundingClientRect();if(e.touches&&e.touches.length>0)return{x:e.touches[0].clientX-r.left,y:e.touches[0].clientY-r.top};return{x:e.clientX-r.left,y:e.clientY-r.top};}
+        uniPlane.addEventListener('mousedown',(e)=>{if(!isGlobalDrawActive&&!isWorkspaceActive)return;if(isWorkspaceActive){const bx=window.innerWidth-splitCanvas.parentElement.getBoundingClientRect().width;if(e.clientX>=bx)return;}isWritingU=true;applyBrushParameters(uCtx);uCtx.beginPath();uCtx.moveTo(getCoords(e,uniPlane).x,getCoords(e,uniPlane).y);});
+        uniPlane.addEventListener('mousemove',(e)=>{if(!isWritingU)return;const c=getCoords(e,uniPlane);uCtx.lineTo(c.x,c.y);uCtx.stroke();});
+        window.addEventListener('mouseup',()=>isWritingU=false);
+        splitCanvas.addEventListener('mousedown',(e)=>{if(!isWorkspaceActive)return;isWritingS=true;applyBrushParameters(sCtx);sCtx.beginPath();sCtx.moveTo(getCoords(e,splitCanvas).x,getCoords(e,splitCanvas).y);});
+        splitCanvas.addEventListener('mousemove',(e)=>{if(!isWritingS)return;const c=getCoords(e,splitCanvas);sCtx.lineTo(c.x,c.y);sCtx.stroke();});
+        ['touchstart','touchmove'].forEach(evt=>{
+            uniPlane.addEventListener(evt,(e)=>{
+                if(!isGlobalDrawActive&&!isWorkspaceActive)return;if(isWorkspaceActive){const bx=window.innerWidth-splitCanvas.parentElement.getBoundingClientRect().width;if(e.touches[0].clientX>=bx)return;}
+                if(evt==='touchstart'){isWritingU=true;applyBrushParameters(uCtx);uCtx.beginPath();uCtx.moveTo(getCoords(e,uniPlane).x,getCoords(e,uniPlane).y);}
+                else if(isWritingU){const c=getCoords(e,uniPlane);uCtx.lineTo(c.x,c.y);uCtx.stroke();}e.preventDefault();
+            },{passive:false});
+            splitCanvas.addEventListener(evt,(e)=>{
+                if(!isWorkspaceActive)return;
+                if(evt==='touchstart'){isWritingS=true;applyBrushParameters(sCtx);sCtx.beginPath();sCtx.moveTo(getCoords(e,splitCanvas).x,getCoords(e,splitCanvas).y);}
+                else if(isWritingS){const c=getCoords(e,splitCanvas);sCtx.lineTo(c.x,c.y);sCtx.stroke();}e.preventDefault();
+            },{passive:false});
         });
+        window.addEventListener('touchend',()=>{isWritingU=false;isWritingS=false;});
 
-        document.getElementById('brush-opacity-slider').addEventListener('input', (e) => {
-            brushOpacity = parseInt(e.target.value);
-            document.getElementById('opacity-val').textContent = `${brushOpacity}%`;
-            applyBrushParameters(uCtx);
-            applyBrushParameters(sCtx);
-        });
-
-        function resizeCanvasEngine() {
-            const dpr = window.devicePixelRatio || 1;
-            
-            // Backup current states & contents
-            const uBackup = uniPlane.width > 0 ? uCtx.getImageData(0, 0, uniPlane.width, uniPlane.height) : null;
-            
-            uniPlane.width = window.innerWidth * dpr;
-            uniPlane.height = window.innerHeight * dpr;
-            uCtx.scale(dpr, dpr);
-            uCtx.lineCap = 'round';
-            uCtx.lineJoin = 'round';
-            
-            const sRect = splitCanvas.parentElement.getBoundingClientRect();
-            if(sRect.width > 0 && sRect.height > 0) {
-                splitCanvas.width = sRect.width * dpr;
-                splitCanvas.height = sRect.height * dpr;
-                sCtx.scale(dpr, dpr);
-                sCtx.lineCap = 'round';
-                sCtx.lineJoin = 'round';
-            }
-
-            applyBrushParameters(uCtx);
-            applyBrushParameters(sCtx);
-        }
-
-        // CORRECTED ERASER IMPLEMENTATION: Seamless transparent mask composition blending
-        function applyBrushParameters(targetContext) {
-            const alphaValue = brushOpacity / 100;
-            
-            if (selectedFreeformPreset === 'eraser') {
-                targetContext.globalCompositeOperation = "destination-out";
-                targetContext.strokeStyle = "rgba(0,0,0,1.0)"; 
-                targetContext.lineWidth = brushThickness * 2.5; 
-                targetContext.lineJoin = 'round';
-                targetContext.lineCap = 'round';
-            } else {
-                targetContext.globalCompositeOperation = "source-over";
-                
-                if (selectedFreeformPreset === 'crayon') {
-                    targetContext.lineJoin = 'miter';
-                    targetContext.lineWidth = brushThickness;
-                } else {
-                    targetContext.lineJoin = 'round';
-                    targetContext.lineWidth = brushThickness;
-                }
-
-                let hex = currentBrushColor.replace('#', '');
-                let r = parseInt(hex.substring(0, 2), 16);
-                let g = parseInt(hex.substring(2, 4), 16);
-                let b = parseInt(hex.substring(4, 6), 16);
-                
-                targetContext.strokeStyle = `rgba(${r}, ${g}, ${b}, ${alphaValue})`;
-            }
-        }
-
-        window.addEventListener('resize', resizeCanvasEngine);
-
-        const globalDrawToggleBtn = document.getElementById('global-draw-toggle-btn');
-        const toggleWritingBtn = document.getElementById('toggle-writing-mode-btn');
-        const clearWritingBtn = document.getElementById('clear-writing-plane-btn');
-        const closeWhiteboardDockBtn = document.getElementById('close-whiteboard-dock-btn');
-        const appFrame = document.getElementById('master-application-frame');
-        const whiteboardWidthSlider = document.getElementById('whiteboard-width-slider');
-        const widthSliderValue = document.getElementById('width-slider-value');
-        const splitContainer = document.getElementById('split-whiteboard-container');
-
-        function syncDrawingGlobalStateStyles() {
-            if (isGlobalDrawActive) {
-                document.body.classList.add('drawing-mode-active');
-                globalDrawToggleBtn.textContent = "✏️ Global Screen Draw: On";
-                globalDrawToggleBtn.classList.replace('bg-logo-gold', 'bg-emerald-600');
-                globalDrawToggleBtn.classList.add('text-white');
-            } else {
-                if (!isWorkspaceActive) {
-                    document.body.classList.remove('drawing-mode-active');
-                }
-                globalDrawToggleBtn.textContent = "✏️ Global Screen Draw: Off";
-                globalDrawToggleBtn.classList.replace('bg-emerald-600', 'bg-logo-gold');
-                globalDrawToggleBtn.classList.remove('text-white');
-            }
-        }
-
-        globalDrawToggleBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            isGlobalDrawActive = !isGlobalDrawActive;
-            syncDrawingGlobalStateStyles();
-        });
-
-        function updateLayoutWidths() {
-            const currentPercentage = whiteboardWidthSlider.value;
-            widthSliderValue.textContent = `${currentPercentage}%`;
-            if (document.body.classList.contains('split-drawing-active')) {
-                splitContainer.style.width = `${currentPercentage}%`;
-                appFrame.style.width = `${100 - currentPercentage}%`;
-            } else {
-                splitContainer.style.width = `${currentPercentage}%`;
-                appFrame.style.width = '100%';
-            }
-            setTimeout(resizeCanvasEngine, 40);
-        }
-
-        whiteboardWidthSlider.addEventListener('input', updateLayoutWidths);
-
-        function activateWorkspace() {
-            document.body.classList.add('split-drawing-active');
-            document.body.classList.add('drawing-mode-active');
-            isWorkspaceActive = true;
-            toggleWritingBtn.textContent = "🖥️ Close Side Workspace";
-            toggleWritingBtn.classList.replace('bg-sme-blue', 'bg-red-600');
-            updateLayoutWidths();
-        }
-
-        function deactivateWorkspace() {
-            document.body.classList.remove('split-drawing-active');
-            isWorkspaceActive = false;
-            if(!isGlobalDrawActive) {
-                document.body.classList.remove('drawing-mode-active');
-            }
-            isWritingU = false;
-            isWritingS = false;
-            toggleWritingBtn.textContent = "🖥️ Open Side Workspace";
-            toggleWritingBtn.classList.replace('bg-red-600', 'bg-sme-blue');
-            updateLayoutWidths();
-        }
-
-        toggleWritingBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            if(!isWorkspaceActive) activateWorkspace();
-            else deactivateWorkspace();
-        });
-
-        closeWhiteboardDockBtn.addEventListener('click', deactivateWorkspace);
-        
-        clearWritingBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const dpr = window.devicePixelRatio || 1;
-            uCtx.clearRect(0, 0, uniPlane.width / dpr, uniPlane.height / dpr);
-            sCtx.clearRect(0, 0, splitCanvas.width / dpr, splitCanvas.height / dpr);
-        });
-
-        document.querySelectorAll('.color-palette-swatch').forEach(swatch => {
-            swatch.addEventListener('click', (e) => {
-                e.stopPropagation();
-                document.querySelectorAll('.color-palette-swatch').forEach(s => s.classList.remove('active'));
-                swatch.classList.add('active');
-                currentBrushColor = swatch.getAttribute('data-color');
-                
-                if(selectedFreeformPreset === 'eraser') {
-                    setFreeformToolPreset('pen');
-                } else {
-                    applyBrushParameters(uCtx);
-                    applyBrushParameters(sCtx);
-                }
-            });
-        });
-
-        function getLocalTouchCoordinates(e, targetElement) {
-            const rect = targetElement.getBoundingClientRect();
-            if (e.touches && e.touches.length > 0) {
-                return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
-            }
-            return { x: e.clientX - rect.left, y: e.clientY - rect.top };
-        }
-
-        function triggerDrawStart(ctx, coords) {
-            ctx.beginPath();
-            ctx.moveTo(coords.x, coords.y);
-        }
-
-        function triggerDrawMove(ctx, coords) {
-            ctx.lineTo(coords.x, coords.y);
-            ctx.stroke();
-        }
-
-        uniPlane.addEventListener('mousedown', (e) => {
-            if(!isGlobalDrawActive && !isWorkspaceActive) return;
-            if(isWorkspaceActive) {
-                const splitBoundX = window.innerWidth - splitCanvas.parentElement.getBoundingClientRect().width;
-                if (e.clientX >= splitBoundX) return;
-            }
-
-            isWritingU = true;
-            applyBrushParameters(uCtx);
-            triggerDrawStart(uCtx, getLocalTouchCoordinates(e, uniPlane));
-        });
-
-        uniPlane.addEventListener('mousemove', (e) => {
-            if(!isWritingU) return;
-            triggerDrawMove(uCtx, getLocalTouchCoordinates(e, uniPlane));
-        });
-
-        window.addEventListener('mouseup', () => isWritingU = false);
-
-        splitCanvas.addEventListener('mousedown', (e) => {
-            if(!isWorkspaceActive) return;
-            isWritingS = true;
-            applyBrushParameters(sCtx);
-            triggerDrawStart(sCtx, getLocalTouchCoordinates(e, splitCanvas));
-        });
-
-        splitCanvas.addEventListener('mousemove', (e) => {
-            if(!isWritingS) return;
-            triggerDrawMove(sCtx, getLocalTouchCoordinates(e, splitCanvas));
-        });
-
-        splitCanvas.addEventListener('touchstart', (e) => {
-            if(!isWorkspaceActive) return;
-            isWritingS = true;
-            applyBrushParameters(sCtx);
-            triggerDrawStart(sCtx, getLocalTouchCoordinates(e, splitCanvas));
-            e.preventDefault();
-        }, { passive: false });
-
-        splitCanvas.addEventListener('touchmove', (e) => {
-            if(!isWritingS) return;
-            triggerDrawMove(sCtx, getLocalTouchCoordinates(e, splitCanvas));
-            e.preventDefault();
-        }, { passive: false });
-
-        uniPlane.addEventListener('touchstart', (e) => {
-            if(!isGlobalDrawActive && !isWorkspaceActive) return;
-            const targetTouch = e.touches[0];
-            if(isWorkspaceActive) {
-                const splitBoundX = window.innerWidth - splitCanvas.parentElement.getBoundingClientRect().width;
-                if (targetTouch.clientX >= splitBoundX) return;
-            }
-
-            isWritingU = true;
-            applyBrushParameters(uCtx);
-            triggerDrawStart(uCtx, getLocalTouchCoordinates(e, uniPlane));
-            e.preventDefault();
-        }, { passive: false });
-
-        uniPlane.addEventListener('touchmove', (e) => {
-            if(!isWritingU) return;
-            triggerDrawMove(uCtx, getLocalTouchCoordinates(e, uniPlane));
-            e.preventDefault();
-        }, { passive: false });
-
-        window.addEventListener('touchend', () => {
-            isWritingU = false;
-            isWritingS = false;
-        });
-
-        function attachCustomInteractions() {
-            document.querySelectorAll('.interactive-target, input, button, .chapter-trigger, canvas, .freeform-tool-btn').forEach(element => {
-                element.addEventListener('mouseenter', () => mainStar.style.transform = 'translate(-30%, -30%) scale(1.4) rotate(45deg)');
-                element.addEventListener('mouseleave', () => mainStar.style.transform = 'translate(-50%, -50%) scale(1) rotate(0deg)');
+        // ── HOVER INTERACTIONS ───────────────────────────────────────────────
+        function attachCustomInteractions(){
+            document.querySelectorAll('.interactive-target,input,button,.chapter-trigger,canvas,.freeform-tool-btn,.tv-step-row').forEach(el=>{
+                el.addEventListener('mouseenter',()=>mainStar.style.transform='translate(-30%,-30%) scale(1.4) rotate(45deg)');
+                el.addEventListener('mouseleave',()=>mainStar.style.transform='translate(-50%,-50%) scale(1) rotate(0deg)');
             });
         }
 
-        const customSubjectToggle = document.getElementById('customSubjectToggle'),
-              customSubjectMenu = document.getElementById('customSubjectMenu'),
-              customSeriesToggle = document.getElementById('customSeriesToggle'),
-              customSeriesMenu = document.getElementById('customSeriesMenu'),
-              selectedSubjectLabel = document.getElementById('selectedSubjectLabel');
+        // ── SUBJECT DROPDOWN ─────────────────────────────────────────────────
+        const customSubjectToggle=document.getElementById('customSubjectToggle'),customSubjectMenu=document.getElementById('customSubjectMenu'),customSeriesToggle=document.getElementById('customSeriesToggle'),customSeriesMenu=document.getElementById('customSeriesMenu'),selectedSubjectLabel=document.getElementById('selectedSubjectLabel');
 
-        function initCustomDropdownMenus() {
-            customSubjectMenu.innerHTML = "";
-            for (const code in syllabusData) {
-                const row = document.createElement('div');
-                row.className = "px-4 py-3 text-sm font-semibold text-sme-blue hover:bg-slate-50 interactive-target transition-colors";
-                row.textContent = `📚 ${syllabusData[code].name} (${code})`;
-                
-                row.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    selectedSubjectCode = code;
-                    selectedSubjectLabel.textContent = `📚 ${syllabusData[code].name} (${code})`;
-                    customSubjectMenu.classList.remove('open');
-                    customSubjectToggle.querySelector('svg').classList.remove('rotate-180');
-                    renderSyllabusInputComponents();
-                });
+        function initCustomDropdownMenus(){
+            customSubjectMenu.innerHTML="";
+            const emojis={"606":"🔢","580":"📐","625":"⚗️","620":"🧪","610":"🌿","478":"💻","417":"🖥️","500":"📝"};
+            for(const key in syllabusData){
+                const s=syllabusData[key];const row=document.createElement('div');
+                row.className="px-4 py-3 text-sm font-semibold text-sme-blue hover:bg-slate-50 interactive-target transition-colors";
+                row.textContent=`${emojis[key]||'📚'} ${s.name} (${s.code})`;
+                row.addEventListener('click',(e)=>{e.stopPropagation();selectedSubjectKey=key;selectedSubjectLabel.textContent=`${emojis[key]||'📚'} ${s.name} (${s.code})`;customSubjectMenu.classList.remove('open');customSubjectToggle.querySelector('svg').classList.remove('rotate-180');renderSyllabusInputComponents();});
                 customSubjectMenu.appendChild(row);
             }
-
-            customSubjectToggle.addEventListener('click', (e) => {
-                e.stopPropagation();
-                customSeriesMenu.classList.remove('open');
-                customSubjectMenu.classList.toggle('open');
-                customSubjectToggle.querySelector('svg').classList.toggle('rotate-180');
-            });
-
-            customSeriesToggle.addEventListener('click', (e) => {
-                e.stopPropagation();
-                customSubjectMenu.classList.remove('open');
-                customSeriesMenu.classList.toggle('open');
-                customSeriesToggle.querySelector('svg').classList.toggle('rotate-180');
-            });
-
-            document.addEventListener('click', () => {
-                customSubjectMenu.classList.remove('open');
-                customSeriesMenu.classList.remove('open');
-                customSubjectToggle.querySelector('svg').classList.remove('rotate-180');
-                customSeriesToggle.querySelector('svg').classList.remove('rotate-180');
-            });
-
-            selectedSubjectLabel.textContent = `📚 ${syllabusData[selectedSubjectCode].name} (${selectedSubjectCode})`;
+            customSubjectToggle.addEventListener('click',(e)=>{e.stopPropagation();customSeriesMenu.classList.remove('open');customSubjectMenu.classList.toggle('open');customSubjectToggle.querySelector('svg').classList.toggle('rotate-180');});
+            customSeriesToggle.addEventListener('click',(e)=>{e.stopPropagation();customSubjectMenu.classList.remove('open');customSeriesMenu.classList.toggle('open');customSeriesToggle.querySelector('svg').classList.toggle('rotate-180');});
+            document.addEventListener('click',()=>{customSubjectMenu.classList.remove('open');customSeriesMenu.classList.remove('open');customSubjectToggle.querySelector('svg').classList.remove('rotate-180');customSeriesToggle.querySelector('svg').classList.remove('rotate-180');});
+            selectedSubjectLabel.textContent=`🔢 ${syllabusData[selectedSubjectKey].name} (${syllabusData[selectedSubjectKey].code})`;
         }
 
-        function renderSyllabusInputComponents() {
-            const subject = syllabusData[selectedSubjectCode];
-            papersFormContainer.innerHTML = "";
-
-            subject.papers.forEach((paper, index) => {
-                const rowId = `paper_input_${index}`, containerBlock = document.createElement('div');
-                containerBlock.className = "p-4 bg-white border border-slate-100 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-3xs";
-                
-                containerBlock.innerHTML = `
-                    <div>
-                        <p class="font-display font-700 text-sme-blue text-sm">📝 ${paper.name}</p>
-                        <span class="text-[10px] font-800 text-slate-400 tracking-wide uppercase block mt-0.5">Max Raw Mark: ${paper.max}</span>
-                    </div>
-                    <div class="flex items-center gap-2">
-                        <input type="number" id="${rowId}" min="0" max="${paper.max}" placeholder="e.g. 0" step="any"
-                            class="paper-score-input interactive-target w-24 bg-slate-50 border border-slate-200 focus:border-logo-gold rounded-xl py-2.5 font-display font-800 text-center text-sme-blue outline-none transition-all text-sm" 
-                            data-index="${index}">
-                        <span class="text-slate-300 font-bold">/</span>
-                        <div class="w-16 bg-slate-100 text-slate-400 font-bold text-center py-2.5 rounded-xl border border-slate-200 text-xs select-none">${paper.max}</div>
-                    </div>`;
-                papersFormContainer.appendChild(containerBlock);
+        function renderSyllabusInputComponents(){
+            const subject=syllabusData[selectedSubjectKey];papersFormContainer.innerHTML="";
+            subject.papers.forEach((paper,index)=>{
+                const rowId=`paper_input_${index}`;const block=document.createElement('div');
+                block.className="p-4 bg-white border border-slate-100 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-3xs";
+                block.innerHTML=`<div><p class="font-display font-700 text-sme-blue text-sm">📝 ${paper.name}</p><span class="text-[10px] font-800 text-slate-400 tracking-wide uppercase block mt-0.5">Max Raw Mark: ${paper.max}</span></div><div class="flex items-center gap-2"><input type="number" id="${rowId}" min="0" max="${paper.max}" placeholder="e.g. 0" step="any" class="paper-score-input interactive-target w-24 bg-slate-50 border border-slate-200 focus:border-logo-gold rounded-xl py-2.5 font-display font-800 text-center text-sme-blue outline-none transition-all text-sm" data-index="${index}"><span class="text-slate-300 font-bold">/</span><div class="w-16 bg-slate-100 text-slate-400 font-bold text-center py-2.5 rounded-xl border border-slate-200 text-xs select-none">${paper.max}</div></div>`;
+                papersFormContainer.appendChild(block);
             });
-
-            document.querySelectorAll('.paper-score-input').forEach(input => input.addEventListener('input', calculateSyllabusScores));
-            attachCustomInteractions();
-            calculateSyllabusScores();
+            document.querySelectorAll('.paper-score-input').forEach(inp=>inp.addEventListener('input',calculateSyllabusScores));
+            renderBoundaryBadges(subject);attachCustomInteractions();calculateSyllabusScores();
         }
 
-        function runSpreadsheetPUMInterpolation(totalRawMark, thresholds, optionMax) {
-            const col3 = optionMax, col4 = thresholds.Astar, col5 = thresholds.A, col6 = thresholds.B, col7 = thresholds.C, col8 = thresholds.D, col9 = thresholds.E;
-            if (totalRawMark >= col4) return 0.9 + 0.1 * ((totalRawMark - col4) / (col3 - col4));
-            if (totalRawMark >= col5) return 0.8 + 0.1 * ((totalRawMark - col5) / (col4 - col5));
-            if (totalRawMark >= col6) return 0.7 + 0.1 * ((totalRawMark - col6) / (col5 - col6));
-            if (totalRawMark >= col7) return 0.6 + 0.1 * ((totalRawMark - col7) / (col6 - col7));
-            if (totalRawMark >= col8) return 0.5 + 0.1 * ((totalRawMark - col8) / (col7 - col8));
-            if (totalRawMark >= col9) return 0.4 + 0.1 * ((totalRawMark - col9) / (col8 - col9));
-            return 0.4 * (totalRawMark / col9);
+        function renderBoundaryBadges(subject){
+            boundaryReferenceRow.classList.remove('hidden');boundaryWeightingLbl.textContent=subject.weighting;
+            const b=subject.boundaries;
+            const badges=[{label:'A*',min:b.Astar,cls:'bg-amber-100 text-amber-800 border border-amber-300'},{label:'A',min:b.A,cls:'bg-blue-100 text-blue-800 border border-blue-300'},{label:'B',min:b.B,cls:'bg-green-100 text-green-800 border border-green-300'},{label:'C or Fail',min:0,cls:'bg-red-100 text-red-800 border border-red-300'}];
+            boundaryBadges.innerHTML=badges.map(bd=>`<span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold ${bd.cls}"><span>${bd.label}</span><span class="opacity-60">≥ ${bd.min}</span></span>`).join('');
         }
 
-        function calculateSyllabusScores() {
-            const subject = syllabusData[selectedSubjectCode];
-            let totalOptionRawMarkDecimal = 0;
-            let allFieldsFilled = true;
+        const gradeClasses={'A*':'grade-astar','A':'grade-a','B':'grade-b','C or Fail':'grade-cfail'};
+        function setGradeBadge(grade){sideGradeDisplay.className=`text-3xl font-display font-800 px-4 py-1.5 rounded-xl border min-w-[65px] text-center shadow-inner select-none ${gradeClasses[grade]||'grade-default'}`;sideGradeDisplay.textContent=grade||'—';}
 
-            subject.papers.forEach((paper, index) => {
-                const element = document.getElementById(`paper_input_${index}`);
-                if (!element || element.value.trim() === "") {
-                    allFieldsFilled = false;
-                    return;
-                }
-                let inputVal = parseFloat(element.value) || 0;
-                if (inputVal > paper.max) { inputVal = paper.max; element.value = paper.max; }
-                if (inputVal < 0) { inputVal = 0; element.value = 0; }
-                totalOptionRawMarkDecimal += (inputVal * paper.factor);
+        function calculateSyllabusScores(){
+            const subject=syllabusData[selectedSubjectKey];let sumRaw=0,sumMax=0,allFilled=true;
+            subject.papers.forEach((paper,index)=>{
+                const el=document.getElementById(`paper_input_${index}`);
+                if(!el||el.value.trim()===""){allFilled=false;return;}
+                let val=parseFloat(el.value)||0;val=Math.min(Math.max(val,0),paper.max);el.value=val;sumRaw+=val;sumMax+=paper.max;
             });
+            if(!allFilled){rawMarkDisplay.textContent="— / —";weightedMarkDisplay.textContent="— / —";finalPercentDisplay.textContent="—";setGradeBadge(null);previousCalculationWasAStar=false;return;}
+            const weightedMark=Math.round((sumRaw/sumMax)*subject.weighting*10)/10;
+            rawMarkDisplay.textContent=`${sumRaw} / ${sumMax}`;weightedMarkDisplay.textContent=`${weightedMark} / ${subject.weighting}`;
+            const{pum,grade,isBelowB}=computePUM(weightedMark,subject.boundaries,subject.weighting);
+            if(isBelowB){finalPercentDisplay.textContent="≤60%";setGradeBadge("C or Fail");}
+            else{finalPercentDisplay.textContent=`${pum}%`;setGradeBadge(grade);}
+            if(grade==="A*"&&!isBelowB){if(!previousCalculationWasAStar){const rect=finalPercentDisplay.getBoundingClientRect();createBurstStarSplash(rect.left+rect.width/2,rect.top+rect.height/2,true);previousCalculationWasAStar=true;}}else previousCalculationWasAStar=false;
+        }
 
-            if (!allFieldsFilled) {
-                rawMarkDisplay.textContent = "— / —";
-                finalPercentDisplay.textContent = "—";
-                sideGradeDisplay.textContent = "—";
-                previousCalculationWasAStar = false;
-                return;
+        // ──────────────────────────────────────────────────────────────────────
+        // TERMINAL VELOCITY INTERACTIVE ANIMATION
+        // ──────────────────────────────────────────────────────────────────────
+        let currentTVStep = 0;
+        let tvAnimInterval = null;
+        let tvParticleInterval = null;
+
+        // Step configurations: figureTop (0–210 = top to just above ground),
+        // weightArrowHeight, airArrowHeight, speedPct, accelText, animClass
+        const tvStepConfig = [
+            null, // index 0 unused
+            // Step 1: Only weight, figure near top, just starting to fall
+            { figureTop: 20, weightH: 36, airH: 0, speedPct: 0, speedText: "0 m/s", accelText: "Acceleration: 9.8 m/s² ↓", animClass: "", mouthPath: "M26 14 Q30 17 34 14", graphD: "M22 76 L40 74" },
+            // Step 2: Accelerating fast, figure moving down, weight big
+            { figureTop: 70, weightH: 40, airH: 4, speedPct: 35, speedText: "~15 m/s", accelText: "Acceleration: 9.8 m/s² ↓", animClass: "anim-fast", mouthPath: "M26 14 Q30 12 34 14", graphD: "M22 76 Q40 60 70 44" },
+            // Step 3: Faster, air resistance growing, resultant force decreasing
+            { figureTop: 120, weightH: 40, airH: 20, speedPct: 60, speedText: "~30 m/s", accelText: "Acceleration: decreasing ↓", animClass: "anim-fast", mouthPath: "M26 14 Q30 12 34 14", graphD: "M22 76 Q40 60 70 44 Q100 32 130 24" },
+            // Step 4: Still speeding but less acceleration
+            { figureTop: 160, weightH: 40, airH: 32, speedPct: 80, speedText: "~45 m/s", accelText: "Acceleration: small ↓", animClass: "anim-slow", mouthPath: "M26 14 Q30 16 34 14", graphD: "M22 76 Q40 60 70 44 Q100 32 130 24 Q160 18 190 16" },
+            // Step 5: Weight = AR, zero net force, zero acceleration
+            { figureTop: 185, weightH: 40, airH: 40, speedPct: 95, speedText: "~50 m/s", accelText: "Acceleration: 0 m/s²", animClass: "anim-slow", mouthPath: "M26 14 Q30 14 34 14", graphD: "M22 76 Q40 60 70 44 Q100 32 130 24 Q160 18 200 14 L230 14" },
+            // Step 6: Terminal velocity — constant speed, perfectly balanced
+            { figureTop: 195, weightH: 40, airH: 40, speedPct: 100, speedText: "Terminal!", accelText: "Acceleration: 0 — constant speed", animClass: "anim-steady", mouthPath: "M26 14 Q30 17 34 14", graphD: "M22 76 Q40 60 70 44 Q100 32 130 24 Q160 18 200 14 L250 14" }
+        ];
+
+        function activateTVStep(step) {
+            currentTVStep = step;
+            const cfg = tvStepConfig[step];
+            if (!cfg) return;
+
+            // Highlight active row
+            for (let i = 1; i <= 6; i++) {
+                const row = document.getElementById(`tvrow-${i}`);
+                if (row) row.classList.toggle('active', i === step);
             }
 
-            const displayRoundedTotal = Math.round(totalOptionRawMarkDecimal);
-            rawMarkDisplay.textContent = `${displayRoundedTotal} / ${subject.optionMax}`;
+            const figure = document.getElementById('tv-figure');
+            const weightArrow = document.getElementById('weight-arrow');
+            const airArrow = document.getElementById('air-arrow');
+            const weightLine = document.getElementById('weight-line');
+            const airLine = document.getElementById('air-line');
+            const speedFill = document.getElementById('tv-speed-fill');
+            const speedLabel = document.getElementById('tv-speed-label');
+            const accelLabel = document.getElementById('tv-accel-label');
+            const mouth = document.getElementById('fig-mouth');
+            const graphPath = document.getElementById('tv-graph-path');
+            const horizLine = document.getElementById('tv-horiz-line');
+            const tvLabel = document.getElementById('tv-label');
 
-            const currentThresholds = subject.thresholds;
-            const evaluatedPUM = runSpreadsheetPUMInterpolation(totalOptionRawMarkDecimal, currentThresholds, subject.optionMax);
-            
-            let finalIntegerOutput = Math.round(evaluatedPUM * 100);
-            if (finalIntegerOutput > 100) finalIntegerOutput = 100;
-            if (finalIntegerOutput < 0 || isNaN(finalIntegerOutput)) finalIntegerOutput = 0;
-            
-            finalPercentDisplay.textContent = `${finalIntegerOutput}%`;
+            // Move figure
+            figure.style.top = `${cfg.figureTop}px`;
 
-            let associatedGrade = "U";
-            if (displayRoundedTotal >= currentThresholds.Astar) associatedGrade = "A*";
-            else if (displayRoundedTotal >= currentThresholds.A) associatedGrade = "A";
-            else if (displayRoundedTotal >= currentThresholds.B) associatedGrade = "B";
-            else if (displayRoundedTotal >= currentThresholds.C) associatedGrade = "C";
-            else if (displayRoundedTotal >= currentThresholds.D) associatedGrade = "D";
-            else if (displayRoundedTotal >= currentThresholds.E) associatedGrade = "E";
-            if (displayRoundedTotal === 0) associatedGrade = "U";
+            // Remove old animation classes
+            figure.classList.remove('anim-fast', 'anim-slow', 'anim-steady');
+            if (cfg.animClass) figure.classList.add(cfg.animClass);
 
-            sideGradeDisplay.textContent = associatedGrade;
+            // Weight arrow — always shown from step 1
+            weightArrow.style.display = 'flex';
+            weightArrow.style.top = `${cfg.figureTop + 85}px`;
+            weightLine.style.height = `${cfg.weightH}px`;
 
-            if (associatedGrade === "A*") {
-                if (!previousCalculationWasAStar) {
-                    const rect = finalPercentDisplay.getBoundingClientRect();
-                    const centerX = rect.left + rect.width / 2;
-                    const centerY = rect.top + rect.height / 2;
-                    createBurstStarSplash(centerX, centerY, true);
-                    previousCalculationWasAStar = true;
-                }
+            // Air arrow
+            if (cfg.airH > 0) {
+                airArrow.style.display = 'flex';
+                airArrow.style.top = `${cfg.figureTop - cfg.airH - 16}px`;
+                airLine.style.height = `${cfg.airH}px`;
             } else {
-                previousCalculationWasAStar = false;
+                airArrow.style.display = 'none';
+            }
+
+            // Speed bar
+            speedFill.style.width = `${cfg.speedPct}%`;
+            speedLabel.textContent = `Speed: ${cfg.speedText}`;
+            speedLabel.style.color = cfg.speedPct >= 100 ? '#ef4444' : '#475569';
+            accelLabel.textContent = cfg.accelText;
+
+            // Mouth expression
+            if (mouth) mouth.setAttribute('d', cfg.mouthPath);
+
+            // Graph path
+            if (graphPath) graphPath.setAttribute('d', cfg.graphD);
+
+            // Show terminal velocity dashed line at step 5+
+            if (horizLine && tvLabel) {
+                horizLine.style.opacity = step >= 5 ? '1' : '0';
+                tvLabel.style.opacity = step >= 6 ? '1' : '0';
+            }
+
+            // Manage air particles
+            updateAirParticles(cfg.speedPct);
+        }
+
+        function updateAirParticles(speedPct) {
+            const container = document.getElementById('air-particles');
+            if (!container) return;
+            // More particles = more speed
+            const count = Math.floor(speedPct / 20);
+            container.innerHTML = '';
+            for (let i = 0; i < count; i++) {
+                const p = document.createElement('div');
+                p.className = 'air-particle';
+                p.style.left = `${Math.random() * 160 + 10}px`;
+                p.style.top = `${Math.random() * 280}px`;
+                p.style.animationDuration = `${0.4 + Math.random() * 0.6}s`;
+                p.style.animationDelay = `${Math.random() * 0.5}s`;
+                p.style.width = `${2 + Math.random() * 4}px`;
+                p.style.height = p.style.width;
+                container.appendChild(p);
             }
         }
 
+        // Initialize TV animation at step 1
+        activateTVStep(1);
+
+        // ── INIT ─────────────────────────────────────────────────────────────
         initCustomDropdownMenus();
         renderSyllabusInputComponents();
         attachCustomInteractions();
